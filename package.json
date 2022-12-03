@@ -1,0 +1,35 @@
+{
+  "name": "web4",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "next dev -p 1420",
+    "build": "next build && next export -o dist",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "proxy": "node proxy/index.js"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1.1.0",
+    "autoprefixer": "^10.4.13",
+    "dangerously-set-html-content": "^1.0.12",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
+    "isomorphic-fetch": "^3.0.0",
+    "next": "^12.2.5",
+    "openai": "^3.1.0",
+    "postcss": "^8.4.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-safelist-generator": "^1.0.0",
+    "tailwindcss": "^3.2.4"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.1.0",
+    "@types/node": "^18.7.11",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "typescript": "^4.7.4"
+  }
+}
