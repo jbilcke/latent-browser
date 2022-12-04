@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-dotenv.config({path: './config/.env.local'});
+dotenv.config({path: '.env.local'});
 
 // Configuration
 const REPLICATE_TOKEN = process.env.NEXT_PUBLIC_PROVIDER_REPLICATE_API_TOKEN;

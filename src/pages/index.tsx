@@ -120,9 +120,11 @@ if (typeof window !== 'undefined') {
 function App() {
   const [html, setHtml] = useState('<div></div>')
   const [query, setQuery] = useState('')
+  const [exploring, setExploring] = useState(false)
 
   async function explore() {
     setHtml('<div></div>')
+    setExploring(true)
     const prompt = mainTemplate(query)
 
     const best = await queryGPT3(prompt)
@@ -134,6 +136,7 @@ function App() {
     // replaceImages()
 
     setHtml(best)
+    setExploring(false)
   }
 
   async function replaceImages() {
@@ -165,19 +168,39 @@ function App() {
   useEffect(() => {
     replaceImages()
   }, [html])
+
+  useEffect(() => {
+    const keyDownHandler = (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault()
+        explore()
+      }
+    }
+
+    document.addEventListener('keydown', keyDownHandler)
+
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler)
+    }
+  }, [])
+
   return (
     <div>
       {/* TODO import this in another way? */}
       <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-      <div className="flex flex-col w-screen mt-4 mb-4 items-center justify-center">
-        <div className="flex items-center space-x-4">
+      <div className="flex flex-col w-screen mb-4 items-center justify-center">
+        <div className="flex items-center justify-center space-x-4 w-full px-16 border-gray-300 hover:border-gray-400 border-b-2 py-4">
           <input
-            className="w-[900px]"
+            className="font-mono grow text-xs"
             onChange={(e) => setQuery(e.currentTarget.value)}
             placeholder="How to make a cookie.."
           />
-          <button type="button" onClick={() => explore()}>
-            Explore
+          <button
+            type="button"
+            className="flex-none bg-gray-500 hover:bg-gray-700 rounded-full px-4 py-2 shadow-lg font-mono text-xs font-normal text-white"
+            onClick={() => explore()}
+          >
+            {exploring ? 'Exploring..' : 'Explore'}
           </button>
         </div>
       </div>
