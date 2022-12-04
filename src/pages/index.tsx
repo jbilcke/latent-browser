@@ -31,7 +31,7 @@ const mainTemplate = (query: string) =>
 - if the user ask for a "generator" or an "app", or "application", it means you should create an interactive page, add buttons that can trigger JS code
 - if you add buttons to the page, don't forget to include the <script> necessary to run them
 - Repeat: do not forget to put some javascript logic in the <script> tag and bind your buttons, to do meaningful actions!
-- you should to store information about app or game state in an a global javascript object (attached to the window object for instance)
+- you should store information about app or game state in an a global javascript object (attached to the window object for instance)
 - you can use the canvas to draw, and user events (keyboard, mouse) to create an interactive experience
 - if you need to generate complex html content, you can call this existing asyncronous function to interrogate another AI (you can write prompt instructions in it): window.queryOpenAI('... your request ...')
 - you should inject the raw output from this function somewhere in your own div (eg using innerHTML)
@@ -46,7 +46,7 @@ const queryGPT3 = async (prompt: string) => {
     prompt,
     user: openAIUser,
     temperature: 0.7,
-    max_tokens: 1700,
+    max_tokens: 2500,
     top_p: 1,
     // best_of: 2,
     frequency_penalty: 0,
