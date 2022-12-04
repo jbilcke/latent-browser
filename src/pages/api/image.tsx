@@ -1,5 +1,6 @@
 import { NextApiResponse, NextApiRequest } from 'next'
 
+// TODO to avoid having to start a proxy in a separate shell, we could put Replicate calls in here
 export default function handler(
   _req: NextApiRequest,
   res //: NextApiResponse<Person[]>
