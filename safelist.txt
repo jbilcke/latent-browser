@@ -1,3 +1,9 @@
+items-center
+justify-center
+focus:outline-none
+focus:shadow-outline
+text-center
+text-right
 text-xs
 text-sm
 text-base
@@ -24,6 +30,8 @@ font-sans
 font-serif
 font-mono
 flex
+flex-row
+flex-col
 flex-1
 flex-auto
 flex-initial
@@ -116,6 +124,7 @@ shadow-none
 list-none
 list-disc
 list-decimal
+list-inside
 m-0
 m-1
 m-2

@@ -1,7 +1,3 @@
-import dotenv from 'dotenv'
-
-dotenv.config()
-
 export enum LogLevel {
   error = 0,
   warn = 1,

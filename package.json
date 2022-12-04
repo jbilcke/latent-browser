@@ -17,6 +17,7 @@
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
     "isomorphic-fetch": "^3.0.0",
+    "jquery": "^3.6.1",
     "next": "^12.2.5",
     "openai": "^3.1.0",
     "postcss": "^8.4.19",
