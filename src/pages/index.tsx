@@ -33,8 +33,8 @@ const mainTemplate = (query: string) =>
 - Repeat: do not forget to put some javascript logic in the <script> tag and bind your buttons, to do meaningful actions!
 - you should store information about app or game state in an a global javascript object (attached to the window object for instance)
 - you can use the canvas to draw, and user events (keyboard, mouse) to create an interactive experience
-- if you need to generate complex html content, you can call this existing asyncronous function to interrogate another AI (you can write prompt instructions in it): window.queryOpenAI('... your request ...')
-- you should inject the raw output from this function somewhere in your own div (eg using innerHTML)
+- if you need to generate complex html content, you can call \`window.queryOpenAI()\`, an existing asyncronous function to interrogate OpenAI (you can write prompt instructions in it, in natural language): \`await window.queryOpenAI('.. some GPT-3 prompt to generate something..')\`
+- after resolving the async Promise, you should inject the raw output from this function somewhere in your own div (eg using innerHTML)
 
 The question and theme: ${query}
 
