@@ -32,6 +32,7 @@ yarn tauri:dev
 
 Here are some examples to get you started:
 
+- `a whack-a-mole game but with spiders, a css 3-per-3 grid, emojis, and JS code`
 - `a clone of asteroid using <canvas>, the mouse should orient the spaceship, it should fire bullets when clicking, and bullets can destroy asteroids.`
 - `website for a company selling time travel visit packages (great pyramids, Trojan wars..). The website features 3 polaroid pictures taken by tourists of those eras`
 

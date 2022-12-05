@@ -17,15 +17,19 @@ module.exports = {
         'justify-center',
         'focus:outline-none',
         'focus:shadow-outline',
-
         'text-center',
         'text-right',
         'text-{fontSize}',
         'font-{fontWeight}',
         'font-{fontFamily}',
+        'grid',
+        'grid-cols-{gridTemplateColumns}',
+        'grid-rows-{gridTemplateRows}',
+        'gap-{gap}',
         'flex',
         'flex-row',
         'flex-col',
+        'flex-wrap',
         'flex-{flex}',
         'basis-{flexBasis}',
         'leading-{lineHeight}',
@@ -49,7 +53,9 @@ module.exports = {
         'pr-{padding}',
 
         'h-{height}',
+        'max-h-{maxHeight}',
         'w-{width}',
+        'max-w-{maxWidth}',
 
         /*
         '{flexGrow}',
@@ -57,6 +63,7 @@ module.exports = {
         '{flexFamily}',
         */
         'rounded-{borderRadius}',
+        'border',
         'border-{borderWidth}',
         'border-{borderColor}',
         'bg-{backgroundColor}',

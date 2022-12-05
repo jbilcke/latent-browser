@@ -6,8 +6,6 @@ import { queryModel } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
 import { mainTemplate, subTemplate } from '../engine/prompts'
 
-import gradient from '../assets/gradient.svg'
-
 const getPrompt = () => {
   const params = new URLSearchParams(window.location.search)
   return params.get('prompt')
@@ -15,7 +13,7 @@ const getPrompt = () => {
 
 function Render() {
   const [prompt, setPrompt] = useState('')
-  const [html, setHtml] = useState('')
+  const [html, setHtml] = useState('<div></div>')
   const [eta, setETA] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -24,8 +22,8 @@ function Render() {
       return
     }
 
-    setIsLoading(true)
-    setETA(35)
+    // setIsLoading(true)
+    // setETA(35)
 
     const best = await queryModel(mainTemplate(prompt))
 
@@ -36,7 +34,7 @@ function Render() {
     // replaceImages()
 
     console.log('loading html:', html)
-    setIsLoading(false)
+    // setIsLoading(false)
     setHtml(best)
   }
 
@@ -57,11 +55,10 @@ function Render() {
     setPrompt(params.get('prompt').trim())
   }, [])
 
-  return (
-    <>
-      {/* TODO import this in another way? */}
-      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-      {isLoading || !html ? (
+  /*
+  this is to display a spinner, but unfortunately if I re-render the HTML like this, it will restart the <script>
+  I should maybe first extract the code and execute it in eval after first layout, I don't know
+        {isLoading || !html ? (
         eta ? (
           <div className="flex w-screen h-screen items-center justify-center">
             <CountdownCircleTimer
@@ -83,6 +80,18 @@ function Render() {
           html={html}
         />
       )}
+      */
+  return (
+    <>
+      {/* TODO import this in another way? */}
+      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+      {/* should be a prompt instruction like "you can import it from https://unpkg.com/tone.js" or something */}
+      <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+      <InnerHTML
+        id="sandbox"
+        className="pt-20 flex w-full items-center flex-col"
+        html={html}
+      />
     </>
   )
 }
