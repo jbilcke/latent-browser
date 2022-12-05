@@ -1023,6 +1023,11 @@ raw-body@2.5.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+react-countdown-circle-timer@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-3.1.0.tgz#394737817a7bec9cb9162e4c3e80f8f18ef20820"
+  integrity sha512-vU3fQ+Te7abhSmvTT5N0+4aOJhXAg6wVWvpEd5snkB7lFrAlEBl5dqzLSGnPZDI4MWbp7ayMDkcLWALWE+flQQ==
+
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"

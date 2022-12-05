@@ -28,17 +28,18 @@ yarn proxy
 yarn tauri:dev
 ```
 
-### Using the browser
+## Using the browser
 
-- type something in it eg "a shop that sell golden eggs"
-- click on "explore"
-- wait about 20~40 seconds (sorry there is no loader yet)
+Here are some examples to get you started:
+
+- `a clone of asteroid using <canvas>, the mouse should orient the spaceship, it should fire bullets when clicking, and bullets can destroy asteroids.`
+- `website for a company selling time travel visit packages (great pyramids, Trojan wars..). The website features 3 polaroid pictures taken by tourists of those eras`
 
 ## FAQ
 
-### The UI is _really_ bad
+### The UI/UX should be improved
 
-Yes, I know
+I agree!
 
 ### Something went wrong
 
