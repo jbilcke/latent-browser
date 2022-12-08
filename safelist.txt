@@ -17,6 +17,7 @@ text-6xl
 text-7xl
 text-8xl
 text-9xl
+underline
 font-thin
 font-extralight
 font-light

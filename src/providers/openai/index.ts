@@ -1,5 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { openAIApiToken, openAIModel, openAIUser } from '../../config'
+import { DalleImage } from './types'
 
 export const configuration = new Configuration({ apiKey: openAIApiToken })
 export const openai = new OpenAIApi(configuration)
@@ -25,4 +26,24 @@ export const queryModel = async (prompt: string) => {
   console.log(html)
 
   return html
+}
+
+export const getImage = async (prompt: string): Promise<DalleImage> => {
+  // DallE 2 only supports squares
+  // Must be one of 256x256, 512x512, or 1024x1024.
+  const size = 1024 // 1024
+  const width = size
+  const height = size
+  const response = await openai.createImage({
+    prompt,
+    n: 1,
+    size: `${width}x${height}`,
+  })
+
+  return {
+    url: response.data.data[0].url,
+    prompt,
+    width,
+    height,
+  }
 }

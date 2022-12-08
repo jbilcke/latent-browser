@@ -5,6 +5,10 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { queryModel } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
 import { mainTemplate, subTemplate } from '../engine/prompts'
+import Head from 'next/head'
+import Script from 'next/script'
+
+import { downloadHtmlFile } from '../engine/exporters/html'
 
 const getPrompt = () => {
   const params = new URLSearchParams(window.location.search)
@@ -25,7 +29,21 @@ function Render() {
     // setIsLoading(true)
     // setETA(35)
 
+    new CustomEvent('renderer', {
+      detail: {
+        name: 'beforeQueryModel',
+        prompt,
+      },
+    })
+
     const best = await queryModel(mainTemplate(prompt))
+
+    new CustomEvent('renderer', {
+      detail: {
+        name: 'afterQueryModel',
+        best,
+      },
+    })
 
     if (!best) {
       console.log('did not get enough results, aborting')
@@ -35,11 +53,51 @@ function Render() {
 
     console.log('loading html:', html)
     // setIsLoading(false)
+
+    window.parent.document.dispatchEvent(
+      new CustomEvent('renderer', {
+        detail: {
+          name: 'beforeRender',
+          html,
+        },
+      })
+    )
     setHtml(best)
   }
 
   useEffect(() => {
-    resolveImages()
+    console.log('html changed!', html)
+
+    const onRenderer = (e: CustomEvent<{ name: string; html: string }>) => {
+      console.log('received a message from host:', e.detail)
+      // if (e.detail.name === '....') {
+      // }
+    }
+
+    window.document.addEventListener('host', onRenderer, false)
+
+    if (html) {
+      new CustomEvent('renderer', {
+        detail: {
+          name: 'afterRender',
+          html,
+        },
+      })
+      ;(async () => {
+        await resolveImages()
+
+        new CustomEvent('renderer', {
+          detail: {
+            name: 'afterImages',
+            html,
+          },
+        })
+      })()
+    }
+
+    return () => {
+      window.document.removeEventListener('host', onRenderer)
+    }
   }, [html])
 
   useEffect(() => {
@@ -52,41 +110,33 @@ function Render() {
       queryModel(subTemplate(query))
 
     const params = new URLSearchParams(window.location.search)
+
     setPrompt(params.get('prompt').trim())
   }, [])
 
-  /*
-  this is to display a spinner, but unfortunately if I re-render the HTML like this, it will restart the <script>
-  I should maybe first extract the code and execute it in eval after first layout, I don't know
-        {isLoading || !html ? (
-        eta ? (
-          <div className="flex w-screen h-screen items-center justify-center">
-            <CountdownCircleTimer
-              isPlaying
-              duration={eta}
-              colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-              colorsTime={[7, 5, 2, 0]}
-            >
-              {({ remainingTime }) => remainingTime}
-            </CountdownCircleTimer>
-          </div>
-        ) : (
-          <div></div>
-        )
-      ) : (
-        <InnerHTML
-          id="sandbox"
-          className="pt-20 flex w-full items-center flex-col"
-          html={html}
-        />
-      )}
-      */
   return (
     <>
+      {/* yeah, well, this doesn't work 
+      <Head>
+        <Script src="https://code.jquery.com/jquery-3.6.1.min.js" />
+        <Script src="https://unpkg.com/tone@14.7.77/build/Tone.js" />
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.147.0/three.min.js"
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
+        />
+      </Head>
+      */}
       {/* TODO import this in another way? */}
-      <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.1.min.js" />
+
       {/* should be a prompt instruction like "you can import it from https://unpkg.com/tone.js" or something */}
-      <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+      <script src="https://unpkg.com/tone@14.7.77/build/Tone.js" />
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.147.0/three.min.js"
+        crossOrigin="anonymous"
+        referrerPolicy="no-referrer"
+      />
       <InnerHTML
         id="sandbox"
         className="pt-20 flex w-full items-center flex-col"

@@ -20,6 +20,7 @@ module.exports = {
         'text-center',
         'text-right',
         'text-{fontSize}',
+        'underline',
         'font-{fontWeight}',
         'font-{fontFamily}',
         'grid',

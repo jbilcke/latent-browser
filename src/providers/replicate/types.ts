@@ -6,3 +6,10 @@ export interface ReplicateConfig {
 }
 
 export type StableDiffusion = ({ prompt }: { prompt: string }) => string[]
+
+export interface ReplicateImage {
+  url: string
+  prompt: string
+  width: number
+  height: number
+}
