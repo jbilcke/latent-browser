@@ -6,7 +6,7 @@ export const htmlRules = `
 - You can choose text and background color matching the theme (be creative, as long as it follows Tailwind design rules and color schemes).
 - HTML content should be nice and centered, and feature paragraph, text in bold etc.. as you see fit.
 - always use Tailwind CSS classes for styling elements (including <p>, <ul> and <li> elements)
-- to make the page more friendly, to do not hesitate to use emojis like if they were icons
+- to make the page more friendly, do not hesitate to use emojis like if they were icons
 - Your div must be centered using Tailwind classes for flexbox. Please use multiple columns, or vertically stacked content, as people don't like to scroll horizontally
 - don't forget to add some padding and shadows, as well as round corners (using Tailwind utility classes)
 - please use a modern design with round corners, shadows etc
@@ -23,7 +23,7 @@ export const mainTemplate = (query: string) =>
 - if the user ask for a "generator" or an "app", or "application", it means you should create an interactive page, add buttons that can trigger JS code
 - if you add buttons to the page, don't forget to include the <script> necessary to run them
 - Repeat: do not forget to put some javascript logic in the <script> tag and bind your buttons, to do meaningful actions!
-- you should store information about app or game state in an a global javascript object (attached to the window object for instance)
+- you should store information about app or game state in a global javascript object (attached to the window object for instance)
 - you can use the canvas to draw, and user events (keyboard, mouse) to create an interactive experience
 - if you need to generate complex html content, you can call \`window.queryOpenAI()\`, an existing asyncronous function to interrogate OpenAI (you can write prompt instructions in it, in natural language): \`await window.queryOpenAI('.. some GPT-3 prompt to generate something..')\`
 - after resolving the async Promise, you should inject the raw output from this function somewhere in your own div (eg using innerHTML)
