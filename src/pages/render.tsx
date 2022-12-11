@@ -4,7 +4,7 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 import { queryModel } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
-import { mainTemplate, subTemplate } from '../engine/prompts'
+import { webApp, webComponent } from '../engine/prompts'
 import Head from 'next/head'
 import Script from 'next/script'
 
@@ -36,7 +36,20 @@ function Render() {
       },
     })
 
-    const best = await queryModel(mainTemplate(prompt))
+    let best = ''
+
+    try {
+      best = await queryModel(webApp(prompt))
+    } catch (exc) {
+      console.error(exc)
+
+      new CustomEvent('renderer', {
+        detail: {
+          name: 'failedQueryModel',
+        },
+      })
+      return
+    }
 
     new CustomEvent('renderer', {
       detail: {
@@ -105,9 +118,11 @@ function Render() {
   }, [prompt])
 
   useEffect(() => {
-    // repair the function in case the AI overwrote it
+    // repair the context in case the AI overwrote it
+    window['app'] = {}
+
     window['queryOpenAI'] = async (query: string) =>
-      queryModel(subTemplate(query))
+      queryModel(webComponent('lambda', query))
 
     const params = new URLSearchParams(window.location.search)
 
@@ -133,12 +148,15 @@ function Render() {
       {/* should be a prompt instruction like "you can import it from https://unpkg.com/tone.js" or something */}
       <script src="https://unpkg.com/tone@14.7.77/build/Tone.js" />
       <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.147.0/three.min.js"
+        src={
+          // unfortunately the latest version of three.js >= r125 introduced a breaking change, which break a lot of things
+          // 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.147.0/three.min.js'
+          'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.js'
+        }
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />
       <InnerHTML
-        id="sandbox"
         className="pt-20 flex w-full items-center flex-col"
         html={html}
       />

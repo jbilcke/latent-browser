@@ -76,7 +76,7 @@ function App() {
           <input
             className="font-mono grow text-xs py-2 px-4 rounded-full bg-white/40 hover:bg-white/70"
             onChange={(e) => setQuery(e.currentTarget.value)}
-            placeholder="How to make a cookie.."
+            placeholder="Cookie recipes, with 3 photos of delicious cookies.."
           />
           <button
             type="button"

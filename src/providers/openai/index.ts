@@ -6,11 +6,12 @@ export const configuration = new Configuration({ apiKey: openAIApiToken })
 export const openai = new OpenAIApi(configuration)
 
 export const queryModel = async (prompt: string) => {
+  console.log('prompt:', prompt)
   const response = await openai.createCompletion({
     model: openAIModel,
     prompt,
     user: openAIUser,
-    temperature: 0.7,
+    temperature: 0.6,
     max_tokens: 2500,
     top_p: 1,
     // best_of: 2,
