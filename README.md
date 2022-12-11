@@ -30,6 +30,7 @@ yarn tauri:dev
 
 Here are some examples to get you started:
 
+- `a back-office application to manage users. There is a table with editable cells, a button to add a new user, and a counter of users.`
 - `a simulation of calculating PI by generating random dots inside a circle. The simulator should include a slider to adjust the speed, a reset button, and the current estimate of PI.`
 - `a simple app to compute your BMI, using form inputs for age, height and weight (in kilos)`
 - `a whack-a-mole game but with spiders, a css 3-per-3 grid, emojis, and JS code`

@@ -25,7 +25,7 @@ const conf: CommonConfig = {
   logic: [
     'NEVER use alert() and instead directly write in one of the <div> of the page',
     'DO NOT sign your app with text like "By [Name]"',
-    'if you need a canvas, do not forget to add a <canvas> container with a unique ID,so your JS code can access it',
+    'if you need a canvas, do not forget to add a <canvas> container with a unique ID, so your JS code can access it',
     'this is not a tutorial, so NEVER write empty or incomplete JS functions, write the actual code implementation',
     'NEVER write things like "// implement the logic here" or "// TODO", you MUST write the actual code!',
   ],
