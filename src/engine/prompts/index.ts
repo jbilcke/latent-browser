@@ -46,7 +46,7 @@ const conf: CommonConfig = {
   ],
   direction: [
     'generally in website we like commercial images, with a lot of light, high-key, studio lighting, close-ups',
-    'if the brief is for a more real topic (eg. an article, a newspaper report)',
+    'if the brief is for a more real topic (eg. an article, a newspaper report) then use realistic lighting',
     'choose the appropriate color scheme and image tone depending on the brief',
   ],
   params: [
