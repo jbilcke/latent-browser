@@ -26,6 +26,8 @@ yarn tauri:dev
 
 ## Using the browser
 
+### Working (most of the time) examples
+
 Here are some examples to get you started:
 
 - `a simulation of calculating PI by generating random dots inside a circle. The simulator should include a slider to adjust the speed, a reset button, and the current estimate of PI.`
@@ -33,6 +35,12 @@ Here are some examples to get you started:
 - `a whack-a-mole game but with spiders, a css 3-per-3 grid, emojis, and JS code`
 - `a clone of asteroid using <canvas>, the mouse should orient the spaceship, it should fire bullets when clicking, and bullets can destroy asteroids.`
 - `website for a company selling time travel visit packages (great pyramids, Trojan wars..). The website features 3 polaroid pictures taken by tourists of those eras`
+
+### Non-working examples
+
+Those examples don't work yet.. maybe one day in text-davinci-004 or 005?
+
+- `a 120 BPM drum machine made using tone.js, with a step sequencer made using html checkboxes, to indicate when to play. Each row should be a different instrument (kick, snare, hihat), 8 buttons per row. There is a button to start/stop.`
 
 ## FAQ
 

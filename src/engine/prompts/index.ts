@@ -11,6 +11,7 @@ const conf: CommonConfig = {
     'you can dynamically add or remove those utility classes if needed',
     'always add padding inside blocks',
     'add shadows to elements',
+    'use the typography elements from Tailwind for larger font sizes when you have html titles',
     'prefer a vertical layout or responsive layout',
     'use emojis for your icons',
     'choose colors from the Tailwind color palette based on the word used',

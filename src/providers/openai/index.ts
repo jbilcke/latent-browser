@@ -11,7 +11,7 @@ export const queryModel = async (prompt: string) => {
     model: openAIModel,
     prompt,
     user: openAIUser,
-    temperature: 0.6,
+    temperature: 0.7,
     max_tokens: 2500,
     top_p: 1,
     // best_of: 2,

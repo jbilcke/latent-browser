@@ -30,6 +30,7 @@ font-black
 font-sans
 font-serif
 font-mono
+overflow-auto
 grid
 grid-cols-1
 grid-cols-2
@@ -736,6 +737,12 @@ h-screen
 h-min
 h-max
 h-fit
+min-h-0
+min-h-full
+min-h-screen
+min-h-min
+min-h-max
+min-h-fit
 max-h-0
 max-h-1
 max-h-2
@@ -843,6 +850,11 @@ w-screen
 w-min
 w-max
 w-fit
+min-w-0
+min-w-full
+min-w-min
+min-w-max
+min-w-fit
 max-w-0
 max-w-none
 max-w-xs

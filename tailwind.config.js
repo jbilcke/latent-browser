@@ -23,6 +23,7 @@ module.exports = {
         'underline',
         'font-{fontWeight}',
         'font-{fontFamily}',
+        'overflow-auto',
         'grid',
         'grid-cols-{gridTemplateColumns}',
         'grid-rows-{gridTemplateRows}',
@@ -54,8 +55,10 @@ module.exports = {
         'pr-{padding}',
 
         'h-{height}',
+        'min-h-{minHeight}',
         'max-h-{maxHeight}',
         'w-{width}',
+        'min-w-{minWidth}',
         'max-w-{maxWidth}',
 
         /*
