@@ -18,11 +18,24 @@ cp .env.sample .env.local
 
 Then open `.env.local` and add your OpenAI token
 
-### Start the browser in another tab
+### Start the browser
 
 ```bash
 yarn tauri:dev
 ```
+
+### Current bug
+
+ATTENTION! Due to a bug with Next Hot Reload (it reloads the search page once, after clicking on a click), you might want to do this instead:
+
+```bash
+yarn tauri build
+```
+
+then:
+
+- copy the app to yout Application dir
+- star tthe app
 
 ## Using the browser
 

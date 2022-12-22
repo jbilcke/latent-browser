@@ -1,16 +1,36 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   mode: 'jit',
-  purge: [
-    './src/**/*.{js,jsx,ts,tsx,md}',
-    './safelist.txt',
+  content: [
+    './src/**/*.{js,jsx,ts,tsx,md,txt}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        'combo': '0px -12px 10px 7px #000000, inset 0px 8px 12px -12px #000000',
+      },
+      colors: {
+        light: {
+          bg: '#ffffff',
+          highlight: '#1a0dab',
+          primary: '#4d5156',
+          secondary: '#70757a',
+        },
+        dark: {
+          bg: '#202124',
+          highlight: '#8ab4f8',
+          primary: '#bdc1c6',
+          secondary: '#9aa0a6',
+        }
+      },
+      fontFamily: {
+        google:  ['Google Sans', 'Helvetica', 'Arial', 'sans-serif'],
+      },
+    },
   },
   plugins: [
     require('tailwind-safelist-generator')({
-      path: 'safelist.txt',
+      path: './src/tailwind-classes.txt',
       // https://tailwindcss.com/docs/theme#configuration-reference
       patterns: [
         'items-center',
@@ -39,6 +59,7 @@ module.exports = {
         'list-{listStyleType}',
         'list-inside',
         'm-{margin}',
+        'md:m-{padding}',
         'mt-{margin}',
         'mb-{margin}',
         'mx-{margin}',
@@ -47,6 +68,7 @@ module.exports = {
         'mr-{margin}',
 
         'p-{padding}',
+        'md:p-{padding}',
         'pt-{padding}',
         'pb-{padding}',
         'px-{padding}',
@@ -55,9 +77,13 @@ module.exports = {
         'pr-{padding}',
 
         'h-{height}',
+        'md:h-{height}',
+        'lg:h-{height}',
         'min-h-{minHeight}',
         'max-h-{maxHeight}',
         'w-{width}',
+        'md:w-{width}',
+        'lg:w-{width}',
         'min-w-{minWidth}',
         'max-w-{maxWidth}',
 

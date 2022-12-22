@@ -3,7 +3,7 @@ import { ReplicateImage } from './types'
 
 let model: { predict: StableDiffusion }
 
-export const getImage = async (prompt: string): ReplicateImage => {
+export const getImage = async (prompt: string): Promise<ReplicateImage> => {
   if (!model) {
     console.log('warming-up the caption model..')
     model = await replicate<StableDiffusion>`stability-ai/stable-diffusion`

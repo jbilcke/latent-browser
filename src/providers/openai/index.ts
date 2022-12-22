@@ -5,13 +5,13 @@ import { DalleImage } from './types'
 export const configuration = new Configuration({ apiKey: openAIApiToken })
 export const openai = new OpenAIApi(configuration)
 
-export const queryModel = async (prompt: string) => {
+export const imagineString = async (prompt: string): Promise<string> => {
   console.log('prompt:', prompt)
   const response = await openai.createCompletion({
     model: openAIModel,
     prompt,
     user: openAIUser,
-    temperature: 0.7,
+    temperature: 0.8,
     max_tokens: 2500,
     top_p: 1,
     // best_of: 2,
@@ -19,14 +19,46 @@ export const queryModel = async (prompt: string) => {
     presence_penalty: 0,
     // stop: [stop],
   })
-  const res = response?.data?.choices?.[0]?.text?.trim() || ''
+
+  return response?.data?.choices?.[0]?.text?.trim() || ''
+}
+
+export const imagineHTML = async (prompt: string): Promise<string> => {
+  const output = await imagineString(prompt)
 
   // we don't care about hallucinated image src
-  const html = res.replace(/src="[^"]+/g, 'src="')
-
-  console.log(html)
+  const html = output.replace(/src="[^"]+/g, 'src="')
 
   return html
+}
+
+export const imagineJSON = async <T>(
+  prompt: string,
+  defaultValue: T
+): Promise<T> => {
+  let output = await imagineString(prompt)
+
+  try {
+    // we give a hint in our prompt by prefixing it with [ but we need to put it back in the output
+    const raw = `[${output}`
+
+    // try to fix GPT-3 adding commas at the end of each line
+    const regex = /\,(?!\s*?[\{\[\"\'\w])/g
+    const input = raw.replace(regex, '')
+    console.log(`input: ${input}`)
+
+    const json = JSON.parse(input) as T
+
+    // remove all trailing commas (`input` variable holds the erroneous JSON)
+    console.log('success!', json)
+    if (json === null || typeof json === undefined) {
+      throw new Error("couldn't parse JSON")
+    }
+    return json
+  } catch (err) {
+    console.log('error!', err)
+    return defaultValue
+  }
 }
 
 export const getImage = async (prompt: string): Promise<DalleImage> => {
