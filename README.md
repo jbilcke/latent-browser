@@ -18,15 +18,33 @@ cp .env.sample .env.local
 
 Then open `.env.local` and add your OpenAI token
 
-### Start the browser
+### Running the app
+
+You have 3 different options to run the app:
+
+#### In a browser (recommended)
+
+This solution is recommended during development or if you experience build issues.
+
+```bash
+yarn dev
+```
+
+Then go to http://localhost:1420
+
+#### In a standalone browser (advanced)
+
+This solution requires a working Rust environment, and is recommended if you need to develop things interacting with the OS (eg. custom windows, system toolbar, auto updater..)
+
 
 ```bash
 yarn tauri:dev
 ```
 
-### Current bug
+#### Generate a production build for yourselves (advanced)
 
-ATTENTION! Due to a bug with Next Hot Reload (it reloads the search page once, after clicking on a click), you might want to do this instead:
+This is not recommended for day-to-day development as it is slow, and currently there is an issue with images.
+
 
 ```bash
 yarn tauri build
@@ -34,8 +52,13 @@ yarn tauri build
 
 then:
 
-- copy the app to yout Application dir
-- star tthe app
+- copy the app to your Application dir
+- start the app
+
+
+#### Known important bugs
+
+ATTENTION! Due to a bug with Next Hot Reload (it reloads the search page once, after clicking on a click)
 
 ## Using the browser
 
