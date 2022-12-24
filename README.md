@@ -56,9 +56,9 @@ then:
 - start the app
 
 
-#### Known important bugs
+### Known important bugs
 
-ATTENTION! Due to a bug with Next Hot Reload (it reloads the search page once, after clicking on a click)
+ATTENTION! With `yarn dev` and `yarn tauri:dev` there is a bug with Next Hot Reload and the "search" mode (it reloads the search page once, after clicking on a click). Normal "generate" mode should be fine.
 
 ## Using the browser
 
