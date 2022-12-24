@@ -6,7 +6,7 @@ import { usePreventFastRefreshDev } from '../utils/usePreventPageRefresh'
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({ Component, pageProps }: AppProps) {
   // we need this right now because of an access control issue between the hot reloader <-> webkit :/
-  usePreventFastRefreshDev()
+  // usePreventFastRefreshDev()
 
   return <Component {...pageProps} />
 }

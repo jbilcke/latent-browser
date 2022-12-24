@@ -88,6 +88,7 @@ gap-0.5
 gap-1.5
 gap-2.5
 gap-3.5
+gap-30px
 flex
 flex-row
 flex-col
@@ -132,6 +133,7 @@ basis-0.5
 basis-1.5
 basis-2.5
 basis-3.5
+basis-30px
 basis-1/2
 basis-1/3
 basis-2/3
@@ -181,7 +183,6 @@ shadow-xl
 shadow-2xl
 shadow-inner
 shadow-none
-shadow-combo
 list-none
 list-disc
 list-decimal
@@ -222,6 +223,7 @@ m-0.5
 m-1.5
 m-2.5
 m-3.5
+m-30px
 md:m-0
 md:m-1
 md:m-2
@@ -257,6 +259,7 @@ md:m-0.5
 md:m-1.5
 md:m-2.5
 md:m-3.5
+md:m-30px
 mt-0
 mt-1
 mt-2
@@ -293,6 +296,7 @@ mt-0.5
 mt-1.5
 mt-2.5
 mt-3.5
+mt-30px
 mb-0
 mb-1
 mb-2
@@ -329,6 +333,7 @@ mb-0.5
 mb-1.5
 mb-2.5
 mb-3.5
+mb-30px
 mx-0
 mx-1
 mx-2
@@ -365,6 +370,7 @@ mx-0.5
 mx-1.5
 mx-2.5
 mx-3.5
+mx-30px
 my-0
 my-1
 my-2
@@ -401,6 +407,7 @@ my-0.5
 my-1.5
 my-2.5
 my-3.5
+my-30px
 ml-0
 ml-1
 ml-2
@@ -437,6 +444,7 @@ ml-0.5
 ml-1.5
 ml-2.5
 ml-3.5
+ml-30px
 mr-0
 mr-1
 mr-2
@@ -473,6 +481,7 @@ mr-0.5
 mr-1.5
 mr-2.5
 mr-3.5
+mr-30px
 p-0
 p-1
 p-2
@@ -508,6 +517,7 @@ p-0.5
 p-1.5
 p-2.5
 p-3.5
+p-30px
 md:p-0
 md:p-1
 md:p-2
@@ -543,6 +553,7 @@ md:p-0.5
 md:p-1.5
 md:p-2.5
 md:p-3.5
+md:p-30px
 pt-0
 pt-1
 pt-2
@@ -578,6 +589,7 @@ pt-0.5
 pt-1.5
 pt-2.5
 pt-3.5
+pt-30px
 pb-0
 pb-1
 pb-2
@@ -613,6 +625,7 @@ pb-0.5
 pb-1.5
 pb-2.5
 pb-3.5
+pb-30px
 px-0
 px-1
 px-2
@@ -648,6 +661,7 @@ px-0.5
 px-1.5
 px-2.5
 px-3.5
+px-30px
 py-0
 py-1
 py-2
@@ -683,6 +697,7 @@ py-0.5
 py-1.5
 py-2.5
 py-3.5
+py-30px
 pl-0
 pl-1
 pl-2
@@ -718,6 +733,7 @@ pl-0.5
 pl-1.5
 pl-2.5
 pl-3.5
+pl-30px
 pr-0
 pr-1
 pr-2
@@ -753,6 +769,7 @@ pr-0.5
 pr-1.5
 pr-2.5
 pr-3.5
+pr-30px
 h-0
 h-1
 h-2
@@ -789,6 +806,7 @@ h-0.5
 h-1.5
 h-2.5
 h-3.5
+h-30px
 h-1/2
 h-1/3
 h-2/3
@@ -845,6 +863,7 @@ md:h-0.5
 md:h-1.5
 md:h-2.5
 md:h-3.5
+md:h-30px
 md:h-1/2
 md:h-1/3
 md:h-2/3
@@ -901,6 +920,7 @@ lg:h-0.5
 lg:h-1.5
 lg:h-2.5
 lg:h-3.5
+lg:h-30px
 lg:h-1/2
 lg:h-1/3
 lg:h-2/3
@@ -962,6 +982,7 @@ max-h-0.5
 max-h-1.5
 max-h-2.5
 max-h-3.5
+max-h-30px
 max-h-full
 max-h-screen
 max-h-min
@@ -1003,6 +1024,7 @@ w-0.5
 w-1.5
 w-2.5
 w-3.5
+w-30px
 w-1/2
 w-1/3
 w-2/3
@@ -1070,6 +1092,7 @@ md:w-0.5
 md:w-1.5
 md:w-2.5
 md:w-3.5
+md:w-30px
 md:w-1/2
 md:w-1/3
 md:w-2/3
@@ -1137,6 +1160,7 @@ lg:w-0.5
 lg:w-1.5
 lg:w-2.5
 lg:w-3.5
+lg:w-30px
 lg:w-1/2
 lg:w-1/3
 lg:w-2/3
@@ -1444,6 +1468,12 @@ border-dark-bg
 border-dark-highlight
 border-dark-primary
 border-dark-secondary
+border-toolbar-bg
+border-toolbar-fg
+border-toolbar-hover
+border-toolbar-text
+border-toolbar-placeholder
+border-toolbar-input
 border
 bg-inherit
 bg-current
@@ -1678,6 +1708,12 @@ bg-dark-bg
 bg-dark-highlight
 bg-dark-primary
 bg-dark-secondary
+bg-toolbar-bg
+bg-toolbar-fg
+bg-toolbar-hover
+bg-toolbar-text
+bg-toolbar-placeholder
+bg-toolbar-input
 text-inherit
 text-current
 text-transparent
@@ -1911,6 +1947,12 @@ text-dark-bg
 text-dark-highlight
 text-dark-primary
 text-dark-secondary
+text-toolbar-bg
+text-toolbar-fg
+text-toolbar-hover
+text-toolbar-text
+text-toolbar-placeholder
+text-toolbar-input
 hover:bg-inherit
 hover:bg-current
 hover:bg-transparent
@@ -2144,6 +2186,12 @@ hover:bg-dark-bg
 hover:bg-dark-highlight
 hover:bg-dark-primary
 hover:bg-dark-secondary
+hover:bg-toolbar-bg
+hover:bg-toolbar-fg
+hover:bg-toolbar-hover
+hover:bg-toolbar-text
+hover:bg-toolbar-placeholder
+hover:bg-toolbar-input
 hover:text-inherit
 hover:text-current
 hover:text-transparent
@@ -2377,3 +2425,9 @@ hover:text-dark-bg
 hover:text-dark-highlight
 hover:text-dark-primary
 hover:text-dark-secondary
+hover:text-toolbar-bg
+hover:text-toolbar-fg
+hover:text-toolbar-hover
+hover:text-toolbar-text
+hover:text-toolbar-placeholder
+hover:text-toolbar-input

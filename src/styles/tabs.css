@@ -1,0 +1,117 @@
+@import "rc-tabs/assets/index.css";
+
+/*
+<div class="rc-tabs rc-tabs-top">
+  <div role="tablist" class="rc-tabs-nav">
+    <div class="rc-tabs-nav-wrap">
+      <div class="rc-tabs-nav-list" style="transform: translate(0px);">
+        <div data-node-key="light" class="rc-tabs-tab">
+          <div
+            role="tab"
+            aria-selected="false"
+            class="rc-tabs-tab-btn"
+            tabindex="0"
+            id="rc-tabs-1-tab-light"
+            aria-controls="rc-tabs-1-panel-light">
+            light
+          </div>
+        </div>
+        <div data-node-key="bamboo" ... > .... </div>
+*/
+
+.rc-tabs-nav-list {
+  /* @apply flex flex-row space-x-6; */
+}
+
+.rc-tabs {
+  @apply border-none select-none;
+}
+
+.rc-tabs-nav-list {
+
+}
+
+.rc-tabs-top {
+  @apply pt-2;
+}
+
+.rc-tabs-content-holder {
+  @apply absolute left-0 right-0 top-[80px] bottom-0 bg-white border-[1.5px] border-b border-[#C7C7C5] select-all;
+}
+.rc-tabs-tab {
+  @apply bg-toolbar-bg rounded-t-lg z-20 rounded-b-lg text-sm font-normal px-3 min-w-[140px] flex flex-row cursor-default;
+}
+
+.rc-tabs-tab:hover {
+  @apply bg-[#E5E0D5];
+}
+
+.rc-tabs-tab-btn {
+  @apply flex-grow;
+}
+
+/* default state of close button for all tabs */
+button.rc-tabs-tab-remove {
+  @apply flex items-center justify-center w-[18px] h-[18px] rounded-full bg-toolbar-fg/0 pb-[3px] text-[17px] text-[#1F2124] cursor-default;
+  content: '×';
+}
+
+/* hover state of close button for all tabs */
+button.rc-tabs-tab-remove:hover {
+  @apply bg-[#CFCDC6] text-[#1F2124];
+}
+
+/* selected tab */
+.rc-tabs-tab.rc-tabs-tab-active {
+  @apply bg-toolbar-fg text-sm font-normal z-10 pr-[14px];
+}
+
+/* close button for unselected tabs */
+.rc-tabs-tab.rc-tabs-tab-active button.rc-tabs-tab-remove:hover {
+  @apply bg-[#D9D8D5];
+}
+
+/* unselected tab */
+.rc-tabs-tab[data-node-key="newtab"] {
+  /* @apply text-[rgba(0,0,0,0)]; */
+}
+
+.rc-tabs-tab[data-node-key="newtab"] * {
+  /*@apply text-[rgba(0,0,0,0)]; */
+}
+
+.rc-tabs-tab[data-node-key="newtab"]:hover {
+  @apply bg-toolbar-bg;
+}
+
+/*
+.rc-tabs-tab.rc-tabs-tab::after {
+  content: ' ';
+  @apply w-[20px] h-[10px] bg-toolbar-bg mr-[-22px] mt-[22px];
+}
+*/
+/*
+.rc-tabs-tab.rc-tabs-tab:hover::after {
+  content: ' ';
+  @apply w-[20px] h-[10px] bg-toolbar-bg mr-[-22px] mt-[22px];
+}
+*/
+
+.rc-tabs-tab.rc-tabs-tab-active::before {
+  content: ' ';
+  @apply absolute w-[20px] h-[10px] bg-toolbar-fg ml-[-22px] mt-[22px];
+}
+.rc-tabs-tab.rc-tabs-tab-active::after {
+  content: ' ';
+  @apply w-[20px] h-[10px] bg-toolbar-fg mr-[-22px] mt-[22px];
+}
+
+
+
+.rc-tabs-ink-bar {
+  display: none;
+}
+
+.rc-tabs-ink-bar-animated {
+
+}

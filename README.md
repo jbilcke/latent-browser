@@ -8,15 +8,41 @@ Currently Replicate (stable diffusion) is disabled, as I had some latency issues
 
 ## Quick start
 
+### Prerequisites
+
+You will need NVM and Node 18.12.1
+
 ### Initial setup
 
 ```bash
 cd web4
+nvm use
 yarn
-cp .env.sample .env.local
 ```
 
-Then open `.env.local` and add your OpenAI token
+Don't mind too much those errors (we don't use IPFS yet):
+
+```
+electron@npm:1.8.8 couldn't be built successfully
+wrtc@npm:0.4.7 couldn't be built successfully
+```
+
+The app will still load just fine.
+
+### Before starting the app
+
+web4 is free, but not OpenAI! You will need to configure your token in a `.env.local` config file:
+
+```
+cp .env.sample .env.local
+open .env.local
+```
+
+And configure your OpenAI access token key:
+
+```
+NEXT_PUBLIC_PROVIDER_OPENAI_API_TOKEN=write_your_openai_key_here
+```
 
 ### Running the app
 
@@ -36,6 +62,13 @@ Then go to http://localhost:1420
 
 This solution requires a working Rust environment, and is recommended if you need to develop things interacting with the OS (eg. custom windows, system toolbar, auto updater..)
 
+#### Development (in your current browser)
+
+```bash
+yarn dev
+```
+
+#### Development (in a minimal standalone browser)
 
 ```bash
 yarn tauri:dev
@@ -45,7 +78,6 @@ yarn tauri:dev
 
 This is not recommended for day-to-day development as it is slow, and currently there is an issue with images.
 
-
 ```bash
 yarn tauri build
 ```
@@ -54,7 +86,6 @@ then:
 
 - copy the app to your Application dir
 - start the app
-
 
 ### Known important bugs
 
