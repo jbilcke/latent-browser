@@ -7,7 +7,10 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        'combo': '0px -12px 10px 7px #000000, inset 0px 8px 12px -12px #000000',
+        // 'combo': '0px -12px 10px 7px #000000, inset 0px 8px 12px -12px #000000',
+        // 'inset': 'inset 0px 8px 12px -12px #000000',
+        //  'drop': '0px -12px 10px 7px #000000',
+        // 'subtle': '0px -16px 10px 7px #000000',
       },
       colors: {
         light: {
@@ -21,11 +24,22 @@ module.exports = {
           highlight: '#8ab4f8',
           primary: '#bdc1c6',
           secondary: '#9aa0a6',
-        }
+        },
+        toolbar: {
+          bg: '#DDD6C6',
+          fg: '#F7F6F3',
+          hover: '#E8EED9',
+          text: '#212124',
+          placeholder: '#5A5A5B',
+          input: '#D5D4D2',
+        },
       },
       fontFamily: {
         google:  ['Google Sans', 'Helvetica', 'Arial', 'sans-serif'],
       },
+      spacing: {
+        '30px': '30px',
+      }
     },
   },
   plugins: [

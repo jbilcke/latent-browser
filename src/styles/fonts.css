@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "Google Sans";
+  font-weight: 400;
+  src: url("../fonts/GoogleSans-Regular.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-weight: 500;
+  src: url("../fonts/GoogleSans-Medium.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-weight: 600;
+  src: url("../fonts/GoogleSans-Bold.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: italic;
+  src: url("../fonts/GoogleSans-Italic.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Google Sans";
+  font-style: italic;
+  font-weight: 600;
+  src: url("../fonts/GoogleSans-BoldItalic.ttf") format('truetype');
+}

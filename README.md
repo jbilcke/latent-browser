@@ -8,23 +8,57 @@ Currently Replicate (stable diffusion) is disabled, as I had some latency issues
 
 ## Quick start
 
+### Prerequisites
+
+You will need NVM and Node 18.12.1
+
 ### Initial setup
 
 ```bash
 cd web4
+nvm use
 yarn
-cp .env.sample .env.local
 ```
 
-Then open `.env.local` and add your OpenAI token
+Don't mind too much those errors (we don't use IPFS yet):
+
+```
+electron@npm:1.8.8 couldn't be built successfully
+wrtc@npm:0.4.7 couldn't be built successfully
+```
+
+The app will still load just fine.
+
+### Before starting the app
+
+web4 is free, but not OpenAI! You will need to configure your token in a `.env.local` config file:
+
+```
+cp .env.sample .env.local
+open .env.local
+```
+
+And configure your OpenAI access token key:
+
+```
+NEXT_PUBLIC_PROVIDER_OPENAI_API_TOKEN=write_your_openai_key_here
+```
 
 ### Start the browser
+
+#### Development (in your current browser)
+
+```bash
+yarn dev
+```
+
+#### Development (in a minimal standalone browser)
 
 ```bash
 yarn tauri:dev
 ```
 
-### Current bug
+### Current bugs
 
 ATTENTION! Due to a bug with Next Hot Reload (it reloads the search page once, after clicking on a click), you might want to do this instead:
 
@@ -35,7 +69,7 @@ yarn tauri build
 then:
 
 - copy the app to yout Application dir
-- star tthe app
+- start the app
 
 ## Using the browser
 

@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
+import Icon from 'react-material-symbols/rounded'
+
 import { downloadHtmlFile } from '../engine/exporters/html'
+import { SearchInput } from '../components/inputs/SearchInput'
+import { Button } from '../components/buttons/Button'
+import { Tabs } from '../components/tabs/Tabs'
 
 function App() {
   const ref = useRef<HTMLIFrameElement>()
@@ -64,12 +69,16 @@ function App() {
 
   return (
     <div>
+      {/*
       <iframe
         ref={ref}
         className="absolute w-screen h-screen shadow-google"
         src={src}
       />
-      {duration && (
+  */}
+
+      {/*
+      duration && (
         <div className="flex w-screen h-screen items-center justify-center">
           <CountdownCircleTimer
             isPlaying
@@ -80,19 +89,20 @@ function App() {
             {({ remainingTime }) => remainingTime}
           </CountdownCircleTimer>
         </div>
-      )}
+      )
+      */}
 
-      <div className="fixed top-0 left-0 right-0 flex flex-col items-center justify-center w-screen h-16 z-10 bg-white bg-opacity-20 backdrop-blur-lg py-2 shadow-combo">
-        <div className="flex items-center justify-center space-x-4 w-full px-16">
-          <input
-            className="font-mono grow text-xs py-2 px-4 rounded-full bg-white/40 hover:bg-white/70"
-            onChange={(e) => setQuery(e.currentTarget.value)}
-            placeholder="Cookie recipes, with 3 photos of delicious cookies.."
+      <div className="flex flex-col w-screen h-screen bg-toolbar-bg">
+        <div className="absolute top-[40px] flex items-center justify-center space-x-4 w-full px-4 h-[40px] bg-toolbar-fg">
+          <Icon icon="refresh" size={24} fill grade={-25} color="#212124" />
+
+          <SearchInput
+            onChange={setQuery}
+            // Latent Resource Identifier hashes could be stocked on the blockchain
+            placeholder="Search the latent web or type a LRI"
             // value={query}
           />
-          <button
-            type="button"
-            className="flex-none bg-gray-700/30 hover:bg-gray-500/60 rounded-full px-4 py-2 shadow-lg font-mono text-xs font-normal text-white"
+          <Button
             onClick={() => {
               setDuration(30)
               setPrompt(query)
@@ -101,10 +111,8 @@ function App() {
           >
             {/* or: Dream 🔮, Explore, Generate 🎲, Randomize 🎲, Imagine 🔮, Realize, See, Wonder */}
             Search 🔮
-          </button>
-          <button
-            type="button"
-            className="flex-none bg-gray-700/30 hover:bg-gray-500/60 rounded-full px-4 py-2 shadow-lg font-mono text-xs font-normal text-white"
+          </Button>
+          <Button
             onClick={() => {
               setDuration(50)
               setPrompt(query)
@@ -113,16 +121,14 @@ function App() {
           >
             {/* or: Dream 🔮, Generate 🎲, Randomize 🎲, Imagine 🔮, Realize, See, Wonder */}
             Generate 🎲
-          </button>
-          <button
-            type="button"
-            className="flex-none bg-gray-700/30 hover:bg-gray-500/60 rounded-full px-4 py-2 shadow-lg font-mono text-xs font-normal text-white"
-            onClick={onExport}
-          >
+          </Button>
+          <Button onClick={onExport}>
             {/* or: Save, Keep, Export, Pick, Preserve */}
             Save 🍒
-          </button>
+          </Button>
         </div>
+
+        <Tabs />
       </div>
     </div>
   )
