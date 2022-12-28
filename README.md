@@ -44,7 +44,9 @@ And configure your OpenAI access token key:
 NEXT_PUBLIC_PROVIDER_OPENAI_API_TOKEN=write_your_openai_key_here
 ```
 
-### Running the app
+### Running the app in development
+
+> > > > > > > af0e2cb (making tabs more chrome-like)
 
 You have 3 different options to run the app:
 
@@ -61,14 +63,6 @@ Then go to http://localhost:1420
 #### In a standalone browser (advanced)
 
 This solution requires a working Rust environment, and is recommended if you need to develop things interacting with the OS (eg. custom windows, system toolbar, auto updater..)
-
-#### Development (in your current browser)
-
-```bash
-yarn dev
-```
-
-#### Development (in a minimal standalone browser)
 
 ```bash
 yarn tauri:dev
