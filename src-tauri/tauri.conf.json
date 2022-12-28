@@ -53,12 +53,15 @@
     "updater": {
       "active": false
     },
+    "macOSPrivateApi": true,
     "windows": [
       {
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "web4 explorer 🔮",
+        "title": "Latent Web Explorer 🔮",
+        "decorations": false,
+        "transparent": true,
         "width": 800
       }
     ]

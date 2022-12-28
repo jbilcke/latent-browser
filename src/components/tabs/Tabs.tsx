@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { DndProvider /*DragSource, DropTarget*/ } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import RCTabs from 'rc-tabs'
@@ -51,15 +51,35 @@ export const Tabs = ({
     onSelect?.(tabId)
   }
 
+  // make the tabs background area draggable (to move the browser window)
+  useEffect(() => {
+    document
+      .getElementsByClassName('rc-tabs-nav-wrap')[0]
+      .setAttribute('data-tauri-drag-region', '')
+    document
+      .getElementsByClassName('rc-tabs-nav-wrap')[0]
+      .setAttribute('data-tauri-drag-region', '')
+  })
+
   return (
-    <RCTabs
-      onChange={onChange}
-      editable={{ onEdit, showAdd: true }}
-      items={tabs.map(({ id, type, title, prompt }) => ({
-        key: id,
-        label: title,
-        children: <div></div>,
-      }))}
-    />
+    <div data-tauri-drag-region>
+      <RCTabs
+        data-tauri-drag-region
+        onChange={onChange}
+        editable={{ onEdit, showAdd: true }}
+        items={tabs.map(({ id, type, title, prompt }) => ({
+          key: id,
+          label: title,
+          children: (
+            <iframe
+              className="absolute w-screen h-[calc(100vh-84px)] shadow-google"
+              src={`/${type}?tab=${id}&title=${encodeURIComponent(
+                title
+              )}&prompt=${encodeURIComponent(prompt)}`}
+            />
+          ),
+        }))}
+      />
+    </div>
   )
 }

@@ -10,8 +10,11 @@ interface Result {
   description: string
 }
 
+const cleanWord = (word) => word.trim().toLocaleLowerCase().replace('.', '')
+
 // a search result page in the style of a famous search engine =)
 function Results() {
+  const tab = useParam('tab')
   const prompt = useParam('prompt')
   const [results, setResults] = useState<Result[]>([])
   const [runTime, setRunTime] = useState<number>(0)
@@ -24,7 +27,7 @@ function Results() {
     console.log('searching..')
     const startedAt = new Date().valueOf()
 
-    emitToParent('beforeQueryModel')
+    emitToParent('beforeQueryModel', { tab })
 
     let best: Result[] = []
 
@@ -33,11 +36,11 @@ function Results() {
     } catch (exc) {
       console.error(exc)
 
-      emitToParent('failedQueryModel')
+      emitToParent('failedQueryModel', { tab })
       return
     }
 
-    emitToParent('afterQueryModel', { best })
+    emitToParent('afterQueryModel', { tab, best })
 
     if (!best) {
       console.log('did not get enough results, aborting')
@@ -46,7 +49,7 @@ function Results() {
 
     console.log('loading results:', best)
 
-    emitToParent('beforeRender', { results: best })
+    emitToParent('beforeRender', { tab, results: best })
 
     setResults(best)
 
@@ -62,7 +65,7 @@ function Results() {
   // later we will put the colors into Tailwind, but right now let's just clone
   // some famous search engine colors
   return (
-    <div className="font-google bg-light-bg w-full flex flex-col pt-16 pl-8">
+    <div className="font-google bg-light-bg w-full flex flex-col pt-4 pb-4 pl-8">
       {!!results.length && (
         <div className="flex flex-col w-[652px]">
           <div className="flex items-center text-light-secondary h-11 my-2">
@@ -78,14 +81,34 @@ function Results() {
                     className="cursor-pointer hover:underline decoration-2"
                     href="#"
                     onClick={() => {
-                      emitToParent('open', { prompt: description })
+                      emitToParent('open', {
+                        title,
+                        subtitle,
+                        prompt: description,
+                      })
                     }}
                   >
                     {title}
                   </a>
                 </div>
                 <div className="text-sm text-light-primary leading-[1.58]">
-                  {description}
+                  {
+                    description
+                    /*
+                  .split(' ').map((word, i) =>
+                    prompt.toLocaleLowerCase().includes(cleanWord(word)) &&
+                    // todo: allow length < 2 if it is immediately before or after a longer word
+                    cleanWord(word).length > 2 ? (
+                      <div className="mr-1 font-bold" key={i}>
+                        {word}
+                      </div>
+                    ) : (
+                      <div className="mr-1" key={i}>
+                        {word}
+                      </div>
+                    )
+                  )*/
+                  }
                 </div>
               </div>
             ))}
