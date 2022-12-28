@@ -7,7 +7,8 @@ import { webApp, webComponent } from '../engine/prompts/content'
 import { emitToParent } from '../utils/event'
 import { useParam } from '../utils/useParam'
 
-function Render() {
+function Content() {
+  const tab = useParam('tab')
   const prompt = useParam('prompt')
   const [html, setHtml] = useState('<div></div>')
 
@@ -45,7 +46,7 @@ function Render() {
     window['queryOpenAI'] = async (query: string) =>
       imagineHTML(webComponent('lambda', query))
 
-    emitToParent('beforeQueryModel')
+    emitToParent('beforeQueryModel', { tab })
 
     let best = ''
 
@@ -54,11 +55,11 @@ function Render() {
     } catch (exc) {
       console.error(exc)
 
-      emitToParent('failedQueryModel')
+      emitToParent('failedQueryModel', { tab })
       return
     }
 
-    emitToParent('afterQueryModel')
+    emitToParent('afterQueryModel', { tab })
 
     if (!best) {
       console.log('did not get enough results, aborting')
@@ -69,7 +70,7 @@ function Render() {
     console.log('loading html:', best)
     // setIsLoading(false)
 
-    emitToParent('beforeRender')
+    emitToParent('beforeRender', { tab })
 
     setHtml(best)
   }
@@ -113,4 +114,4 @@ function Render() {
   )
 }
 
-export default Render
+export default Content

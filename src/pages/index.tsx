@@ -7,36 +7,21 @@ import Icon from 'react-material-symbols/rounded'
 import { downloadHtmlFile } from '../engine/exporters/html'
 import { SearchInput } from '../components/inputs/SearchInput'
 import { Button } from '../components/buttons/Button'
-import { getNewTab, PromptTab, Tabs } from '../components/tabs/Tabs'
+import { PromptTab, Tabs } from '../components/tabs/Tabs'
 
 function App() {
-  const ref = useRef<HTMLIFrameElement>()
-  const [prompt, setPrompt] = useState('')
   const [html, setHtml] = useState('')
   const [query, setQuery] = useState('')
   const [duration, setDuration] = useState(0)
-  const [src, setSrc] = useState(`/search?prompt=`)
   const [tabs, setTabs] = useState<PromptTab[]>([
     {
       id: uuidv4(),
       type: 'search',
       title: 'GPT-3 Search',
-      prompt: '',
+      prompt: 'bake cookies',
     },
-    {
-      id: uuidv4(),
-      type: 'search',
-      title: 'learning guitar - GPT-3 Search',
-      prompt: 'learning guitar',
-    },
-    {
-      id: uuidv4(),
-      type: 'content',
-      title: 'learning guitar',
-      prompt: 'an app to learn guitar',
-    },
-    // getNewTab(),
   ])
+  const [current, setCurrent] = useState<string>()
 
   const onExport = () => {
     console.log('html to download:', html)
@@ -59,16 +44,27 @@ function App() {
   }
 
   const onSelect = (tabId?: string) => {
-    console.log('selected tab', tabId)
+    setCurrent(tabId)
   }
+
+  useEffect(() => {
+    const tab = tabs.find(({ id }) => id === current)
+    if (!tab) {
+      return
+    }
+    console.log('selected tab', tab)
+    setQuery(tab.prompt)
+  }, [current])
 
   useEffect(() => {
     const onRenderer = ({
       detail: msg,
     }: CustomEvent<{
       name: string
+      tab?: string
       html?: string
       results?: string
+      title?: string
       prompt?: string
     }>) => {
       console.log('received a message from renderer:', msg)
@@ -95,9 +91,20 @@ function App() {
         setDuration(0)
       } else if (msg.name === 'open' && msg.prompt) {
         setDuration(50)
-        // setQuery(msg.prompt)
-        // setPrompt(msg.prompt)
-        setSrc(`/content?prompt=${encodeURIComponent(msg.prompt)}`)
+
+        // open the link in the same tab
+        setTabs((tabs) =>
+          tabs.map((tab) =>
+            tab.id === msg.tab
+              ? {
+                  ...tab,
+                  type: 'content',
+                  title: msg.title,
+                  prompt: msg.prompt,
+                }
+              : tab
+          )
+        )
       }
     }
 
@@ -108,8 +115,9 @@ function App() {
     }
   }, [])
 
+  console.log('query:', query)
   return (
-    <div>
+    <div className="rounded-xl overflow-hidden select-none">
       {/*
       <iframe
         ref={ref}
@@ -141,13 +149,24 @@ function App() {
             onChange={setQuery}
             // Latent Resource Identifier hashes could be stocked on the blockchain
             placeholder="Search the latent web or type a LRI"
-            // value={query}
+            value={query}
           />
           <Button
             onClick={() => {
               setDuration(30)
-              setPrompt(query)
-              setSrc(`/search?prompt=${encodeURIComponent(query)}`)
+
+              setTabs((tabs) =>
+                tabs.map((tab) =>
+                  tab.id === current
+                    ? {
+                        ...tab,
+                        type: 'search',
+                        title: query,
+                        prompt: query,
+                      }
+                    : tab
+                )
+              )
             }}
           >
             {/* or: Dream 🔮, Explore, Generate 🎲, Randomize 🎲, Imagine 🔮, Realize, See, Wonder */}
@@ -156,17 +175,30 @@ function App() {
           <Button
             onClick={() => {
               setDuration(50)
-              setPrompt(query)
-              setSrc(`/content?prompt=${encodeURIComponent(query)}`)
+              setTabs((tabs) =>
+                tabs.map((tab) =>
+                  tab.id === current
+                    ? {
+                        ...tab,
+                        type: 'content',
+                        prompt: query,
+                      }
+                    : tab
+                )
+              )
             }}
           >
             {/* or: Dream 🔮, Generate 🎲, Randomize 🎲, Imagine 🔮, Realize, See, Wonder */}
             Generate 🎲
           </Button>
+          {/*
           <Button onClick={onExport}>
-            {/* or: Save, Keep, Export, Pick, Preserve */}
+            {
+              // or: Save, Keep, Export, Pick, Preserve
+            }
             Save 🍒
           </Button>
+          */}
         </div>
 
         <Tabs

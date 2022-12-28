@@ -21,11 +21,14 @@
 }
 
 .rc-tabs-content-holder {
-  @apply absolute left-0 right-0 top-[80px] bottom-0 bg-white border-[1.5px] border-b border-[#C7C7C5] select-all;
+  @apply absolute left-0 right-0 top-[80px] bottom-0 bg-white border-[1.5px] border-b border-[#C7C7C5] select-all overflow-hidden;
 }
 .rc-tabs-tab {
   @apply bg-toolbar-bg rounded-t-lg rounded-b-lg text-xs font-normal min-w-[140px] flex flex-row cursor-default;
 }
+
+ /* unfortunately with our current drawing technique we cannot animate rc-tabs-tab :< */
+
 
 /* z-index rules */
 .rc-tabs-tab {
@@ -47,12 +50,18 @@
 
 .rc-tabs-tab-btn {
   /*the max width is very important! */
-  @apply flex-grow min-w-[190px] w-fit;
+  @apply flex-grow min-w-[160px] w-fit;
+}
+
+/* to avoid recalculating the before/after positions everytime we touch the remove button,
+we position the remove button using a transform */
+.rc-tabs-tab-remove {
+  transform: translateX(-8px);
 }
 
 /* default state of close button for all tabs */
 .rc-tabs-tab .rc-tabs-tab-remove {
-  @apply z-10 flex items-center justify-center w-[18px] h-[18px] rounded-full bg-toolbar-fg/0 pb-[3px] text-[17px] text-[#1F2124] cursor-default;
+  @apply z-10 flex items-center justify-center w-[18px] h-[18px] rounded-full bg-toolbar-fg/0 pb-[2px] text-[17px] text-[#1F2124] cursor-default;
   content: '×';
 }
 
@@ -119,7 +128,7 @@
 
 /* exception for when the left tab is active */
 .rc-tabs-tab-active + .rc-tabs-tab .rc-tabs-tab-btn::before {
-  @apply absolute w-[10px] h-[10px] bg-blue-200 ml-[-9px] mt-[16px] rounded-br-none rounded-bl-lg;
+  @apply absolute w-[10px] h-[10px] bg-toolbar-bg ml-[-9px] mt-[16px] rounded-br-none rounded-bl-lg;
 }
 .rc-tabs-tab-active + .rc-tabs-tab:hover::before {
   @apply bg-toolbar-fg;
@@ -173,7 +182,7 @@
 /* --------------- RIGHT CORNER BACKGROUND -------------- */
 .rc-tabs-tab .rc-tabs-tab-remove::after {
   content: ' ';
-  @apply absolute w-[16px] h-[10px] bg-toolbar-bg mr-[-22px] mt-[25px] rounded-tl-md;
+  @apply absolute w-[16px] h-[10px] bg-toolbar-bg mr-[-30px] mt-[25px] rounded-tl-md;
 }
 
 .rc-tabs-tab:hover .rc-tabs-tab-remove::after {

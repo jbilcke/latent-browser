@@ -57,7 +57,7 @@ export const searchTemplate = (query: string, nbResults: number) =>
     {
        "title": "Travel to the Canary Islands!",
        "subtitle": "The best travel agency for Canary Islands.",
-       "description":  "A travel agency specialized in vacations in the Canary Islands. It has mulitple sections to presents the kind of trips, offers, packages, and marketing pictures of the Canary Islands, in a vertical layout. The color scheme is warm (yellow, orange etc)."
+       "description":  "A travel agency specialized in vacations in the Canary Islands. It has multiple sections to presents the kind of trips, offers, packages, and marketing pictures of the Canary Islands, in a vertical layout. The color scheme is warm (yellow, orange etc)."
     },
     {
       "title": "Trip Planner - Canary",
