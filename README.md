@@ -44,23 +44,31 @@ And configure your OpenAI access token key:
 NEXT_PUBLIC_PROVIDER_OPENAI_API_TOKEN=write_your_openai_key_here
 ```
 
-### Start the browser
+### Running the app in development
 
-#### Development (in your current browser)
+You have 3 different options to run the app:
+
+#### In a browser (recommended)
+
+This solution is recommended during development or if you experience build issues.
 
 ```bash
 yarn dev
 ```
 
-#### Development (in a minimal standalone browser)
+Then go to http://localhost:1420
+
+#### In a standalone browser (advanced)
+
+This solution requires a working Rust environment, and is recommended if you need to develop things interacting with the OS (eg. custom windows, system toolbar, auto updater..)
 
 ```bash
 yarn tauri:dev
 ```
 
-### Current bugs
+#### Generate a production build for yourselves (advanced)
 
-ATTENTION! Due to a bug with Next Hot Reload (it reloads the search page once, after clicking on a click), you might want to do this instead:
+This is not recommended for day-to-day development as it is slow, and currently there is an issue with images.
 
 ```bash
 yarn tauri build
@@ -68,8 +76,12 @@ yarn tauri build
 
 then:
 
-- copy the app to yout Application dir
+- copy the app to your Application dir
 - start the app
+
+### Known important bugs
+
+ATTENTION! With `yarn dev` and `yarn tauri:dev` there is a bug with Next Hot Reload and the "search" mode (it reloads the search page once, after clicking on a click). Normal "generate" mode should be fine.
 
 ## Using the browser
 

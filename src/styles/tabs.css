@@ -19,6 +19,10 @@
         <div data-node-key="bamboo" ... > .... </div>
 */
 
+.rc-tabs-nav {
+  @apply pl-7;
+}
+
 .rc-tabs-nav-list {
   /* @apply flex flex-row space-x-6; */
 }
@@ -39,7 +43,7 @@
   @apply absolute left-0 right-0 top-[80px] bottom-0 bg-white border-[1.5px] border-b border-[#C7C7C5] select-all;
 }
 .rc-tabs-tab {
-  @apply bg-toolbar-bg rounded-t-lg z-20 rounded-b-lg text-sm font-normal px-3 min-w-[140px] flex flex-row cursor-default;
+  @apply bg-toolbar-bg rounded-t-lg z-20 rounded-b-lg text-sm font-normal min-w-[140px] flex flex-row cursor-default;
 }
 
 .rc-tabs-tab:hover {
@@ -47,18 +51,31 @@
 }
 
 .rc-tabs-tab-btn {
-  @apply flex-grow;
+  /*the max width is very important! */
+  @apply flex-grow min-w-[190px] w-fit;
 }
 
 /* default state of close button for all tabs */
-button.rc-tabs-tab-remove {
-  @apply flex items-center justify-center w-[18px] h-[18px] rounded-full bg-toolbar-fg/0 pb-[3px] text-[17px] text-[#1F2124] cursor-default;
+.rc-tabs-tab .rc-tabs-tab-remove {
+  @apply flex items-center justify-center w-[18px] h-[18px] rounded-full bg-toolbar-fg/0 pb-[3px] pr-3 text-[17px] text-[#1F2124] cursor-default;
   content: '×';
 }
 
 /* hover state of close button for all tabs */
-button.rc-tabs-tab-remove:hover {
+.rc-tabs-tab .rc-tabs-tab-remove:hover {
   @apply bg-[#CFCDC6] text-[#1F2124];
+}
+
+/* text face effect */
+.rc-tabs-tab .rc-tabs-tab-remove {
+  box-shadow: -8px 0px 8px 4px rgba(221, 214, 198,1);
+}
+.rc-tabs-tab:hover .rc-tabs-tab-remove {
+  box-shadow: -8px 0px 8px 4px rgba(229, 224, 213,1);
+}
+.rc-tabs-tab:hover.rc-tabs-tab-active .rc-tabs-tab-remove,
+.rc-tabs-tab-active .rc-tabs-tab-remove {
+  box-shadow: -8px 0px 8px 4px rgba(247, 246, 243,1);
 }
 
 /* selected tab */
@@ -71,18 +88,20 @@ button.rc-tabs-tab-remove:hover {
   @apply bg-[#D9D8D5];
 }
 
-/* unselected tab */
-.rc-tabs-tab[data-node-key="newtab"] {
-  /* @apply text-[rgba(0,0,0,0)]; */
+/* all tabs have a left border */
+.rc-tabs-tab .rc-tabs-tab-btn {
+  @apply leading-[20px] border-solid border-l-gray-900/50 border-l pl-2 transition-all duration-200;
 }
 
-.rc-tabs-tab[data-node-key="newtab"] * {
-  /*@apply text-[rgba(0,0,0,0)]; */
+/* hide separator around for the first tab, and around an active tab */
+.rc-tabs-tab:hover .rc-tabs-tab-btn,
+.rc-tabs-tab:hover + .rc-tabs-tab .rc-tabs-tab-btn,
+.rc-tabs-tab.rc-tabs-tab-active .rc-tabs-tab-btn,
+.rc-tabs-tab.rc-tabs-tab-active + .rc-tabs-tab .rc-tabs-tab-btn,
+.rc-tabs-tab:first-child .rc-tabs-tab-btn {
+  @apply border-l-gray-800/0;
 }
 
-.rc-tabs-tab[data-node-key="newtab"]:hover {
-  @apply bg-toolbar-bg;
-}
 
 /*
 .rc-tabs-tab.rc-tabs-tab::after {
@@ -99,14 +118,12 @@ button.rc-tabs-tab-remove:hover {
 
 .rc-tabs-tab.rc-tabs-tab-active::before {
   content: ' ';
-  @apply absolute w-[20px] h-[10px] bg-toolbar-fg ml-[-22px] mt-[22px];
+  @apply absolute w-[20px] h-[10px] bg-toolbar-fg ml-[-12px] mt-[22px];
 }
 .rc-tabs-tab.rc-tabs-tab-active::after {
   content: ' ';
-  @apply w-[20px] h-[10px] bg-toolbar-fg mr-[-22px] mt-[22px];
+  @apply w-5 h-[10px] bg-toolbar-fg mr-[-28px] mt-[22px];
 }
-
-
 
 .rc-tabs-ink-bar {
   display: none;
@@ -115,3 +132,20 @@ button.rc-tabs-tab-remove:hover {
 .rc-tabs-ink-bar-animated {
 
 }
+
+.rc-tabs-nav-add {
+  @apply w-7 h-7 rounded-full bg-transparent border-0 z-10 ml-2 text-xl pb-7 leading-[25px];
+
+  transform-style: preserve-3d;
+}
+.rc-tabs-nav-add:hover {
+  @apply  bg-gray-900/20;
+}
+
+.rc-tabs-nav-add::before {
+  content: ' ';
+  @apply absolute w-4 h-7 ml-[-16px] mt-[4px] bg-toolbar-bg rounded-bl-lg;
+  transform: translateZ(-1px);
+}
+
+

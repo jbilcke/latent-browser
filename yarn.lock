@@ -51,7 +51,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.9.2":
   version: 7.20.7
   resolution: "@babel/runtime@npm:7.20.7"
   dependencies:
@@ -2487,9 +2487,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^18.0.0, @types/node@npm:^18.7.11":
-  version: 18.11.17
-  resolution: "@types/node@npm:18.11.17"
-  checksum: 1933afd068d5c75c068c6c4df6d10edb3b0b2bb6503d544e2f0496ac007c90596e6a5e284a8ef032451bc16f871b7e46719d7d2bea60e9b25d13a77d52161cac
+  version: 18.11.18
+  resolution: "@types/node@npm:18.11.18"
+  checksum: 03f17f9480f8d775c8a72da5ea7e9383db5f6d85aa5fefde90dd953a1449bd5e4ffde376f139da4f3744b4c83942166d2a7603969a6f8ea826edfb16e6e3b49d
   languageName: node
   linkType: hard
 
@@ -2547,6 +2547,13 @@ __metadata:
   version: 0.16.2
   resolution: "@types/scheduler@npm:0.16.2"
   checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:^9":
+  version: 9.0.0
+  resolution: "@types/uuid@npm:9.0.0"
+  checksum: 59ae56d9547c8758588659da2a2b4c97cce79c2aae1798c892bb29452ef08e87859dea2ec3a66bfa88d0d2153147520be2b1893be920f9f0bc9c53a3207ea6aa
   languageName: node
   linkType: hard
 
@@ -9979,23 +9986,23 @@ __metadata:
   linkType: hard
 
 "rc-resize-observer@npm:^1.0.0":
-  version: 1.2.0
-  resolution: "rc-resize-observer@npm:1.2.0"
+  version: 1.2.1
+  resolution: "rc-resize-observer@npm:1.2.1"
   dependencies:
-    "@babel/runtime": ^7.10.1
+    "@babel/runtime": ^7.20.7
     classnames: ^2.2.1
-    rc-util: ^5.15.0
+    rc-util: ^5.27.0
     resize-observer-polyfill: ^1.5.1
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: cb338ee405c6df3d072754ad2fc29c19fe90cc9264331c02b7e23cb85d75f8ad984352fa8e0ff48f339439f548613b8960992e3050754290f2e651ed71909489
+  checksum: 67a4a7aa91924bc0b4082dfd899b8ed2bbcf353ace5f8f346257146ba9cde80500bd3b6d2c58f9d2c1e9f66e35dfc20cd04b8d32745ad5f5c264d8fdf144a4ba
   languageName: node
   linkType: hard
 
-"rc-tabs@npm:^12.5.3":
-  version: 12.5.3
-  resolution: "rc-tabs@npm:12.5.3"
+"rc-tabs@npm:^12.5.5":
+  version: 12.5.5
+  resolution: "rc-tabs@npm:12.5.5"
   dependencies:
     "@babel/runtime": ^7.11.2
     classnames: 2.x
@@ -10007,7 +10014,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 47f5428c56a48f1b9c0f1f1f18b2c86bf1cc3a486da3473fd49b6eb700d7b70371ff673994081b5197f6ee176966dc9db92e53fe2a5803a6df544105bdadda76
+  checksum: 0d6a2aab6be3978ad3a16ffdeedd3a2bbf6d5d42edf91c211d9df04748607fd39775c19cca9ece84f4914f1ba45b1f219dac53f695ac8af914e47163ecedafd8
   languageName: node
   linkType: hard
 
@@ -10027,7 +10034,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rc-util@npm:^5.12.0, rc-util@npm:^5.15.0, rc-util@npm:^5.16.0, rc-util@npm:^5.17.0, rc-util@npm:^5.19.2, rc-util@npm:^5.21.0, rc-util@npm:^5.26.0":
+"rc-util@npm:^5.12.0, rc-util@npm:^5.16.0, rc-util@npm:^5.17.0, rc-util@npm:^5.19.2, rc-util@npm:^5.21.0, rc-util@npm:^5.26.0, rc-util@npm:^5.27.0":
   version: 5.27.0
   resolution: "rc-util@npm:5.27.0"
   dependencies:
@@ -11619,6 +11626,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
+  languageName: node
+  linkType: hard
+
 "varint-decoder@npm:^1.0.0":
   version: 1.0.0
   resolution: "varint-decoder@npm:1.0.0"
@@ -11684,6 +11700,7 @@ __metadata:
     "@types/react": ^18.0.17
     "@types/react-dom": ^18.0.6
     "@types/react-no-ssr": ^1
+    "@types/uuid": ^9
     autoprefixer: ^10.4.13
     dangerously-set-html-content: ^1.0.12
     dotenv: ^16.0.3
@@ -11697,7 +11714,7 @@ __metadata:
     openai: ^3.1.0
     orbit-db: ^0.28.7
     postcss: ^8.4.19
-    rc-tabs: ^12.5.3
+    rc-tabs: ^12.5.5
     react: ^18.2.0
     react-countdown-circle-timer: ^3.1.0
     react-dnd: ^16.0.1
@@ -11708,6 +11725,7 @@ __metadata:
     tailwind-safelist-generator: ^1.0.0
     tailwindcss: ^3.2.4
     typescript: ^4.7.4
+    uuid: ^9.0.0
   languageName: unknown
   linkType: soft
 

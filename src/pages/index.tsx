@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import { v4 as uuidv4 } from 'uuid'
 
 import Icon from 'react-material-symbols/rounded'
 
 import { downloadHtmlFile } from '../engine/exporters/html'
 import { SearchInput } from '../components/inputs/SearchInput'
 import { Button } from '../components/buttons/Button'
-import { Tabs } from '../components/tabs/Tabs'
+import { getNewTab, PromptTab, Tabs } from '../components/tabs/Tabs'
 
 function App() {
   const ref = useRef<HTMLIFrameElement>()
@@ -15,10 +16,50 @@ function App() {
   const [query, setQuery] = useState('')
   const [duration, setDuration] = useState(0)
   const [src, setSrc] = useState(`/search?prompt=`)
+  const [tabs, setTabs] = useState<PromptTab[]>([
+    {
+      id: uuidv4(),
+      type: 'search',
+      title: 'GPT-3 Search',
+      prompt: '',
+    },
+    {
+      id: uuidv4(),
+      type: 'search',
+      title: 'learning guitar - GPT-3 Search',
+      prompt: 'learning guitar',
+    },
+    {
+      id: uuidv4(),
+      type: 'content',
+      title: 'learning guitar',
+      prompt: 'an app to learn guitar',
+    },
+    // getNewTab(),
+  ])
 
   const onExport = () => {
     console.log('html to download:', html)
     downloadHtmlFile(html)
+  }
+
+  const onAdd = () => {
+    setTabs((tabs) =>
+      tabs.concat({
+        id: uuidv4(),
+        type: 'search',
+        title: 'New Tab',
+        prompt: '',
+      })
+    )
+  }
+
+  const onRemove = (tabId?: string) => {
+    setTabs((tabs) => tabs.filter(({ id }) => id !== tabId))
+  }
+
+  const onSelect = (tabId?: string) => {
+    console.log('selected tab', tabId)
   }
 
   useEffect(() => {
@@ -128,7 +169,12 @@ function App() {
           </Button>
         </div>
 
-        <Tabs />
+        <Tabs
+          onAdd={onAdd}
+          onRemove={onRemove}
+          onSelect={onSelect}
+          tabs={tabs}
+        />
       </div>
     </div>
   )
