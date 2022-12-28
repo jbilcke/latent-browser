@@ -28,7 +28,7 @@ module.exports = {
         toolbar: {
           bg: '#DDD6C6',
           fg: '#F7F6F3',
-          hover: '#E8EED9',
+          hover: '#E5E0D5', // '#E8EED9',
           text: '#212124',
           placeholder: '#5A5A5B',
           input: '#D5D4D2',

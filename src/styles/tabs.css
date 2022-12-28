@@ -1,30 +1,11 @@
 @import "rc-tabs/assets/index.css";
 
-/*
-<div class="rc-tabs rc-tabs-top">
-  <div role="tablist" class="rc-tabs-nav">
-    <div class="rc-tabs-nav-wrap">
-      <div class="rc-tabs-nav-list" style="transform: translate(0px);">
-        <div data-node-key="light" class="rc-tabs-tab">
-          <div
-            role="tab"
-            aria-selected="false"
-            class="rc-tabs-tab-btn"
-            tabindex="0"
-            id="rc-tabs-1-tab-light"
-            aria-controls="rc-tabs-1-panel-light">
-            light
-          </div>
-        </div>
-        <div data-node-key="bamboo" ... > .... </div>
-*/
-
 .rc-tabs-nav {
-  @apply pl-7;
+
 }
 
 .rc-tabs-nav-list {
-  /* @apply flex flex-row space-x-6; */
+  @apply pl-7;  
 }
 
 .rc-tabs {
@@ -43,7 +24,21 @@
   @apply absolute left-0 right-0 top-[80px] bottom-0 bg-white border-[1.5px] border-b border-[#C7C7C5] select-all;
 }
 .rc-tabs-tab {
-  @apply bg-toolbar-bg rounded-t-lg z-20 rounded-b-lg text-sm font-normal min-w-[140px] flex flex-row cursor-default;
+  @apply bg-toolbar-bg rounded-t-lg rounded-b-lg text-xs font-normal min-w-[140px] flex flex-row cursor-default;
+}
+
+/* z-index rules */
+.rc-tabs-tab {
+  @apply z-10;
+}
+.rc-tabs-tab-btn {
+}
+.rc-tabs-tab:hover {
+  @apply z-30;
+}
+.rc-tabs-tab-active,
+.rc-tabs-tab-active:hover {
+  @apply z-30;
 }
 
 .rc-tabs-tab:hover {
@@ -57,7 +52,7 @@
 
 /* default state of close button for all tabs */
 .rc-tabs-tab .rc-tabs-tab-remove {
-  @apply flex items-center justify-center w-[18px] h-[18px] rounded-full bg-toolbar-fg/0 pb-[3px] pr-3 text-[17px] text-[#1F2124] cursor-default;
+  @apply z-10 flex items-center justify-center w-[18px] h-[18px] rounded-full bg-toolbar-fg/0 pb-[3px] text-[17px] text-[#1F2124] cursor-default;
   content: '×';
 }
 
@@ -80,7 +75,7 @@
 
 /* selected tab */
 .rc-tabs-tab.rc-tabs-tab-active {
-  @apply bg-toolbar-fg text-sm font-normal z-10 pr-[14px];
+  @apply bg-toolbar-fg font-normal;
 }
 
 /* close button for unselected tabs */
@@ -103,26 +98,91 @@
 }
 
 
-/*
-.rc-tabs-tab.rc-tabs-tab::after {
-  content: ' ';
-  @apply w-[20px] h-[10px] bg-toolbar-bg mr-[-22px] mt-[22px];
+/* ---- INNER PADDINGS ------*/
+.rc-tabs-tab {
+  @apply pr-[14px];
 }
-*/
-/*
-.rc-tabs-tab.rc-tabs-tab:hover::after {
-  content: ' ';
-  @apply w-[20px] h-[10px] bg-toolbar-bg mr-[-22px] mt-[22px];
-}
-*/
 
-.rc-tabs-tab.rc-tabs-tab-active::before {
-  content: ' ';
-  @apply absolute w-[20px] h-[10px] bg-toolbar-fg ml-[-12px] mt-[22px];
+.rc-tabs-tab-active {
+  @apply pr-[14px];
 }
-.rc-tabs-tab.rc-tabs-tab-active::after {
+
+/* --------------- LEFT CORNER FOREGROUND -------------- */
+.rc-tabs-tab .rc-tabs-tab-btn::before {
   content: ' ';
-  @apply w-5 h-[10px] bg-toolbar-fg mr-[-28px] mt-[22px];
+  @apply absolute w-[10px] h-[10px] bg-toolbar-bg ml-[-19px] mt-[16px] rounded-br-lg;
+}
+.rc-tabs-tab:hover .rc-tabs-tab-btn::before {
+  @apply bg-toolbar-bg;
+}
+
+
+/* exception for when the left tab is active */
+.rc-tabs-tab-active + .rc-tabs-tab .rc-tabs-tab-btn::before {
+  @apply absolute w-[10px] h-[10px] bg-blue-200 ml-[-9px] mt-[16px] rounded-br-none rounded-bl-lg;
+}
+.rc-tabs-tab-active + .rc-tabs-tab:hover::before {
+  @apply bg-toolbar-fg;
+}
+
+.rc-tabs-tab-active + .rc-tabs-tab:hover .rc-tabs-tab-btn::before {
+  @apply bg-toolbar-hover;
+}
+
+/* TODO: this one should depend on the current hover (use JS?) */
+.rc-tabs-tab-active:hover .rc-tabs-tab-btn::before,
+.rc-tabs-tab-active .rc-tabs-tab-btn::before {
+  @apply bg-toolbar-bg;
+}
+
+.rc-tabs-tab:hover + .rc-tabs-tab-active .rc-tabs-tab-btn::before {
+  @apply bg-toolbar-hover;
+}
+
+/* --------------- LEFT CORNER BACKGROUND -------------- */
+.rc-tabs-tab::before {
+  content: ' ';
+  @apply absolute w-[18px] h-[10px] bg-toolbar-bg ml-[-10px] mt-[22px];
+}
+.rc-tabs-tab:hover::before {
+  @apply bg-toolbar-hover;
+}
+.rc-tabs-tab-active:hover::before,
+.rc-tabs-tab-active::before {
+  @apply bg-toolbar-fg;
+}
+
+/* --------------- LEFT CORNER FOREGROUND -------------- */
+.rc-tabs-tab::after {
+  content: ' ';
+  @apply z-10 w-[10px] h-[10px] bg-toolbar-bg mr-[-24px] mt-[22px] rounded-bl-lg;
+}
+
+.rc-tabs-tab:hover::after {
+  @apply bg-toolbar-bg;
+}
+.rc-tabs-tab-active:hover::after,
+.rc-tabs-tab-active::after {
+ @apply bg-toolbar-bg;
+}
+
+.rc-tabs-nav-list:hover .rc-tabs-tab:not(:hover)::after {
+  @apply bg-toolbar-bg;
+}
+
+/* --------------- RIGHT CORNER BACKGROUND -------------- */
+.rc-tabs-tab .rc-tabs-tab-remove::after {
+  content: ' ';
+  @apply absolute w-[16px] h-[10px] bg-toolbar-bg mr-[-22px] mt-[25px] rounded-tl-md;
+}
+
+.rc-tabs-tab:hover .rc-tabs-tab-remove::after {
+  @apply  bg-toolbar-hover;
+}
+
+.rc-tabs-tab-active:hover .rc-tabs-tab-remove::after,
+.rc-tabs-tab-active .rc-tabs-tab-remove::after {
+  @apply  bg-toolbar-fg;
 }
 
 .rc-tabs-ink-bar {
@@ -134,18 +194,8 @@
 }
 
 .rc-tabs-nav-add {
-  @apply w-7 h-7 rounded-full bg-transparent border-0 z-10 ml-2 text-xl pb-7 leading-[25px];
-
-  transform-style: preserve-3d;
+  @apply w-7 h-7 rounded-full bg-transparent border-0 z-30 ml-2 text-xl pb-7 leading-[25px];
 }
 .rc-tabs-nav-add:hover {
   @apply  bg-gray-900/20;
 }
-
-.rc-tabs-nav-add::before {
-  content: ' ';
-  @apply absolute w-4 h-7 ml-[-16px] mt-[4px] bg-toolbar-bg rounded-bl-lg;
-  transform: translateZ(-1px);
-}
-
-
