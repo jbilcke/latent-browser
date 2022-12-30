@@ -81,7 +81,7 @@ then:
 
 ### Known important bugs
 
-ATTENTION! With `yarn dev` and `yarn tauri:dev` there is a bug with Next Hot Reload and the "search" mode (it reloads the search page once, after clicking on a click). Normal "generate" mode should be fine.
+Images don't seem to work when runing a standalone built using `yarn tauri build`, it might be caused by a security setting.
 
 ## Using the browser
 
