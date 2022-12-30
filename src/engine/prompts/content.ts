@@ -89,7 +89,7 @@ It generates valid HTML and JS, without any error and exception.`,
     conf.params,
     '{Promise<string>} HTML and JS content (a root <div> and a <script>)'
   )}
-import { 'generateWidget' } from 'ai'
+import { generateWidget } from 'ai'
 `
 )
 

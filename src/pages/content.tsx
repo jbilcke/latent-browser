@@ -54,7 +54,7 @@ function Content() {
 
     window['app'] = {}
 
-    window['queryOpenAI'] = async (query = '') => {
+    window['generateWidget'] = async (query = '') => {
       query = query.trim()
       if (!query.length) {
         return
