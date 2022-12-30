@@ -8,7 +8,9 @@
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "proxy": "node proxy/index.js",
-    "ts-node": "ts-node"
+    "ts-node": "ts-node",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@improbable-eng/grpc-web": "^0.15.0",
@@ -39,12 +41,26 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.7",
+    "@mdx-js/react": "^1.6.22",
+    "@storybook/addon-actions": "^6.5.15",
+    "@storybook/addon-docs": "^6.5.15",
+    "@storybook/addon-essentials": "^6.5.15",
+    "@storybook/addon-interactions": "^6.5.15",
+    "@storybook/addon-links": "^6.5.15",
+    "@storybook/builder-webpack5": "^6.5.15",
+    "@storybook/manager-webpack5": "^6.5.15",
+    "@storybook/react": "^6.5.15",
+    "@storybook/testing-library": "^0.0.13",
     "@tauri-apps/cli": "^1.1.0",
+    "@types/babel__core": "^7",
     "@types/node": "^18.7.11",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-no-ssr": "^1",
     "@types/uuid": "^9",
+    "babel-loader": "^8.3.0",
+    "storybook-addon-next": "^1.7.1",
     "typescript": "^4.7.4"
   },
   "packageManager": "yarn@3.3.1"

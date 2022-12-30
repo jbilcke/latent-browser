@@ -5,14 +5,21 @@ import { DalleImage } from './types'
 export const configuration = new Configuration({ apiKey: openAIApiToken })
 export const openai = new OpenAIApi(configuration)
 
-export const imagineString = async (prompt: string): Promise<string> => {
+export const imagineString = async (
+  prompt: string,
+  model?: string
+): Promise<string> => {
   console.log('prompt:', prompt)
+  model = model || openAIModel
+
+  const maxTokens = model === 'text-davinci-003' ? 2500 : 1000
+
   const response = await openai.createCompletion({
-    model: openAIModel,
+    model: model || openAIModel,
     prompt,
     user: openAIUser,
     temperature: 0.8,
-    max_tokens: 2500,
+    max_tokens: maxTokens,
     top_p: 1,
     // best_of: 2,
     frequency_penalty: 0,
@@ -23,8 +30,11 @@ export const imagineString = async (prompt: string): Promise<string> => {
   return response?.data?.choices?.[0]?.text?.trim() || ''
 }
 
-export const imagineHTML = async (prompt: string): Promise<string> => {
-  const output = await imagineString(prompt)
+export const imagineHTML = async (
+  prompt: string,
+  model?: string
+): Promise<string> => {
+  const output = await imagineString(prompt, model)
 
   // we don't care about hallucinated image src
   const html = output.replace(/src="[^"]+/g, 'src="')
@@ -34,9 +44,10 @@ export const imagineHTML = async (prompt: string): Promise<string> => {
 
 export const imagineJSON = async <T>(
   prompt: string,
-  defaultValue: T
+  defaultValue: T,
+  model?: string
 ): Promise<T> => {
-  let output = await imagineString(prompt)
+  let output = await imagineString(prompt, model)
 
   try {
     // we give a hint in our prompt by prefixing it with [ but we need to put it back in the output

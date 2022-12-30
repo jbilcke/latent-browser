@@ -3,6 +3,8 @@ import { useParam } from '../utils/useParam'
 import { emitToParent } from '../utils/event'
 import { imagineJSON } from '../providers/openai'
 import { searchTemplate } from '../engine/prompts/search'
+import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
+import useInterval from '../utils/useInterval'
 
 interface Result {
   title: string
@@ -17,26 +19,39 @@ function Results() {
   const tab = useParam('tab')
   const prompt = useParam('prompt')
   const [results, setResults] = useState<Result[]>([])
-  const [runTime, setRunTime] = useState<number>(0)
+  const [startTimestamp, setStartTimestamp] = useState<number>(0)
+  const [elapsedTimeMs, setElapsedTimeMs] = useState<number>(0)
+  const [finalTimeMs, setFinalTimeMs] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const loadPrompt = async (prompt: string) => {
-    if (!prompt?.length) {
+  const model = 'text-davinci-003'
+  const nbResults = 8
+  const estimatedTimeSec = nbResults * 4
+
+  const loadPrompt = async (prompt = '') => {
+    prompt = prompt.trim()
+    if (!prompt.length) {
       return
     }
 
     console.log('searching..')
     const startedAt = new Date().valueOf()
+    setIsLoading(true)
+    setStartTimestamp(startedAt)
+    setElapsedTimeMs(0)
+    setFinalTimeMs(0)
 
     emitToParent('beforeQueryModel', { tab })
 
     let best: Result[] = []
 
     try {
-      best = await imagineJSON(searchTemplate(prompt, 10), [])
+      best = await imagineJSON(searchTemplate(prompt, nbResults), [], model)
     } catch (exc) {
       console.error(exc)
 
       emitToParent('failedQueryModel', { tab })
+      setIsLoading(false)
       return
     }
 
@@ -44,6 +59,8 @@ function Results() {
 
     if (!best) {
       console.log('did not get enough results, aborting')
+      setIsLoading(false)
+
       return
     }
 
@@ -53,14 +70,22 @@ function Results() {
 
     setResults(best)
 
-    const endedAt = new Date().valueOf()
-
-    setRunTime(endedAt - startedAt)
+    // compute the precise final time
+    setFinalTimeMs(new Date().valueOf() - startTimestamp)
+    setIsLoading(false)
   }
 
   useEffect(() => {
     loadPrompt(prompt)
   }, [prompt])
+
+  useInterval(
+    () => {
+      setElapsedTimeMs(new Date().valueOf() - startTimestamp)
+    },
+    // Delay in milliseconds or null to stop it
+    isLoading ? 250 : null
+  )
 
   // later we will put the colors into Tailwind, but right now let's just clone
   // some famous search engine colors
@@ -69,7 +94,8 @@ function Results() {
       {!!results.length && (
         <div className="flex flex-col w-[652px]">
           <div className="flex items-center text-light-secondary h-11 my-2">
-            Showing {results.length} first results (of infinity)
+            About {results.length} results ({(finalTimeMs / 1000).toFixed(2)}{' '}
+            sec)
           </div>
           <div className="flex flex-col space-y-8">
             {results.map(({ title, subtitle, description }) => (
@@ -115,6 +141,13 @@ function Results() {
           </div>
         </div>
       )}
+      <ModelProgressBar
+        elapsedTimeMs={elapsedTimeMs}
+        estimatedTimeSec={estimatedTimeSec}
+        isLoading={isLoading}
+        model={model}
+        provider="OpenAI"
+      />
     </div>
   )
 }

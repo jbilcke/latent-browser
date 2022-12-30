@@ -6,11 +6,20 @@ import { resolveImages } from '../engine/resolvers/image'
 import { webApp, webComponent } from '../engine/prompts/content'
 import { emitToParent } from '../utils/event'
 import { useParam } from '../utils/useParam'
+import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
+import useInterval from '../utils/useInterval'
 
 function Content() {
   const tab = useParam('tab')
   const prompt = useParam('prompt')
   const [html, setHtml] = useState('<div></div>')
+
+  const [startTimestamp, setStartTimestamp] = useState<number>(0)
+  const [elapsedTimeMs, setElapsedTimeMs] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const model = 'text-davinci-003'
+  const estimatedTimeSec = 50
 
   useEffect(() => {
     console.log('html changed!', html)
@@ -24,11 +33,11 @@ function Content() {
     window.document.addEventListener('host', onRenderer, false)
 
     if (html) {
-      // emitToParent('afterRender', { html })
+      // emitToParent('afterRender', { html, tab })
       ;(async () => {
         await resolveImages()
 
-        // emitToParent('afterImages', { html })
+        // emitToParent('afterImages', { html, tab })
       })()
     }
 
@@ -37,25 +46,37 @@ function Content() {
     }
   }, [html])
 
-  const loadPrompt = async (prompt?: string) => {
-    if (!prompt?.length) {
+  const loadPrompt = async (prompt = '') => {
+    prompt = prompt.trim()
+    if (!prompt.length) {
       return
     }
+
     window['app'] = {}
 
-    window['queryOpenAI'] = async (query: string) =>
-      imagineHTML(webComponent('lambda', query))
+    window['queryOpenAI'] = async (query = '') => {
+      query = query.trim()
+      if (!query.length) {
+        return
+      }
+      imagineHTML(webComponent('lambda', query), model)
+    }
+
+    setIsLoading(true)
+    setStartTimestamp(new Date().valueOf())
+    setElapsedTimeMs(0)
 
     emitToParent('beforeQueryModel', { tab })
 
     let best = ''
 
     try {
-      best = await imagineHTML(webApp(prompt))
+      best = await imagineHTML(webApp(prompt), model)
     } catch (exc) {
       console.error(exc)
 
       emitToParent('failedQueryModel', { tab })
+      setIsLoading(false)
       return
     }
 
@@ -63,6 +84,7 @@ function Content() {
 
     if (!best) {
       console.log('did not get enough results, aborting')
+      setIsLoading(false)
       return
     }
     // replaceImages()
@@ -71,13 +93,21 @@ function Content() {
     // setIsLoading(false)
 
     emitToParent('beforeRender', { tab })
-
     setHtml(best)
+    setIsLoading(false)
   }
 
   useEffect(() => {
     loadPrompt(prompt)
   }, [prompt])
+
+  useInterval(
+    () => {
+      setElapsedTimeMs(new Date().valueOf() - startTimestamp)
+    },
+    // Delay in milliseconds or null to stop it
+    isLoading ? 250 : null
+  )
 
   return (
     <>
@@ -109,6 +139,13 @@ function Content() {
       <InnerHTML
         className="pt-20 flex w-full items-center flex-col"
         html={html}
+      />
+      <ModelProgressBar
+        elapsedTimeMs={elapsedTimeMs}
+        estimatedTimeSec={estimatedTimeSec}
+        isLoading={isLoading}
+        model={model}
+        provider="OpenAI"
       />
     </>
   )

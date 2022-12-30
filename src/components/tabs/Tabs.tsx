@@ -72,7 +72,7 @@ export const Tabs = ({
           label: title,
           children: (
             <iframe
-              className="absolute w-screen h-[calc(100vh-84px)] shadow-google"
+              className="absolute w-screen h-[calc(100vh-81px)] border-none shadow-google"
               src={`/${type}?tab=${id}&title=${encodeURIComponent(
                 title
               )}&prompt=${encodeURIComponent(prompt)}`}

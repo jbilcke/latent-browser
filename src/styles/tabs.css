@@ -21,7 +21,7 @@
 }
 
 .rc-tabs-content-holder {
-  @apply absolute left-0 right-0 top-[80px] bottom-0 bg-white border-[1.5px] border-b border-[#C7C7C5] select-all overflow-hidden;
+  @apply absolute left-0 right-0 top-[80px] bottom-0 bg-white border-[1.5px] border-t border-b-0 border-l-0 border-r-0 border-[#C7C7C5] select-all overflow-hidden rounded-b-lg overflow-hidden;
 }
 .rc-tabs-tab {
   @apply bg-toolbar-bg rounded-t-lg rounded-b-lg text-xs font-normal min-w-[140px] flex flex-row cursor-default;
@@ -72,13 +72,16 @@ we position the remove button using a transform */
 
 /* text face effect */
 .rc-tabs-tab .rc-tabs-tab-remove {
+  @apply bg-toolbar-bg;
   box-shadow: -8px 0px 8px 4px rgba(221, 214, 198,1);
 }
 .rc-tabs-tab:hover .rc-tabs-tab-remove {
+  @apply bg-toolbar-hover;
   box-shadow: -8px 0px 8px 4px rgba(229, 224, 213,1);
 }
 .rc-tabs-tab:hover.rc-tabs-tab-active .rc-tabs-tab-remove,
 .rc-tabs-tab-active .rc-tabs-tab-remove {
+  @apply bg-toolbar-fg;
   box-shadow: -8px 0px 8px 4px rgba(247, 246, 243,1);
 }
 
@@ -203,7 +206,7 @@ we position the remove button using a transform */
 }
 
 .rc-tabs-nav-add {
-  @apply w-7 h-7 rounded-full bg-transparent border-0 z-30 ml-2 text-xl pb-7 leading-[25px];
+  @apply w-7 h-7 rounded-full bg-transparent border-0 z-30 ml-2 text-[21px] pb-7 leading-[25px] text-[#4E4E4D];
 }
 .rc-tabs-nav-add:hover {
   @apply  bg-gray-900/20;

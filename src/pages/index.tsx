@@ -12,16 +12,15 @@ import { PromptTab, Tabs } from '../components/tabs/Tabs'
 function App() {
   const [html, setHtml] = useState('')
   const [query, setQuery] = useState('')
-  const [duration, setDuration] = useState(0)
   const [tabs, setTabs] = useState<PromptTab[]>([
     {
       id: uuidv4(),
       type: 'search',
       title: 'GPT-3 Search',
-      prompt: 'bake cookies',
+      prompt: '',
     },
   ])
-  const [current, setCurrent] = useState<string>()
+  const [current, setCurrent] = useState<string>(tabs[0].id)
 
   const onExport = () => {
     console.log('html to download:', html)
@@ -80,19 +79,15 @@ function App() {
         }
         */
         setHtml('<p>OpenAI failure (503 error)</p>')
-        setDuration(0)
       } else if (msg.name === 'beforeRender') {
         console.log('setting html to:', msg.html)
         if (msg.html) {
           setHtml(msg.html)
         }
-        setDuration(0)
       } else if (msg.results) {
-        setDuration(0)
       } else if (msg.name === 'open' && msg.prompt) {
-        setDuration(50)
-
         // open the link in the same tab
+        /*
         setTabs((tabs) =>
           tabs.map((tab) =>
             tab.id === msg.tab
@@ -104,6 +99,17 @@ function App() {
                 }
               : tab
           )
+        )
+        */
+
+        // open the link in a new tab
+        setTabs((tabs) =>
+          tabs.concat({
+            id: uuidv4(),
+            type: 'content',
+            title: msg.title,
+            prompt: msg.prompt,
+          })
         )
       }
     }
@@ -141,20 +147,17 @@ function App() {
       )
       */}
 
-      <div className="flex flex-col w-screen h-screen bg-toolbar-bg">
+      <div className="flex flex-col w-screen h-screen bg-toolbar-bg overflow-hidden">
         <div className="absolute top-[40px] flex items-center justify-center space-x-4 w-full px-4 h-[40px] bg-toolbar-fg">
           <Icon icon="refresh" size={24} fill grade={-25} color="#212124" />
 
           <SearchInput
             onChange={setQuery}
-            // Latent Resource Identifier hashes could be stocked on the blockchain
             placeholder="Search the latent web or type a LRI"
             value={query}
           />
           <Button
             onClick={() => {
-              setDuration(30)
-
               setTabs((tabs) =>
                 tabs.map((tab) =>
                   tab.id === current
@@ -174,7 +177,6 @@ function App() {
           </Button>
           <Button
             onClick={() => {
-              setDuration(50)
               setTabs((tabs) =>
                 tabs.map((tab) =>
                   tab.id === current
