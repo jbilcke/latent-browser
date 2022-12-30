@@ -71,7 +71,7 @@ function Results() {
     setResults(best)
 
     // compute the precise final time
-    setFinalTimeMs(new Date().valueOf() - startTimestamp)
+    setFinalTimeMs(new Date().valueOf() - startedAt)
     setIsLoading(false)
   }
 
@@ -84,7 +84,7 @@ function Results() {
       setElapsedTimeMs(new Date().valueOf() - startTimestamp)
     },
     // Delay in milliseconds or null to stop it
-    isLoading ? 250 : null
+    isLoading ? 200 : null
   )
 
   // later we will put the colors into Tailwind, but right now let's just clone
@@ -99,7 +99,10 @@ function Results() {
           </div>
           <div className="flex flex-col space-y-8">
             {results.map(({ title, subtitle, description }) => (
-              <div key={title} className="flex flex-col">
+              <div
+                key={title.concat(subtitle).concat(description)}
+                className="flex flex-col"
+              >
                 <div className="text-sm text-light-secondary">{subtitle}</div>
 
                 <div className="text-xl text-light-highlight">

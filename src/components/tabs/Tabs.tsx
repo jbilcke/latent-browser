@@ -59,7 +59,7 @@ export const Tabs = ({
     document
       .getElementsByClassName('rc-tabs-nav-wrap')[0]
       .setAttribute('data-tauri-drag-region', '')
-  })
+  }, [])
 
   return (
     <div data-tauri-drag-region>
