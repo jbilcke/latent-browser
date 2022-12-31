@@ -19,11 +19,13 @@ export interface PromptTab {
  */
 
 export const Tabs = ({
+  activeTab,
   onAdd,
   onRemove,
   onSelect,
   tabs = [],
 }: {
+  activeTab?: string
   onAdd?: (tabId?: string) => void
   onRemove?: (tabId?: string) => void
   onSelect?: (tabId?: string) => void
@@ -67,6 +69,7 @@ export const Tabs = ({
         data-tauri-drag-region
         onChange={onChange}
         editable={{ onEdit, showAdd: true }}
+        activeKey={activeTab}
         items={tabs.map(({ id, type, title, prompt }) => ({
           key: id,
           label: title,

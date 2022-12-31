@@ -28,18 +28,21 @@ function App() {
   }
 
   const onAdd = () => {
+    const id = uuidv4()
     setTabs((tabs) =>
       tabs.concat({
-        id: uuidv4(),
+        id,
         type: 'search',
         title: 'New Tab',
         prompt: '',
       })
     )
+    setCurrent(id)
   }
 
   const onRemove = (tabId?: string) => {
     setTabs((tabs) => tabs.filter(({ id }) => id !== tabId))
+    setCurrent(tabs.find(({ id }) => id !== tabId)?.id)
   }
 
   const onSelect = (tabId?: string) => {
@@ -103,14 +106,16 @@ function App() {
         */
 
         // open the link in a new tab
+        const id = uuidv4()
         setTabs((tabs) =>
           tabs.concat({
-            id: uuidv4(),
+            id,
             type: 'content',
             title: msg.title,
             prompt: msg.prompt,
           })
         )
+        setCurrent(id)
       }
     }
 
@@ -204,6 +209,7 @@ function App() {
         </div>
 
         <Tabs
+          activeTab={current}
           onAdd={onAdd}
           onRemove={onRemove}
           onSelect={onSelect}
