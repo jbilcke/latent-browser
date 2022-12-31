@@ -65,9 +65,16 @@ we position the remove button using a transform */
   content: '×';
 }
 
+
 /* hover state of close button for all tabs */
 .rc-tabs-tab .rc-tabs-tab-remove:hover {
   @apply bg-[#CFCDC6] text-[#1F2124];
+}
+
+/* prevent closing the first tab (this is a quick fix) */
+.rc-tabs-tab:first-child > .rc-tabs-tab-remove {
+  @apply pointer-events-none text-transparent;
+  content: ' ';
 }
 
 /* text face effect */
