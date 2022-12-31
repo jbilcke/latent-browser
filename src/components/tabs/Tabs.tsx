@@ -70,6 +70,7 @@ export const Tabs = ({
         items={tabs.map(({ id, type, title, prompt }) => ({
           key: id,
           label: title,
+          // just noticed that if we wanted to we could pass a custom "tab: ReactNode" here..
           children: (
             <iframe
               className="absolute w-screen h-[calc(100vh-81px)] border-none shadow-google"

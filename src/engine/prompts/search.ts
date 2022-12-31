@@ -1,14 +1,14 @@
 // sub template shuld be pretty basic, ie just "content"
 export const searchTemplate = (query: string, nbResults: number) =>
-  `- Generate a valid JSON for a fantasy search engine, like in the examples. 
-  - You MUST imagine various search results, like websites, webapps, encyclopedias, news articles.. etc.
+  `- Generate a valid JSON for a fantasy search engine like in the examples
+  - You MUST imagine various search results like websites, webapps, encyclopedias, news articles..
   - Try to mix various kind of results: news articles, blogs, html/js games, <canvas> simulators, WebGL apps and games, encyclopedias, product webpages fr online tools, SaaS services, utilities..
-  - When generating games try to prefer either 2D <canvas> or WebGL, and be explicit about how the game plays and is controlled (what the mouse or keyboard do etc)
-  - Give precise instructions on how to build an encyclopedia page, a news articles (explain the layout, the content, images..)
+  - When generating games to prefer either 2D <canvas> or WebGL, and be explicit about how the game plays and is controlled (what the mouse or keyboard do etc)
+  - Give precise instructions on how to build an encyclopedia page, a news article (explain the layout, the content, images..)
   - Each result MUST have different descriptions, different from the original, to introduce diversity and alternative solutions.
-  - For instance you MUST vary information such as the color scheme to use, or the position of buttons, text etc.
-  - NEVER forget to describe colors! use stereotype colors like blue is for water-related, green for nature-related etc
-  - DO NOT repeat the description, each result MUST BE different from each others
+  - For instance you MUST vary information such as the color scheme to use or the position of buttons, text..
+  - NEVER forget to describe colors! use stereotypical colors like blue is for water-related, green for nature-related..
+  - DO NOT repeat the description, each result MUST BE different from the others
   Examples:
 
   input: {
@@ -17,7 +17,7 @@ export const searchTemplate = (query: string, nbResults: number) =>
   }
   JSON: [
     {
-       "title": "Bakoff",
+       "title": "Backoff",
        "subtitle": "A back-office app for user administration.",
        "description":  "a back-office application to manage users. There is a <table> with editable cells, a button to add a new user, and a counter of users. Interface is cool and fresh, with drop shadows for buttons, and clear spacing"
     },
@@ -27,7 +27,7 @@ export const searchTemplate = (query: string, nbResults: number) =>
        "description":  "a user interface to administre manage users, with a table with editable cells (<li>), nice shaded containers and blue-grey colors, buttons to add and delete users, and a display for stats like the number of users."
     },
     {
-      "title": "User administrations apps",
+      "title": "User administration apps",
       "subtitle": "A comparison of the most popular back office frameworks",
       "description":  "marketing website with a table comparing various back office applications, with a few screenshot, price, features. The used colors are original, creative, and modern. At the end there is the choice of the editor.",
    },

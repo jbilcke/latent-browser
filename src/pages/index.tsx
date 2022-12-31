@@ -121,7 +121,35 @@ function App() {
     }
   }, [])
 
-  console.log('query:', query)
+  const handleSearch = () => {
+    setTabs((tabs) =>
+      tabs.map((tab) =>
+        tab.id === current
+          ? {
+              ...tab,
+              type: 'search',
+              title: query,
+              prompt: query,
+            }
+          : tab
+      )
+    )
+  }
+
+  const handleGenerate = () => {
+    setTabs((tabs) =>
+      tabs.map((tab) =>
+        tab.id === current
+          ? {
+              ...tab,
+              type: 'content',
+              prompt: query,
+            }
+          : tab
+      )
+    )
+  }
+
   return (
     <div className="rounded-xl overflow-hidden select-none">
       {/*
@@ -153,43 +181,15 @@ function App() {
 
           <SearchInput
             onChange={setQuery}
+            onSubmit={handleSearch}
             placeholder="Search the latent web or type a LRI"
             value={query}
           />
-          <Button
-            onClick={() => {
-              setTabs((tabs) =>
-                tabs.map((tab) =>
-                  tab.id === current
-                    ? {
-                        ...tab,
-                        type: 'search',
-                        title: query,
-                        prompt: query,
-                      }
-                    : tab
-                )
-              )
-            }}
-          >
+          <Button onClick={handleSearch}>
             {/* or: Dream 🔮, Explore, Generate 🎲, Randomize 🎲, Imagine 🔮, Realize, See, Wonder */}
             Search 🔮
           </Button>
-          <Button
-            onClick={() => {
-              setTabs((tabs) =>
-                tabs.map((tab) =>
-                  tab.id === current
-                    ? {
-                        ...tab,
-                        type: 'content',
-                        prompt: query,
-                      }
-                    : tab
-                )
-              )
-            }}
-          >
+          <Button onClick={handleGenerate}>
             {/* or: Dream 🔮, Generate 🎲, Randomize 🎲, Imagine 🔮, Realize, See, Wonder */}
             Generate 🎲
           </Button>
