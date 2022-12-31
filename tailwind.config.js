@@ -11,6 +11,7 @@ module.exports = {
         // 'inset': 'inset 0px 8px 12px -12px #000000',
         //  'drop': '0px -12px 10px 7px #000000',
         // 'subtle': '0px -16px 10px 7px #000000',
+        'noogle': '0 1px 6px 0 #20212451',
       },
       colors: {
         light: {

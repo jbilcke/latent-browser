@@ -10,7 +10,7 @@ export const Button = ({
   onClick?: () => void
 }) => (
   <button
-    className="flex-none bg-gray-700/30 hover:bg-gray-500/60 rounded-full px-4 h-30px shadow-lg font-mono text-xs font-normal text-white"
+    className="flex-none bg-gray-400 hover:bg-gray-600 rounded-full pl-4 pr-3 h-30px shadow-lg font-mono text-xs font-normal text-white"
     disabled={disabled}
     onClick={() => onClick?.()}
     type="button"

@@ -183,6 +183,7 @@ shadow-xl
 shadow-2xl
 shadow-inner
 shadow-none
+shadow-noogle
 list-none
 list-disc
 list-decimal

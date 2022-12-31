@@ -34,12 +34,34 @@ export const imagineHTML = async (
   prompt: string,
   model?: string
 ): Promise<string> => {
+  prompt = `${prompt}<script>
+  // content will be generated later
+  </script>
+  <div`
   const output = await imagineString(prompt, model)
 
+  // we give a hint in our prompt by prefixing it with <div but we need to put it back in the output
+  const raw = `
+  <div ${output}`
+
   // we don't care about hallucinated image src
-  const html = output.replace(/src="[^"]+/g, 'src="')
+  const html = raw.replace(/src="[^"]+/g, 'src="')
 
   return html
+}
+
+export const imagineScript = async (
+  prompt: string,
+  model?: string
+): Promise<string> => {
+  prompt = `${prompt}<script>`
+
+  const output = await imagineString(prompt, model)
+
+  // we give a hint in our prompt by prefixing it with <script> but we need to put it back in the output
+  const script = `<script>${output}`
+
+  return script
 }
 
 export const imagineJSON = async <T>(
@@ -61,7 +83,6 @@ export const imagineJSON = async <T>(
     const json = JSON.parse(input) as T
 
     // remove all trailing commas (`input` variable holds the erroneous JSON)
-    console.log('success!', json)
     if (json === null || typeof json === undefined) {
       throw new Error("couldn't parse JSON")
     }

@@ -16,11 +16,14 @@ function App() {
     {
       id: uuidv4(),
       type: 'search',
-      title: 'GPT-3 Search',
+      title: '☊ Latent Search',
       prompt: '',
     },
   ])
   const [current, setCurrent] = useState<string>(tabs[0].id)
+  const currentTabIsASearchTab = tabs.some(
+    (tab) => tab.id === current && tab.type === 'search'
+  )
 
   const onExport = () => {
     console.log('html to download:', html)
@@ -33,7 +36,7 @@ function App() {
       tabs.concat({
         id,
         type: 'search',
-        title: 'New Tab',
+        title: '☊ Latent Search',
         prompt: '',
       })
     )
@@ -126,45 +129,53 @@ function App() {
     }
   }, [])
 
-  const handleSearch = () => {
-    setTabs((tabs) =>
-      tabs.map((tab) =>
-        tab.id === current
-          ? {
-              ...tab,
-              type: 'search',
-              title: query,
-              prompt: query,
-            }
-          : tab
-      )
+  const handleFix = () => {
+    console.log('searching for iframe ', current)
+    const iframe = document.getElementById(
+      current
+    ) as unknown as HTMLIFrameElement
+    console.log('iframe: ', iframe)
+    if (!iframe) {
+      return
+    }
+
+    console.log(
+      'sending event to the iframe:',
+      new CustomEvent('host', {
+        detail: {
+          name: 'rebuild',
+        },
+      })
     )
+
+    iframe.contentWindow.dispatchEvent(
+      new CustomEvent('host', {
+        detail: {
+          name: 'rebuild',
+        },
+      })
+    )
+
+    iframe.contentWindow.postMessage({ name: 'rebuild' })
+    iframe.contentWindow.postMessage('rebuild')
   }
 
   const handleGenerate = () => {
+    // open the link in a new tab
+    const id = uuidv4()
     setTabs((tabs) =>
-      tabs.map((tab) =>
-        tab.id === current
-          ? {
-              ...tab,
-              type: 'content',
-              prompt: query,
-            }
-          : tab
-      )
+      tabs.concat({
+        id,
+        type: 'content',
+        title: query.length > 20 ? `${query.slice(0, 20)}..` : query,
+        prompt: query,
+      })
     )
+    setCurrent(id)
   }
 
   return (
     <div className="rounded-xl overflow-hidden select-none">
-      {/*
-      <iframe
-        ref={ref}
-        className="absolute w-screen h-screen shadow-google"
-        src={src}
-      />
-  */}
-
       {/*
       duration && (
         <div className="flex w-screen h-screen items-center justify-center">
@@ -182,22 +193,23 @@ function App() {
 
       <div className="flex flex-col w-screen h-screen bg-toolbar-bg overflow-hidden">
         <div className="absolute top-[40px] flex items-center justify-center space-x-4 w-full px-4 h-[40px] bg-toolbar-fg">
-          <Icon icon="refresh" size={24} fill grade={-25} color="#212124" />
-
+          {/*<Icon icon="refresh" size={24} fill grade={-25} color="#212124" />*/}
           <SearchInput
             onChange={setQuery}
-            onSubmit={handleSearch}
-            placeholder="Search the latent web or type a LRI"
+            onSubmit={handleGenerate}
+            placeholder="Type a prompt or an app address (coming soon)"
             value={query}
           />
-          <Button onClick={handleSearch}>
-            {/* or: Dream 🔮, Explore, Generate 🎲, Randomize 🎲, Imagine 🔮, Realize, See, Wonder */}
-            Search 🔮
-          </Button>
-          <Button onClick={handleGenerate}>
-            {/* or: Dream 🔮, Generate 🎲, Randomize 🎲, Imagine 🔮, Realize, See, Wonder */}
-            Generate 🎲
-          </Button>
+          {/*
+          !currentTabIsASearchTab && (
+            <Button onClick={handleFix}>
+              {
+                // or: Heal, Repair 
+              }
+              Rebuild 💊
+            </Button>
+          )
+          */}
           {/*
           <Button onClick={onExport}>
             {

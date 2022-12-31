@@ -24,7 +24,7 @@ export const genericJSDoc = (
  */
 `
 
-export const genericWebContent =
+export const genericHtml =
   (
     id: string,
     moduleName: string,
@@ -43,23 +43,50 @@ import { ${moduleName} } from 'ai'
 
 ${extraCode}
 
-// you have access to the following libraries
-${common.modules.join('\n')}
-${/* window.${id} = {} */ ''}
 const html = ${moduleName}(\`${query}\`, {
   framework: "${common.cssFramework}",
   design: ${JSON.stringify(common.design, null, 2)},
-  logic: ${JSON.stringify(
-    common.logic, // .concat(`you can store your local state in window.${id}`),
-    null,
-    2
-  )}
   images: ${JSON.stringify(common.images, null, 2)},
   direction: ${JSON.stringify(common.direction, null, 2)},
 })
 console.log(html)
 
+output:`
+
+export const genericScript =
+  (
+    id: string,
+    moduleName: string,
+    description: string,
+    common: CommonConfig,
+    extraCode?: string
+  ) =>
+  (query: string, html: string) =>
+    `
+${genericJSDoc(
+  description,
+  'It will interact with the HTML markup',
+  common.params,
+  common.returns
+)}
+import { ${moduleName} } from 'ai'
+
+${extraCode}
+
+// you have access to the following libraries
+${common.modules.join('\n')}
+${/* window.${id} = {} */ ''}
+const script = ${moduleName}(\`${query}\`, {
+  framework: "${common.cssFramework}",
+  logic: ${JSON.stringify(
+    common.logic, // .concat(`you can store your local state in window.${id}`),
+    null,
+    2
+  )}
+})
+console.log(script)
+
 // IMPORTANT: don't forget to generate valid javascript code instructions 
 // NEVER write comments like "// your code or implementation goes here", instead write the actual code!
 
-output:`
+output:${html}`

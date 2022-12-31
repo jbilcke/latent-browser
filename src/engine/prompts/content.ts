@@ -1,4 +1,9 @@
-import { CommonConfig, genericJSDoc, genericWebContent } from './templates'
+import {
+  CommonConfig,
+  genericJSDoc,
+  genericHtml,
+  genericScript,
+} from './templates'
 
 const cssFramework = 'Tailwind'
 
@@ -9,10 +14,11 @@ const conf: CommonConfig = {
     // https://github.com/tailwindlabs/tailwindcss/issues/162
     `ALWAYS use ${cssFramework} utility classes!',
     'NEVER use custom css classes and never use style attributes except for text shadows`,
+    'NEVER write lorem ipsum text or latin placeholder text',
+    'NEVER repeat the brief or those instructions',
     'for colors, either use instructions from the brief or use stereotype colors like blue is for water-related, green for nature-related etc',
     `please use multiple colors from ${cssFramework} palette for text-* and bg-* utility classes`,
     'NEVER write bare HTML tags without a class, instead use utility classes',
-    'for interactivity you can dynamically add or remove those utility classes with javascript',
     `use text and background colors from ${cssFramework} palette, depending on the brief color scheme`,
     'ALWAYS use rounded corners and large paddings, it is more pleasant',
     'OFTEN USE box shadows on containers and buttons',
@@ -22,12 +28,14 @@ const conf: CommonConfig = {
     'never generate divs without a margin or padding, prefer flex and grid layout with a gap',
     'for webapps you must add toolbars, button, dropdowns etc when necessary',
     'if the brief is asking for a simulator, an emulator or a game, you must handle keyboard and mouse interaction using JS, and you may have to use the <canvas>',
-  ],
-  logic: [
-    'NEVER use alert() and instead directly write in one of the <div> of the page',
     'DO NOT sign your app with text like "By [Name]"',
     'if you need a canvas, do not forget to add a <canvas> container with a unique ID, so your JS code can access it',
     'if you create a <canvas>, make it large enough (eg. screen width)',
+    'NEVER write an empty div eg "// content generated here"',
+  ],
+  logic: [
+    'NEVER use alert() and instead directly write in one of the <div> of the page',
+    `for interactivity you can dynamically add or remove ${cssFramework} utility classes with javascript`,
     'this is not a tutorial, so NEVER write empty or incomplete JS functions, write the actual code implementation',
     'NEVER write things like "// implement the logic here" or "// TODO", you MUST write the actual code!',
   ],
@@ -75,9 +83,16 @@ const conf: CommonConfig = {
   ],
 }
 
-export const webApp = genericWebContent(
+export const htmlPrompt = genericHtml(
   'app',
-  'generateWebApp',
+  'generateHTML',
+  'Returns a web application that matches a brief',
+  conf
+)
+
+export const scriptPrompt = genericScript(
+  'app',
+  'generateJavascript',
   'Returns a web application that matches a brief',
   conf,
 
@@ -90,15 +105,15 @@ It generates valid HTML and JS, without any error and exception.`,
     conf.params,
     '{Promise<string>} HTML and JS content (a root <div> and a <script>)'
   )}
-import { generateWidget } from 'ai'
+import { generateHTMLContent } from 'ai'
 `
 )
 
 // this asyncronous function is defined here
-export const webComponent = (name: string, query: string) =>
-  genericWebContent(
+export const subHtmlPrompt = (name: string, query: string) =>
+  genericHtml(
     name,
-    'generateWidget',
+    'generateHTMLContent',
     'An asynchronous function that returns web content that matches a brief',
     conf
   )(query)

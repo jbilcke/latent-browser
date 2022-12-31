@@ -76,6 +76,7 @@ export const Tabs = ({
           // just noticed that if we wanted to we could pass a custom "tab: ReactNode" here..
           children: (
             <iframe
+              id={id}
               className="absolute w-screen h-[calc(100vh-81px)] border-none shadow-google"
               src={`/${type}?tab=${id}&title=${encodeURIComponent(
                 title

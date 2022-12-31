@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
 
-import { imagineHTML } from '../providers/openai'
+import { imagineHTML, imagineScript } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
-import { webApp, webComponent } from '../engine/prompts/content'
+import {
+  htmlPrompt,
+  scriptPrompt,
+  subHtmlPrompt,
+} from '../engine/prompts/content'
 import { emitToParent } from '../utils/event'
 import { useParam } from '../utils/useParam'
 import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
@@ -12,25 +16,40 @@ import useInterval from '../utils/useInterval'
 function Content() {
   const tab = useParam('tab')
   const prompt = useParam('prompt')
-  const [html, setHtml] = useState('<div></div>')
+  const [html, setHtml] = useState('')
+  const [script, setScript] = useState('<script></script>')
+  const [stage, setStage] = useState<'HTML' | 'SCRIPT'>('HTML')
+
+  // TODO use the download queue to estimate the remaining loading time
+  const [queue, setQueue] = useState<string[]>([])
+  // with the new code splitting the initial loading is much faster
+  let estimatedTimeSec = stage === 'HTML' ? 15 : 35
 
   const [startTimestamp, setStartTimestamp] = useState<number>(0)
   const [elapsedTimeMs, setElapsedTimeMs] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const model = 'text-davinci-003'
-  const estimatedTimeSec = 50
 
   useEffect(() => {
     console.log('html changed!', html)
 
-    const onRenderer = (e: CustomEvent<{ name: string; html: string }>) => {
-      console.log('received a message from host:', e.detail)
-      // if (e.detail.name === '....') {
-      // }
+    const onMessage = (e: CustomEvent<{ name: string; html: string }>) => {
+      // unfortunately, this doesn't work yet
+      /*
+      console.log('received a message from host:', e)
+      if (e.detail.name === 'rebuild') {
+        console.log("we've been asked to rebuild the JS!")
+        const previousHtml = html
+        setHtml('')
+        setTimeout(() => {
+          setHtml(previousHtml)
+        }, 200)
+      }
+    */
     }
 
-    window.document.addEventListener('host', onRenderer, false)
+    window.document.addEventListener('message', onMessage, false)
 
     if (html) {
       // emitToParent('afterRender', { html, tab })
@@ -42,36 +61,28 @@ function Content() {
     }
 
     return () => {
-      window.document.removeEventListener('host', onRenderer)
+      window.document.removeEventListener('message', onMessage)
     }
   }, [html])
 
-  const loadPrompt = async (prompt = '') => {
+  const generateHTML = async (prompt = '') => {
+    console.log('generateHTML', prompt)
     prompt = prompt.trim()
     if (!prompt.length) {
       return
     }
 
-    window['app'] = {}
-
-    window['generateWidget'] = async (query = '') => {
-      query = query.trim()
-      if (!query.length) {
-        return
-      }
-      imagineHTML(webComponent('lambda', query), model)
-    }
-
     setIsLoading(true)
     setStartTimestamp(new Date().valueOf())
     setElapsedTimeMs(0)
+    setStage('HTML')
 
     emitToParent('beforeQueryModel', { tab })
 
     let best = ''
 
     try {
-      best = await imagineHTML(webApp(prompt), model)
+      best = await imagineHTML(htmlPrompt(prompt), model)
     } catch (exc) {
       console.error(exc)
 
@@ -98,15 +109,67 @@ function Content() {
   }
 
   useEffect(() => {
-    loadPrompt(prompt)
+    generateHTML(prompt)
   }, [prompt])
+
+  const generateScript = async () => {
+    console.log('generateScript', html)
+    // something went wrong, we cannot generate JS over garbage
+    if (html.length < 10) {
+      return
+    }
+
+    setIsLoading(true)
+    setStartTimestamp(new Date().valueOf())
+    setElapsedTimeMs(0)
+    setStage('SCRIPT')
+
+    window['app'] = {}
+
+    window['generateHTMLContent'] = async (query = '') => {
+      console.log('generateHTMLContent called!', query)
+      query = query.trim()
+      if (!query.length) {
+        return
+      }
+      setStage('HTML')
+      imagineHTML(subHtmlPrompt('lambda', query), model)
+    }
+
+    let best = ''
+
+    try {
+      best = await imagineScript(scriptPrompt(prompt, html), model)
+    } catch (exc) {
+      console.error(exc)
+      setIsLoading(false)
+      setScript('')
+      return
+    }
+
+    if (!best) {
+      console.log('did not get enough results, aborting')
+      setIsLoading(false)
+      setScript('')
+      return
+    }
+    // replaceImages()
+
+    console.log('loading script:', best)
+
+    setScript(best)
+    setIsLoading(false)
+  }
+  useEffect(() => {
+    generateScript()
+  }, [html])
 
   useInterval(
     () => {
       setElapsedTimeMs(new Date().valueOf() - startTimestamp)
     },
     // Delay in milliseconds or null to stop it
-    isLoading ? 250 : null
+    isLoading ? 200 : null
   )
 
   return (
@@ -136,16 +199,20 @@ function Content() {
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />
-      <InnerHTML
-        className="pt-20 flex w-full items-center flex-col"
-        html={html}
-      />
+      {html?.length ? (
+        <InnerHTML
+          className="pt-20 flex w-full items-center flex-col"
+          html={html}
+        />
+      ) : null}
+      {script?.length ? <InnerHTML html={script} /> : null}
       <ModelProgressBar
         elapsedTimeMs={elapsedTimeMs}
         estimatedTimeSec={estimatedTimeSec}
         isLoading={isLoading}
         model={model}
         provider="OpenAI"
+        stage={stage}
       />
     </>
   )

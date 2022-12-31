@@ -72,10 +72,12 @@ we position the remove button using a transform */
 }
 
 /* prevent closing the first tab (this is a quick fix) */
+/*
 .rc-tabs-tab:first-child > .rc-tabs-tab-remove {
   @apply pointer-events-none text-transparent;
   content: ' ';
 }
+*/
 
 /* text face effect */
 .rc-tabs-tab .rc-tabs-tab-remove {
