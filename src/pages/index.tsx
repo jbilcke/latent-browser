@@ -20,7 +20,7 @@ function App() {
       prompt: '',
     },
   ])
-  const [current, setCurrent] = useState<string>(tabs[0].id)
+  const [current, setCurrent] = useState<string>(tabs.length ? tabs[0].id : '')
   const currentTabIsASearchTab = tabs.some(
     (tab) => tab.id === current && tab.type === 'search'
   )
