@@ -1,29 +1,37 @@
 import { useCallback, useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
 
-import { imagineHTML, imagineScript } from '../providers/openai'
+import { imagineHTML, imagineJSON, imagineScript } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
 import {
   htmlPrompt,
   scriptPrompt,
   subHtmlPrompt,
+  tasksPrompt,
+  type Tasks,
 } from '../engine/prompts/content'
 import { emitToParent } from '../utils/event'
 import { useParam } from '../utils/useParam'
 import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
 import useInterval from '../utils/useInterval'
 
+const timePerStage = {
+  TASKS: 15,
+  HTML: 25,
+  SCRIPT: 40,
+}
 function Content() {
   const tab = useParam('tab')
   const prompt = useParam('prompt')
   const [html, setHtml] = useState('')
   const [script, setScript] = useState('<script></script>')
-  const [stage, setStage] = useState<'HTML' | 'SCRIPT'>('HTML')
+  const [stage, setStage] = useState<'HTML' | 'SCRIPT' | 'TASKS'>('TASKS')
+  const [tasks, setTasks] = useState<Tasks>({})
 
   // TODO use the download queue to estimate the remaining loading time
   const [queue, setQueue] = useState<string[]>([])
   // with the new code splitting the initial loading is much faster
-  let estimatedTimeSec = stage === 'HTML' ? 15 : 35
+  let estimatedTimeSec = timePerStage[stage] || 50
 
   const [startTimestamp, setStartTimestamp] = useState<number>(0)
   const [elapsedTimeMs, setElapsedTimeMs] = useState<number>(0)
@@ -32,8 +40,6 @@ function Content() {
   const model = 'text-davinci-003'
 
   useEffect(() => {
-    console.log('html changed!', html)
-
     const onMessage = (e: CustomEvent<{ name: string; html: string }>) => {
       // unfortunately, this doesn't work yet
       /*
@@ -55,7 +61,6 @@ function Content() {
       // emitToParent('afterRender', { html, tab })
       ;(async () => {
         await resolveImages()
-
         // emitToParent('afterImages', { html, tab })
       })()
     }
@@ -65,10 +70,45 @@ function Content() {
     }
   }, [html])
 
-  const generateHTML = async (prompt = '') => {
-    console.log('generateHTML', prompt)
-    prompt = prompt.trim()
+  const generateTasks = async (prompt = '') => {
+    console.log('generateTasks')
     if (!prompt.length) {
+      return
+    }
+
+    setIsLoading(true)
+    setStartTimestamp(new Date().valueOf())
+    setElapsedTimeMs(0)
+    setStage('TASKS')
+
+    let tasks: Tasks = {}
+
+    try {
+      tasks = await imagineJSON<Tasks>(tasksPrompt(prompt), {}, '{', model)
+    } catch (exc) {
+      console.error(exc)
+      setIsLoading(false)
+      setScript('')
+      return
+    }
+
+    if (!tasks || !Object.keys(tasks).length) {
+      console.log('did not get enough tasks, aborting')
+      setIsLoading(false)
+      setScript('')
+      return
+    }
+    // replaceImages()
+
+    console.log('loading tasks')
+
+    setTasks(tasks)
+    setIsLoading(false)
+  }
+
+  const generateHTML = async (tasks: Tasks = {}) => {
+    console.log('generateHTML')
+    if (!tasks || !Object.keys(tasks).length) {
       return
     }
 
@@ -82,7 +122,7 @@ function Content() {
     let best = ''
 
     try {
-      best = await imagineHTML(htmlPrompt(prompt), model)
+      best = await imagineHTML(htmlPrompt(tasks), model)
     } catch (exc) {
       console.error(exc)
 
@@ -98,22 +138,14 @@ function Content() {
       setIsLoading(false)
       return
     }
-    // replaceImages()
-
-    console.log('loading html:', best)
-    // setIsLoading(false)
 
     emitToParent('beforeRender', { tab })
     setHtml(best)
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    generateHTML(prompt)
-  }, [prompt])
-
   const generateScript = async () => {
-    console.log('generateScript', html)
+    console.log('generateScript')
     // something went wrong, we cannot generate JS over garbage
     if (html.length < 10) {
       return
@@ -127,7 +159,7 @@ function Content() {
     window['app'] = {}
 
     window['generateHTMLContent'] = async (query = '') => {
-      console.log('generateHTMLContent called!', query)
+      console.log('generateHTMLContent called:', query)
       query = query.trim()
       if (!query.length) {
         return
@@ -160,6 +192,15 @@ function Content() {
     setScript(best)
     setIsLoading(false)
   }
+
+  useEffect(() => {
+    generateTasks(prompt)
+  }, [prompt])
+
+  useEffect(() => {
+    generateHTML(tasks)
+  }, [tasks])
+
   useEffect(() => {
     generateScript()
   }, [html])
@@ -199,6 +240,17 @@ function Content() {
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />
+      <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FirstPersonControls.js" />
+      <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FlyControls.js" />
+      <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/OrbitControls.js" />
+      {/* <script src="https://unpkg.com/konva@8.3.14/konva.min.js" /> /*}
+
+      {/* 
+      pixi would be interesting if we had an easy way to generate images urls (not just for divs)
+      maybe we could use a Next API endpoint to do that
+      <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/browser/pixi.min.js" />
+      */}
+
       {html?.length ? (
         <InnerHTML
           className="pt-20 flex w-full items-center flex-col"

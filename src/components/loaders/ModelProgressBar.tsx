@@ -23,7 +23,11 @@ export const ModelProgressBar = ({
       Generating {stage} using {model} -{' '}
       {elapsedTimeSec < estimatedTimeSec
         ? `${Math.round(estimatedTimeSec - elapsedTimeSec)}s remaining`
-        : 'this is taking too long..'}{' '}
+        : elapsedTimeSec > estimatedTimeSec + 15
+        ? 'Sigh.. how is your day going anyway?'
+        : elapsedTimeSec > estimatedTimeSec + 5
+        ? 'Sorry, this is taking longer than expected..'
+        : 'Hold on tight!'}{' '}
       {elapsedTimeSec < estimatedTimeSec
         ? ` (${Math.round((elapsedTimeSec / estimatedTimeSec) * 100)}%)`
         : ''}

@@ -5,7 +5,10 @@ export const useParam = (name: string, defaultValue = '') => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    setParam(params.get(name).trim())
+    const param = params.get(name)
+    if (typeof param === 'string') {
+      setParam(param.trim())
+    }
   }, [])
 
   return param

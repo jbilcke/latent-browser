@@ -5698,6 +5698,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dompurify@npm:^2":
+  version: 2.4.0
+  resolution: "@types/dompurify@npm:2.4.0"
+  dependencies:
+    "@types/trusted-types": "*"
+  checksum: b48cd81e997794ebc390c7c5bef1a67ec14a6f2f0521973e07e06af186c7583abe114d94d24868c0632b9573f5bd77131a4b76f3fffdf089ba99a4e53dd46c39
+  languageName: node
+  linkType: hard
+
 "@types/eslint-scope@npm:^3.7.3":
   version: 3.7.4
   resolution: "@types/eslint-scope@npm:3.7.4"
@@ -6013,6 +6022,13 @@ __metadata:
   version: 1.0.8
   resolution: "@types/tapable@npm:1.0.8"
   checksum: b4b754dd0822c407b8f29ef6b766490721c276880f9e976d92ee2b3ef915f11a05a2442ae36c8978bcd872ad6bc833b0a2c4d267f2d611590668a366bad50652
+  languageName: node
+  linkType: hard
+
+"@types/trusted-types@npm:*":
+  version: 2.0.2
+  resolution: "@types/trusted-types@npm:2.0.2"
+  checksum: 3371eef5f1c50e1c3c07a127c1207b262ba65b83dd167a1c460fc1b135a3fb0c97b9f508efebd383f239cc5dd5b7169093686a692a501fde9c3f7208657d9b0d
   languageName: node
   linkType: hard
 
@@ -9784,6 +9800,13 @@ __metadata:
   dependencies:
     domelementtype: ^2.2.0
   checksum: 4c665ceed016e1911bf7d1dadc09dc888090b64dee7851cccd2fcf5442747ec39c647bb1cb8c8919f8bbdd0f0c625a6bafeeed4b2d656bbecdbae893f43ffaaa
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "dompurify@npm:2.4.1"
+  checksum: 1169177465b3cbb25a44322937fba549f6c4e1a91b83245d144471be26619c835cccf0f8e20aa78c25ac11a06efd17cc1b9db9cacadceb78a4c08a1029eafee5
   languageName: node
   linkType: hard
 
@@ -22389,6 +22412,7 @@ __metadata:
     "@tauri-apps/api": ^1.1.0
     "@tauri-apps/cli": ^1.1.0
     "@types/babel__core": ^7
+    "@types/dompurify": ^2
     "@types/node": ^18.7.11
     "@types/react": ^18.0.17
     "@types/react-dom": ^18.0.6
@@ -22397,6 +22421,7 @@ __metadata:
     autoprefixer: ^10.4.13
     babel-loader: ^8.3.0
     dangerously-set-html-content: ^1.0.12
+    dompurify: ^2.4.1
     dotenv: ^16.0.3
     express: ^4.18.2
     google-protobuf: ^3.21.2

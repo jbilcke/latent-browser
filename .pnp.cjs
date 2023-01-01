@@ -43,6 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tauri-apps/api", "npm:1.2.0"],\
             ["@tauri-apps/cli", "npm:1.2.2"],\
             ["@types/babel__core", "npm:7.1.20"],\
+            ["@types/dompurify", "npm:2.4.0"],\
             ["@types/node", "npm:18.11.18"],\
             ["@types/react", "npm:18.0.26"],\
             ["@types/react-dom", "npm:18.0.10"],\
@@ -51,6 +52,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["autoprefixer", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:10.4.13"],\
             ["babel-loader", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:8.3.0"],\
             ["dangerously-set-html-content", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:1.0.12"],\
+            ["dompurify", "npm:2.4.1"],\
             ["dotenv", "npm:16.0.3"],\
             ["express", "npm:4.18.2"],\
             ["google-protobuf", "npm:3.21.2"],\
@@ -9378,6 +9380,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/dompurify", [\
+        ["npm:2.4.0", {\
+          "packageLocation": "./.yarn/cache/@types-dompurify-npm-2.4.0-b6ea286bda-b48cd81e99.zip/node_modules/@types/dompurify/",\
+          "packageDependencies": [\
+            ["@types/dompurify", "npm:2.4.0"],\
+            ["@types/trusted-types", "npm:2.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/eslint", [\
         ["npm:8.4.10", {\
           "packageLocation": "./.yarn/cache/@types-eslint-npm-8.4.10-9df5f4bc78-21e009ed9e.zip/node_modules/@types/eslint/",\
@@ -9745,6 +9757,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-tapable-npm-1.0.8-4986892b9f-b4b754dd08.zip/node_modules/@types/tapable/",\
           "packageDependencies": [\
             ["@types/tapable", "npm:1.0.8"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/trusted-types", [\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/@types-trusted-types-npm-2.0.2-035cb17c5e-3371eef5f1.zip/node_modules/@types/trusted-types/",\
+          "packageDependencies": [\
+            ["@types/trusted-types", "npm:2.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14224,6 +14245,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["domhandler", "npm:4.3.1"],\
             ["domelementtype", "npm:2.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["dompurify", [\
+        ["npm:2.4.1", {\
+          "packageLocation": "./.yarn/cache/dompurify-npm-2.4.1-1c79f22057-1169177465.zip/node_modules/dompurify/",\
+          "packageDependencies": [\
+            ["dompurify", "npm:2.4.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28739,6 +28769,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tauri-apps/api", "npm:1.2.0"],\
             ["@tauri-apps/cli", "npm:1.2.2"],\
             ["@types/babel__core", "npm:7.1.20"],\
+            ["@types/dompurify", "npm:2.4.0"],\
             ["@types/node", "npm:18.11.18"],\
             ["@types/react", "npm:18.0.26"],\
             ["@types/react-dom", "npm:18.0.10"],\
@@ -28747,6 +28778,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["autoprefixer", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:10.4.13"],\
             ["babel-loader", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:8.3.0"],\
             ["dangerously-set-html-content", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:1.0.12"],\
+            ["dompurify", "npm:2.4.1"],\
             ["dotenv", "npm:16.0.3"],\
             ["express", "npm:4.18.2"],\
             ["google-protobuf", "npm:3.21.2"],\

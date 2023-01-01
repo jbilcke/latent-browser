@@ -16,7 +16,7 @@ interface Result {
 const cleanWord = (word) => word.trim().toLocaleLowerCase().replace('.', '')
 
 // a search result page in the style of a famous search engine =)
-function Results() {
+function Search() {
   const tab = useParam('tab')
   const initialPrompt = useParam('prompt')
   const [prompt, setPrompt] = useState<string>('')
@@ -48,10 +48,15 @@ function Results() {
       setResults([])
     }
 
-    let best: Result[] = []
+    let newResults: Result[] = []
 
     try {
-      best = await imagineJSON(searchTemplate(prompt, nbResults), [], model)
+      newResults = await imagineJSON<Result[]>(
+        searchTemplate(prompt, nbResults),
+        [],
+        '[',
+        model
+      )
     } catch (exc) {
       console.error(exc)
       setIsLoading(false)
@@ -59,7 +64,7 @@ function Results() {
       return
     }
 
-    if (!best) {
+    if (!newResults) {
       console.log('did not get enough results, aborting')
       setIsLoading(false)
       setResults([])
@@ -69,8 +74,8 @@ function Results() {
     // compute the precise final time
     setFinalTimeMs(new Date().valueOf() - startedAt)
     setIsLoading(false)
-    console.log('adding search results:', best)
-    setResults((results) => results.concat(best))
+    console.log('adding search results:', newResults)
+    setResults((results) => results.concat(newResults))
 
     if (pass < maxNbPasses) {
       setPass(pass + 1)
@@ -186,4 +191,4 @@ function Results() {
   )
 }
 
-export default Results
+export default Search

@@ -1,18 +1,30 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { openAIApiToken, openAIModel, openAIUser } from '../../config'
 import { DalleImage } from './types'
+import DOMPurify from 'dompurify'
 
 export const configuration = new Configuration({ apiKey: openAIApiToken })
 export const openai = new OpenAIApi(configuration)
 
 export const imagineString = async (
   prompt: string,
-  model?: string
+  model: string
 ): Promise<string> => {
   console.log('prompt:', prompt)
   model = model || openAIModel
 
-  const maxTokens = model === 'text-davinci-003' ? 2500 : 1000
+  const tokenHardLimit = 4097
+
+  // https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
+  // 1 token ~= 4 chars in English
+  // 1 token ~= ¾ words
+  // 100 tokens ~= 75 words
+  // ideally we should have a precise function which try to count them, but until them let's use a rough approximation
+  const maxTokens = Math.round(tokenHardLimit - prompt.length / 3.5)
+  console.log('prompt length:', prompt.length)
+  console.log(
+    `requesting ${maxTokens} of the ${tokenHardLimit} tokens availables`
+  )
 
   const response = await openai.createCompletion({
     model: model || openAIModel,
@@ -34,20 +46,29 @@ export const imagineHTML = async (
   prompt: string,
   model?: string
 ): Promise<string> => {
-  prompt = `${prompt}<script>
-  // content will be generated later
-  </script>
-  <div`
-  const output = await imagineString(prompt, model)
+  // we put an empty <script> tag to try to prevent code generation
+  prompt = `${prompt}<script></script><div`
+  const raw = await imagineString(prompt, model)
 
-  // we give a hint in our prompt by prefixing it with <div but we need to put it back in the output
-  const raw = `
-  <div ${output}`
+  // console.log('raw:', raw)
+
+  const toStrip = `<div ${raw}`
 
   // we don't care about hallucinated image src
-  const html = raw.replace(/src="[^"]+/g, 'src="')
+  const toPurify = toStrip.replace(/src="[^"]+/g, 'src="')
 
-  return html
+  // we give a hint in our prompt by prefixing it with <div but we need to put it back in the output
+  const purified = DOMPurify.sanitize(toPurify, {
+    USE_PROFILES: {
+      html: true,
+      mathMl: true,
+      svg: true,
+    },
+    ALLOWED_ATTR: ['classname', 'alt', 'id', 'style', 'href'],
+  })
+  console.log('purified html:', purified)
+
+  return purified
 }
 
 export const imagineScript = async (
@@ -67,13 +88,14 @@ export const imagineScript = async (
 export const imagineJSON = async <T>(
   prompt: string,
   defaultValue: T,
+  prefix: string,
   model?: string
 ): Promise<T> => {
   let output = await imagineString(prompt, model)
 
   try {
-    // we give a hint in our prompt by prefixing it with [ but we need to put it back in the output
-    const raw = `[${output}`
+    // we give a hint in our prompt by prefixing it, but we need to put it back in the output
+    const raw = `${prefix}${output}`
 
     // try to fix GPT-3 adding commas at the end of each line
     const regex = /\,(?!\s*?[\{\[\"\'\w])/g

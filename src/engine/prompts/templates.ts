@@ -1,3 +1,5 @@
+import { Tasks } from './content'
+
 export interface CommonConfig {
   cssFramework: string
   design: string[]
@@ -32,7 +34,7 @@ export const genericHtml =
     common: CommonConfig,
     extraCode?: string
   ) =>
-  (query: string) =>
+  (query: Tasks | string) =>
     `${genericJSDoc(
       description,
       'It will be injected in a <div> somewhere in the page',
@@ -43,7 +45,7 @@ import { ${moduleName} } from 'ai'
 
 ${extraCode}
 
-const html = ${moduleName}(\`${query}\`, {
+const html = ${moduleName}(${JSON.stringify(query)}, {
   framework: "${common.cssFramework}",
   design: ${JSON.stringify(common.design, null, 2)},
   images: ${JSON.stringify(common.images, null, 2)},
