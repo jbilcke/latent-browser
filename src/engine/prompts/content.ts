@@ -40,7 +40,7 @@ const conf: CommonConfig = {
     'this is not a tutorial, so NEVER write empty or incomplete JS functions, write the actual code implementation',
     'NEVER write things like "// implement the logic here" or "// TODO", you MUST write the actual code!',
     'write a valid code example, not "// TODO: implement logic here"',
-    'writing TODOs is forbidden',
+    'writing TODOs and latin is forbidden, and you are FORBIDDEN from using the "import .. from.." syntax or require()',
   ],
   // https://pitch.com/v/DALL-E-prompt-book-v1-tmd33y
   images: [
@@ -82,6 +82,7 @@ const conf: CommonConfig = {
     // `import * as THREE from 'three'; // Three.js r125, to draw 3D WebGL content in a <canvas> (note: THREE.Geometry has been replaced by THREE.BufferGeometry)`,
 
     `import * as Tone from 'tone'; // Tone.js 14.7.77, to generate sounds`,
+    `import * as TWEEN from 'tweenjs'; // Tween.js 18.5.0, to make smooth animations`,
 
     // we disable Konva for now
     // `import * as Konva from 'konva'; // Konva, a library to work with HTML5 <canvas> (note: you cannot use images or textures)`,

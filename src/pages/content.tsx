@@ -240,10 +240,18 @@ function Content() {
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />
+
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.5.0/Tween.min.js"
+        crossOrigin="anonymous"
+        referrerPolicy="no-referrer"
+      />
+
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FirstPersonControls.js" />
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FlyControls.js" />
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/OrbitControls.js" />
       {/* <script src="https://unpkg.com/konva@8.3.14/konva.min.js" /> /*}
+
 
       {/* 
       pixi would be interesting if we had an easy way to generate images urls (not just for divs)
