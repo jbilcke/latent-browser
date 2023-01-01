@@ -50,7 +50,7 @@ export const searchTemplate = (query: string, nbResults: number) =>
       {
         "title": "Back-Office App Developer - AI To hire",
         "subtitle": "Get free developers to build your app!",
-        "description": "An add on a job posting website, where an artificial worker (AI) advertises their backend application building skills. The design is very corporate, in grey and blue tone. There is an avatar in the top corner, and a description of the skills of the worker, a marketing pitch explaining why we should hire them, in multiple paragraphs. It reads like a resume. There is a button to hire the worker."
+        "description": "An ad on a job posting website, where an artificial worker (AI) advertises their backend application building skills. The design is very corporate, in grey and blue tone. There is an avatar in the top corner, and a description of the skills of the worker, a marketing pitch explaining why we should hire them, in multiple paragraphs. It reads like a resume. There is a button to hire the worker."
      },
      {
        "title": "Bo.ts",
