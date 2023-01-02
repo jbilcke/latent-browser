@@ -121,7 +121,7 @@ function Index() {
             a.id === msg.app.id
               ? {
                   ...a,
-                  ...msg.app.data,
+                  ...msg.app,
                 }
               : a
           )
@@ -224,10 +224,16 @@ function Index() {
   }
 
   const handleToggleFavorite = () => {
-    setStoredApps((apps) => {
-      const activeApp = activeApps.find(({ id }) => id === currentId)
-      const storedApp = storedApps.find(({ id }) => id === currentId)
+    const activeApp = activeApps.find(({ id }) => id === currentId)
+    const storedApp = storedApps.find(({ id }) => id === currentId)
+    console.log('handleToggleFavorite')
 
+    console.log('activeApps:', activeApp)
+    console.log('storedApp:', storedApp)
+
+    console.log('found an app to add to the favorites:', activeApp)
+
+    setStoredApps((apps) => {
       // take a new snapshot of the app
       return storedApp
         ? apps.filter(({ id }) => id !== currentId)
