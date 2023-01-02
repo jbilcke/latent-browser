@@ -115,6 +115,7 @@ function Index() {
         )
         setCurrentId(id)
       } else if (msg.name === 'update' && msg.app) {
+        console.log('requested to update the app to:', msg.app)
         setActiveApps((apps) => {
           const alreadyExists = apps.some(({ id }) => id === msg.app.id)
 

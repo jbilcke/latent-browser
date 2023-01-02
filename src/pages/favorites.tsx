@@ -1,11 +1,10 @@
 import { useStoredApps } from '../hooks/useStoredApps'
 import { Button } from '../components/buttons/Button'
 import { emitToParent } from '../utils/event'
+import { App } from '../types'
 
 function Favorites() {
-  const [storedAps, setStoredApps] = useStoredApps()
-
-  console.log('storedAps:', storedAps)
+  const [storedApps, setStoredApps] = useStoredApps()
 
   const handleRemove = (id: string) => {
     setStoredApps((apps) => apps.filter((app) => app.id !== id))
@@ -20,11 +19,11 @@ function Favorites() {
   return (
     <div className="flex flex-col p-12 font-sans">
       <h3 className="text-3xl font-semibold uppercase text-gray-800 ">
-        <span className="font-semibold">{storedAps.length}</span> favorite
-        {storedAps.length > 1 ? 's' : ''}
+        <span className="font-semibold">{storedApps.length}</span> favorite
+        {storedApps.length > 1 ? 's' : ''}
       </h3>
       <div className="flex flex-col w-full">
-        {storedAps.map((app) => (
+        {storedApps.map((app) => (
           <div key={app.id} className="flex flex-col py-4 w-full">
             <div className="inline-block">
               <a

@@ -5,18 +5,18 @@ import { DalleImage } from './types'
  *
  */
 
-export const html = `>
+export const html = `
 <div>
   <p>Hello, World!</p>
   <p>
-    Here's a <a href="/foobiz.html">link</a>.
+    Here's a <a classname="text-blue-800" href="/foobiz.html">link</a>.
   </p>
   <p>
-    And <a href="/donkey.png">another one</a>.
-    </p>
+    And <a classname="text-blue-800" href="/donkey.png">another one</a>.
+  </p>
 </div>`
 
-export const script = `console.log('Hello, World!')</script>`
+export const script = `<script>console.log('Hello, World!')</script>`
 
 export const json = <T>(prefix: string) =>
   (prefix === '['

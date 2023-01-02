@@ -215,11 +215,13 @@ function Content() {
     }
 
     emitToParent('update', {
-      ...initialApp,
-      tasks,
-      html,
-      script,
-      data: validData,
+      app: {
+        ...initialApp,
+        tasks,
+        html,
+        script,
+        data: validData,
+      },
     })
   }
 

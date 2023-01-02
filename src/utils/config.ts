@@ -16,4 +16,4 @@ export const getNumber = (strValue = '') => {
   return isNaN(value) || !isFinite(value) ? 0 : value
 }
 
-export const getJSON = (strValue = '') => JSON.parse(getString(name))
+export const getJSON = (strValue = '') => JSON.parse(getString(strValue))
