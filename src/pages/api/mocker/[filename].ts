@@ -31,7 +31,13 @@ export default async function handler(
   const extension = parts.pop().toLowerCase()
   const name = parts.join('.')
 
-  if (!extension || extension === '<no source>') {
+  if (
+    !extension ||
+    extension === '<no source>' ||
+    typeof extension === 'undefined' ||
+    extension === 'undefined' ||
+    extension.length < 1
+  ) {
     return res.setHeader('content-type', mimetype).status(200).send('')
   }
 

@@ -86,7 +86,7 @@ function Content() {
 
     window.document.addEventListener('message', onMessage, false)
 
-    if (html) {
+    if (html?.length && isNewApp) {
       ;(async () => {
         await resolveImages()
       })()
@@ -258,8 +258,8 @@ function Content() {
   }, [tasksHash, prompt])
 
   useEffect(() => {
-    console.log('html changed! seeing if we should generate script..')
-    if (!script.length && isNewApp) {
+    console.log('html changed! seeing if we should generate script..', html)
+    if (!script.length && html.length && isNewApp) {
       console.log('script is empty! generating new one..')
       generateScript()
     }
@@ -312,7 +312,7 @@ function Content() {
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FirstPersonControls.js" />
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FlyControls.js" />
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/OrbitControls.js" />
-      <script src="https://unpkg.com/konva@8.3.14/konva.min.js" />
+      {/* <script src="https://unpkg.com/konva@8.3.14/konva.min.js" /> */}
 
       {/* 
       pixi would be interesting if we had an easy way to generate images urls (not just for divs)
