@@ -1,5 +1,5 @@
 import { NextApiResponse, NextApiRequest } from 'next'
-import { getImage } from '../../providers/openai'
+import { imagineImage } from '../../providers/openai'
 import { DalleImage } from '../../providers/openai/types'
 
 // The Images API is in beta.

@@ -34,19 +34,24 @@ function Content() {
     data: {},
   })
 
-  const prompt = initialApp.prompt
-
-  const initialAppHash = JSON.stringify(initialApp)
-  useEffect(() => {
-    console.log('initial app:', initialApp)
-  }, [initialAppHash])
-
   const [stage, setStage] = useState<'HTML' | 'SCRIPT' | 'TASKS'>('TASKS')
 
-  const [tasks, setTasks] = useState<Tasks>(initialApp.tasks)
-  const [html, setHtml] = useState<string>(initialApp.html)
-  const [data] = useState<Record<string, any>>(initialApp.data)
-  const [script, setScript] = useState<string>(initialApp.script)
+  // note: we must make rehydration async to make the SSR happy
+  const [prompt, setPrompt] = useState<string>('')
+  const [tasks, setTasks] = useState<Tasks>({} as Tasks)
+  const [html, setHtml] = useState<string>('')
+  const [data, setData] = useState<Record<string, any>>({})
+  const [script, setScript] = useState<string>('')
+
+  useEffect(() => {
+    console.log('rehydrating app:', initialApp)
+    setPrompt(initialApp.prompt)
+    setTasks(initialApp.tasks)
+    setHtml(initialApp.html)
+    setData(initialApp.data)
+    window['appData'] = initialApp.data
+    setScript(initialApp.script)
+  }, [initialApp])
 
   // TODO use a download queue to estimate the remaining loading time
   // const [queue, setQueue] = useState<string[]>([])
@@ -59,7 +64,9 @@ function Content() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const model = 'text-davinci-003'
-  // console.log('initialApp', initialApp)
+
+  // if there is no HTML we consider it to be a new app
+  const isNewApp = !initialApp.html?.length
 
   useEffect(() => {
     const onMessage = (e: CustomEvent<{ name: string; html: string }>) => {
@@ -169,7 +176,7 @@ function Content() {
     setElapsedTimeMs(0)
     setStage('SCRIPT')
 
-    window['app'] = data
+    window['appData'] = data
 
     window['generateHTMLContent'] = async (query = '') => {
       console.log('generateHTMLContent called:', query)
@@ -227,7 +234,7 @@ function Content() {
 
   useEffect(() => {
     console.log('prompt changed! seeing if we should generate tasks..', prompt)
-    if (Object.keys(tasks).length === 0) {
+    if (Object.keys(tasks).length === 0 && isNewApp) {
       generateTasks(prompt)
     }
   }, [prompt])
@@ -235,7 +242,7 @@ function Content() {
   const tasksHash = JSON.stringify(tasks)
   useEffect(() => {
     console.log('tasks changed! seeing if we should generate html..', tasks)
-    if (!html.length) {
+    if (!html.length && isNewApp) {
       console.log('html is empty! generating new one..')
       generateHTML(tasks)
     }
@@ -243,7 +250,7 @@ function Content() {
 
   useEffect(() => {
     console.log('html changed! seeing if we should generate script..')
-    if (!script.length) {
+    if (!script.length && isNewApp) {
       console.log('script is empty! generating new one..')
       generateScript()
     }
@@ -256,6 +263,8 @@ function Content() {
     // Delay in milliseconds or null to stop it
     isLoading ? 200 : null
   )
+
+  console.log('html', html)
 
   return (
     <>

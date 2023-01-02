@@ -6,7 +6,7 @@ export const useParam = <T>(name: string, defaultValue: T) => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const param = params.get(name)
-    if (typeof param === 'string') {
+    if (typeof param === 'string' && param.length > 0) {
       const cleanParam = param.trim()
       try {
         setParam(JSON.parse(cleanParam) as unknown as T)

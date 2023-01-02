@@ -1,5 +1,5 @@
-// import { getImage } from '../../providers/replicate/imagine'
-import { getImage } from '../../providers/stabilityai'
+// import { imagineImage } from '../../providers/replicate/imagine'
+import { imagineImage } from '../../providers/stabilityai'
 
 import spinner from '../../assets/spinner.gif'
 import { ImaginedImage } from '../../providers/stabilityai/types'

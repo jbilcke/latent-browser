@@ -41,6 +41,7 @@ const conf: CommonConfig = {
     'NEVER write things like "// implement the logic here" or "// TODO", you MUST write the actual code!',
     'write a valid code example, not "// TODO: implement logic here"',
     'writing TODOs and latin is forbidden, and you are FORBIDDEN from using the "import .. from.." syntax or require()',
+    'you can store persistent data inside the window.appData object',
   ],
   // https://pitch.com/v/DALL-E-prompt-book-v1-tmd33y
   images: [
@@ -89,14 +90,13 @@ const conf: CommonConfig = {
 }
 
 export const htmlPrompt = genericHtml(
-  'app',
   'generateHTML',
   'Returns a web application that matches a brief',
   conf
 )
 
 export const scriptPrompt = genericScript(
-  'app',
+  'appData',
   'generateJavascript',
   'Returns a web application that matches a brief',
   conf,
@@ -116,7 +116,6 @@ import { generateHTMLContent } from 'ai'
 
 export const subHtmlPrompt = (name: string, query: string) =>
   genericHtml(
-    name,
     'generateHTMLContent',
     'An asynchronous function that returns web content that matches a brief',
     conf

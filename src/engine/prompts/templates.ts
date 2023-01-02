@@ -28,7 +28,6 @@ export const genericJSDoc = (
 
 export const genericHtml =
   (
-    id: string,
     moduleName: string,
     description: string,
     common: CommonConfig,
@@ -77,7 +76,10 @@ ${extraCode}
 
 // you have access to the following libraries
 ${common.modules.join('\n')}
-${/* window.${id} = {} */ ''}
+
+// object to store persistent data
+window.${id} = {};
+
 const script = ${moduleName}(\`${query}\`, {
   framework: "${common.cssFramework}",
   logic: ${JSON.stringify(
