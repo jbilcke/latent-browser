@@ -264,8 +264,6 @@ function Content() {
     isLoading ? 200 : null
   )
 
-  console.log('html', html)
-
   return (
     <>
       {/* yeah, well, this doesn't work 
