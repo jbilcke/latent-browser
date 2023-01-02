@@ -4,7 +4,11 @@ import { emitToParent } from '../utils/event'
 import { App } from '../types'
 
 function Favorites() {
-  const [storedApps, setStoredApps] = useStoredApps()
+  const stored = useStoredApps()
+  const storedApps = stored[0] // || []
+  const setStoredApps = stored[1]
+
+  console.log('storedApps:', JSON.stringify(storedApps))
 
   const handleRemove = (id: string) => {
     setStoredApps((apps) => apps.filter((app) => app.id !== id))
@@ -19,11 +23,12 @@ function Favorites() {
   return (
     <div className="flex flex-col p-12 font-sans">
       <h3 className="text-3xl font-semibold uppercase text-gray-800 ">
-        <span className="font-semibold">{storedApps.length}</span> favorite
-        {storedApps.length > 1 ? 's' : ''}
+        <span className="font-semibold">{storedApps?.length || 0}</span>{' '}
+        favorite
+        {storedApps?.length > 1 ? 's' : ''}
       </h3>
       <div className="flex flex-col w-full">
-        {storedApps.map((app) => (
+        {storedApps?.map((app) => (
           <div key={app.id} className="flex flex-col py-4 w-full">
             <div className="inline-block">
               <a

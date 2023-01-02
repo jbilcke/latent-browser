@@ -26,10 +26,14 @@ export default async function handler(
   const referrer = req.headers.referer
   const filename = `${req.query?.filename}` || 'placeholder.png'
   const mimetypes = [].concat(mime.lookup(filename))
-  const mimetype = mimetypes[0]
+  const mimetype = mimetypes[0] || 'text/plain'
   const parts = filename.split('.')
   const extension = parts.pop().toLowerCase()
   const name = parts.join('.')
+
+  if (!extension || extension === '<no source>') {
+    return res.setHeader('content-type', mimetype).status(200).send('')
+  }
 
   if (['jpg', 'jpeg', 'webm', 'tga', 'gif', 'bmp'].includes(extension)) {
     const prompt = mockImage(name)

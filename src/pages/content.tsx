@@ -287,7 +287,7 @@ function Content() {
 
       {/*
       <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.5.0/Tween.min.js"
+        src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.5.0/Tween.min.js"yarn
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />

@@ -116,25 +116,34 @@ function Index() {
         setCurrentId(id)
       } else if (msg.name === 'update' && msg.app) {
         console.log('requested to update the app to:', msg.app)
-        setActiveApps((apps) => {
+        setActiveApps((apps) =>
+          apps.map((a) =>
+            a.id === msg.app.id
+              ? {
+                  ...a,
+                  ...msg.app.data,
+                }
+              : a
+          )
+        )
+
+        // if the app is also a stored app, we update the internal data as well
+        setStoredApps((apps) => {
           const alreadyExists = apps.some(({ id }) => id === msg.app.id)
 
           if (alreadyExists) {
+            console.log('the update app is also a stored app!')
             // we only overwrite the data
             return apps.map((a) =>
               a.id === msg.app.id
                 ? {
                     ...a,
-                    // actually, no need for a hard copy since it is coming from a message
-                    // data: JSON.parse(JSON.stringify(msg.app.data)),
                     data: msg.app.data,
                   }
                 : a
             )
-          } else {
-            // add the new app!
-            return apps.concat(msg.app)
           }
+          return apps
         })
       }
     }
