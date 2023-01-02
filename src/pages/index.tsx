@@ -267,7 +267,7 @@ function Index() {
             placeholder="Type a prompt or an app address (coming soon)"
             value={query}
           />
-          {currentApp.type === 'content' && (
+          {currentApp.type === 'content' && currentApp.html && (
             <IconButton onClick={handleToggleFavorite}>
               <Icon
                 icon={currentIsAFavorite ? 'bookmark_remove' : 'bookmark_add'}
