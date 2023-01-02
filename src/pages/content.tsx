@@ -196,6 +196,15 @@ function Content() {
       console.error(exc)
       setIsLoading(false)
       setScript('')
+      emitToParent('update', {
+        app: {
+          ...initialApp,
+          tasks,
+          html,
+          script,
+          data,
+        },
+      })
       return
     }
 
@@ -203,6 +212,15 @@ function Content() {
       console.log('did not get enough results, aborting')
       setIsLoading(false)
       setScript('')
+      emitToParent('update', {
+        app: {
+          ...initialApp,
+          tasks,
+          html,
+          script,
+          data,
+        },
+      })
       return
     }
     // replaceImages()
@@ -212,22 +230,13 @@ function Content() {
     setScript(best)
     setIsLoading(false)
 
-    let validData: Record<string, any> = {}
-    try {
-      validData = {
-        ...window['data'],
-      }
-    } catch (err) {
-      console.log('failed to read app data from window.app', err)
-    }
-
     emitToParent('update', {
       app: {
         ...initialApp,
         tasks,
         html,
         script,
-        data: validData,
+        data,
       },
     })
   }
@@ -246,7 +255,7 @@ function Content() {
       console.log('html is empty! generating new one..')
       generateHTML(tasks)
     }
-  }, [tasksHash])
+  }, [tasksHash, prompt])
 
   useEffect(() => {
     console.log('html changed! seeing if we should generate script..')
@@ -254,7 +263,7 @@ function Content() {
       console.log('script is empty! generating new one..')
       generateScript()
     }
-  }, [html])
+  }, [tasksHash, html])
 
   useInterval(
     () => {

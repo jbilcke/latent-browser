@@ -8,8 +8,6 @@ function Favorites() {
   const storedApps = stored[0] // || []
   const setStoredApps = stored[1]
 
-  console.log('storedApps:', JSON.stringify(storedApps))
-
   const handleRemove = (id: string) => {
     setStoredApps((apps) => apps.filter((app) => app.id !== id))
   }

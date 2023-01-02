@@ -36,8 +36,6 @@ function Index() {
   const currentApp = activeApps.find((a) => a.id === currentId)
   const currentIsAFavorite = storedApps.some((a) => a.id === currentId)
 
-  console.log('storedApps:', storedApps)
-
   const onAddTab = () => {
     const id = uuidv4()
     setActiveApps((apps) =>
