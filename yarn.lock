@@ -3536,6 +3536,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mantine/hooks@npm:^5.9.6":
+  version: 5.9.6
+  resolution: "@mantine/hooks@npm:5.9.6"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 506a1c3c90ca44d8a4ad91ba47b6b0d0dbd7e37c221d2411d46b0de6a5c2920d8f2de539661cba9a04c58e0884fb0ce9d72c41a5562b95f3df4e5fc6a1840c33
+  languageName: node
+  linkType: hard
+
 "@mapbox/node-pre-gyp@npm:^1.0.5":
   version: 1.0.10
   resolution: "@mapbox/node-pre-gyp@npm:1.0.10"
@@ -5861,6 +5870,13 @@ __metadata:
   dependencies:
     "@types/unist": "*"
   checksum: 3f587bfc0a9a2403ecadc220e61031b01734fedaf82e27eb4d5ba039c0eb54db8c85681ccc070ab4df3f7ec711b736a82b990e69caa14c74bf7ac0ccf2ac7313
+  languageName: node
+  linkType: hard
+
+"@types/mime-db@npm:^1":
+  version: 1.43.1
+  resolution: "@types/mime-db@npm:1.43.1"
+  checksum: 1e2f98b0ec87ae9604f12ce6efd32fdf26043fee9bdd4b894b53b5ccf790bdd1cc62b3be06d3d882c99ad3c01355f6336ff9cb67876cb2522fc6e9f6d1233228
   languageName: node
   linkType: hard
 
@@ -10301,7 +10317,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"escape-string-regexp@npm:^1.0.5":
+"escape-string-regexp@npm:^1.0.3, escape-string-regexp@npm:^1.0.5":
   version: 1.0.5
   resolution: "escape-string-regexp@npm:1.0.5"
   checksum: 6092fda75c63b110c706b6a9bfde8a612ad595b628f0bd2147eea1d3406723020810e591effc7db1da91d80a71a737a313567c5abb3813e8d9c71f4aa595b410
@@ -12447,6 +12463,13 @@ __metadata:
     once: ^1.3.0
     wrappy: 1
   checksum: f4f76aa072ce19fae87ce1ef7d221e709afb59d445e05d47fba710e85470923a75de35bfae47da6de1b18afc3ce83d70facf44cfb0aff89f0a3f45c0a0244dfd
+  languageName: node
+  linkType: hard
+
+"inherits-ex@npm:^1.1.2":
+  version: 1.3.5
+  resolution: "inherits-ex@npm:1.3.5"
+  checksum: 3b6f282badc915b0c2835bafca7783908ddbac745801c201718daf04f068478b9c49186738533ee8f78bb6f8365a2d4f4b5fb6046acb9f33de746931c3d017c3
   languageName: node
   linkType: hard
 
@@ -15712,10 +15735,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime-db@npm:1.52.0, mime-db@npm:1.x.x, mime-db@npm:>= 1.43.0 < 2":
+"mime-db@npm:1.52.0, mime-db@npm:1.x.x, mime-db@npm:>= 1.43.0 < 2, mime-db@npm:^1.52.0":
   version: 1.52.0
   resolution: "mime-db@npm:1.52.0"
   checksum: 0d99a03585f8b39d68182803b12ac601d9c01abfa28ec56204fa330bc9f3d1c5e14beb049bafadb3dbdf646dfb94b87e24d4ec7b31b7279ef906a8ea9b6a513f
+  languageName: node
+  linkType: hard
+
+"mime-type@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "mime-type@npm:4.0.0"
+  dependencies:
+    micromatch: ^4.0.2
+    path.js: ^1.0.7
+    util-ex: ^0.3.15
+  checksum: ba61f381f9f7a4502909397d1ecf7e5f63323daf3dc385a73e311fd67571f30d573e21aa4bc79b626c7d016daadd99f7d09a6ebd01121759031ac0688a8c78c9
   languageName: node
   linkType: hard
 
@@ -17822,6 +17856,17 @@ __metadata:
   version: 4.0.0
   resolution: "path-type@npm:4.0.0"
   checksum: 5b1e2daa247062061325b8fdbfd1fb56dde0a448fb1455453276ea18c60685bdad23a445dc148cf87bc216be1573357509b7d4060494a6fd768c7efad833ee45
+  languageName: node
+  linkType: hard
+
+"path.js@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "path.js@npm:1.0.7"
+  dependencies:
+    escape-string-regexp: ^1.0.3
+    inherits-ex: ^1.1.2
+    util-ex: ^0.3.10
+  checksum: 69367e60889788147dc9acb8cb47b0075652b50dda084800f2065e03af72fd49f136f1faa320febab0467cc68c4bd7423d5fb87b610f703eb521f94681b25578
   languageName: node
   linkType: hard
 
@@ -22141,6 +22186,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"util-ex@npm:^0.3.10, util-ex@npm:^0.3.15":
+  version: 0.3.15
+  resolution: "util-ex@npm:0.3.15"
+  dependencies:
+    inherits-ex: ^1.1.2
+    xtend: ^4.0.0
+  checksum: 2d0023dcd8c7ac0cba2add1079348daf630050482b02d19c6ffb9e04510288478180ce02d890b3a6e040b30e2798cd85ec1e696a6e329280bbe743da12efc933
+  languageName: node
+  linkType: hard
+
 "util.promisify@npm:1.0.0":
   version: 1.0.0
   resolution: "util.promisify@npm:1.0.0"
@@ -22399,6 +22454,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.7
     "@improbable-eng/grpc-web": ^0.15.0
+    "@mantine/hooks": ^5.9.6
     "@mdx-js/react": ^1.6.22
     "@storybook/addon-actions": ^6.5.15
     "@storybook/addon-docs": ^6.5.15
@@ -22413,6 +22469,7 @@ __metadata:
     "@tauri-apps/cli": ^1.1.0
     "@types/babel__core": ^7
     "@types/dompurify": ^2
+    "@types/mime-db": ^1
     "@types/node": ^18.7.11
     "@types/react": ^18.0.17
     "@types/react-dom": ^18.0.6
@@ -22429,6 +22486,8 @@ __metadata:
     ipfs: ^0.65.0
     isomorphic-fetch: ^3.0.0
     jquery: ^3.6.1
+    mime-db: ^1.52.0
+    mime-type: ^4.0.0
     next: ^12.2.5
     openai: ^3.1.0
     orbit-db: ^0.28.7

@@ -30,6 +30,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@babel/core", "npm:7.20.7"],\
             ["@improbable-eng/grpc-web", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:0.15.0"],\
+            ["@mantine/hooks", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:5.9.6"],\
             ["@mdx-js/react", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:1.6.22"],\
             ["@storybook/addon-actions", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:6.5.15"],\
             ["@storybook/addon-docs", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:6.5.15"],\
@@ -44,6 +45,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tauri-apps/cli", "npm:1.2.2"],\
             ["@types/babel__core", "npm:7.1.20"],\
             ["@types/dompurify", "npm:2.4.0"],\
+            ["@types/mime-db", "npm:1.43.1"],\
             ["@types/node", "npm:18.11.18"],\
             ["@types/react", "npm:18.0.26"],\
             ["@types/react-dom", "npm:18.0.10"],\
@@ -60,6 +62,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ipfs", "npm:0.65.0"],\
             ["isomorphic-fetch", "npm:3.0.0"],\
             ["jquery", "npm:3.6.3"],\
+            ["mime-db", "npm:1.52.0"],\
+            ["mime-type", "npm:4.0.0"],\
             ["next", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:12.3.4"],\
             ["openai", "npm:3.1.0"],\
             ["orbit-db", "npm:0.28.7"],\
@@ -6235,6 +6239,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@mantine/hooks", [\
+        ["npm:5.9.6", {\
+          "packageLocation": "./.yarn/cache/@mantine-hooks-npm-5.9.6-b0366730dc-506a1c3c90.zip/node_modules/@mantine/hooks/",\
+          "packageDependencies": [\
+            ["@mantine/hooks", "npm:5.9.6"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:5.9.6", {\
+          "packageLocation": "./.yarn/__virtual__/@mantine-hooks-virtual-92ead37358/0/cache/@mantine-hooks-npm-5.9.6-b0366730dc-506a1c3c90.zip/node_modules/@mantine/hooks/",\
+          "packageDependencies": [\
+            ["@mantine/hooks", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:5.9.6"],\
+            ["@types/react", "npm:18.0.26"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@mapbox/node-pre-gyp", [\
         ["npm:1.0.10", {\
           "packageLocation": "./.yarn/cache/@mapbox-node-pre-gyp-npm-1.0.10-1811160047-1a98db05d9.zip/node_modules/@mapbox/node-pre-gyp/",\
@@ -9565,6 +9591,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/mdast", "npm:3.0.10"],\
             ["@types/unist", "npm:2.0.6"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/mime-db", [\
+        ["npm:1.43.1", {\
+          "packageLocation": "./.yarn/cache/@types-mime-db-npm-1.43.1-8e21601ab7-1e2f98b0ec.zip/node_modules/@types/mime-db/",\
+          "packageDependencies": [\
+            ["@types/mime-db", "npm:1.43.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17342,6 +17377,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["inherits-ex", [\
+        ["npm:1.3.5", {\
+          "packageLocation": "./.yarn/cache/inherits-ex-npm-1.3.5-5e73764073-3b6f282bad.zip/node_modules/inherits-ex/",\
+          "packageDependencies": [\
+            ["inherits-ex", "npm:1.3.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ini", [\
         ["npm:1.3.8", {\
           "packageLocation": "./.yarn/cache/ini-npm-1.3.8-fb5040b4c0-dfd98b0ca3.zip/node_modules/ini/",\
@@ -20905,6 +20949,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["mime-type", [\
+        ["npm:4.0.0", {\
+          "packageLocation": "./.yarn/cache/mime-type-npm-4.0.0-0d7e649b68-ba61f381f9.zip/node_modules/mime-type/",\
+          "packageDependencies": [\
+            ["mime-type", "npm:4.0.0"],\
+            ["micromatch", "npm:4.0.5"],\
+            ["path.js", "npm:1.0.7"],\
+            ["util-ex", "npm:0.3.15"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["mime-types", [\
         ["npm:2.1.35", {\
           "packageLocation": "./.yarn/cache/mime-types-npm-2.1.35-dd9ea9f3e2-89a5b7f1de.zip/node_modules/mime-types/",\
@@ -23250,6 +23306,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/path-type-npm-4.0.0-10d47fc86a-5b1e2daa24.zip/node_modules/path-type/",\
           "packageDependencies": [\
             ["path-type", "npm:4.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["path.js", [\
+        ["npm:1.0.7", {\
+          "packageLocation": "./.yarn/cache/path.js-npm-1.0.7-a0eca9d9b5-69367e6088.zip/node_modules/path.js/",\
+          "packageDependencies": [\
+            ["path.js", "npm:1.0.7"],\
+            ["escape-string-regexp", "npm:1.0.5"],\
+            ["inherits-ex", "npm:1.3.5"],\
+            ["util-ex", "npm:0.3.15"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28514,6 +28582,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["util-ex", [\
+        ["npm:0.3.15", {\
+          "packageLocation": "./.yarn/cache/util-ex-npm-0.3.15-df9ccb1497-2d0023dcd8.zip/node_modules/util-ex/",\
+          "packageDependencies": [\
+            ["util-ex", "npm:0.3.15"],\
+            ["inherits-ex", "npm:1.3.5"],\
+            ["xtend", "npm:4.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["util.promisify", [\
         ["npm:1.0.0", {\
           "packageLocation": "./.yarn/cache/util.promisify-npm-1.0.0-945566c45a-482e857d67.zip/node_modules/util.promisify/",\
@@ -28756,6 +28835,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["web4", "workspace:."],\
             ["@babel/core", "npm:7.20.7"],\
             ["@improbable-eng/grpc-web", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:0.15.0"],\
+            ["@mantine/hooks", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:5.9.6"],\
             ["@mdx-js/react", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:1.6.22"],\
             ["@storybook/addon-actions", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:6.5.15"],\
             ["@storybook/addon-docs", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:6.5.15"],\
@@ -28770,6 +28850,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tauri-apps/cli", "npm:1.2.2"],\
             ["@types/babel__core", "npm:7.1.20"],\
             ["@types/dompurify", "npm:2.4.0"],\
+            ["@types/mime-db", "npm:1.43.1"],\
             ["@types/node", "npm:18.11.18"],\
             ["@types/react", "npm:18.0.26"],\
             ["@types/react-dom", "npm:18.0.10"],\
@@ -28786,6 +28867,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ipfs", "npm:0.65.0"],\
             ["isomorphic-fetch", "npm:3.0.0"],\
             ["jquery", "npm:3.6.3"],\
+            ["mime-db", "npm:1.52.0"],\
+            ["mime-type", "npm:4.0.0"],\
             ["next", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:12.3.4"],\
             ["openai", "npm:3.1.0"],\
             ["orbit-db", "npm:0.28.7"],\

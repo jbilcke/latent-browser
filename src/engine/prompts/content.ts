@@ -123,10 +123,13 @@ export const subHtmlPrompt = (name: string, query: string) =>
     conf
   )(query)
 
+// the following instruction is disabled, as right now we cannot allow "freedom on install"
+// You will decide install any javascript library you would like.
+
 export const tasksPrompt = (query: string) =>
   `You are a senior frontend engineer who needs to develop a web application using only HTML and Javascript.
 You are not going to code it yourself, instead you will write a valid spec of the app, in the form of JSON instructions.
-You will decide install any javascript library you would like. You do not need to use Three.js, lights, cameras.. is there is no mention of 3D or WebGL. For instance if the brief is a bout a 2D game, you can write the app logic using a 2D <canvas>.
+You do not need to use Three.js, lights, cameras.. is there is no mention of 3D or WebGL. For instance if the brief is a bout a 2D game, you can write the app logic using a 2D <canvas>.
 
 Here are some examples, but don't copy them verbatim! instead you need to adapt to the application brief!
 

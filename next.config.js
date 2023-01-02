@@ -6,6 +6,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  rewrites: async () => ({
+    afterFiles: [
+      {
+        source: '/:path*',
+        destination: '/api/mocker/:path*'
+      }
+    ],
+  }),
 };
 
 module.exports = nextConfig;

@@ -1,7 +1,14 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { openAIApiToken, openAIModel, openAIUser } from '../../config'
-import { DalleImage } from './types'
 import DOMPurify from 'dompurify'
+
+import {
+  openAIApiToken,
+  openAIModel,
+  openAIUseMockData,
+  openAIUser,
+} from '../../config'
+import { DalleImage } from './types'
+import * as mocks from './mocks'
 
 export const configuration = new Configuration({ apiKey: openAIApiToken })
 export const openai = new OpenAIApi(configuration)
@@ -10,7 +17,10 @@ export const imagineString = async (
   prompt: string,
   model: string
 ): Promise<string> => {
-  console.log('prompt:', prompt)
+  if (openAIUseMockData) {
+    return ''
+  }
+
   model = model || openAIModel
 
   const tokenHardLimit = 4097
@@ -48,9 +58,14 @@ export const imagineHTML = async (
 ): Promise<string> => {
   // we put an empty <script> tag to try to prevent code generation
   prompt = `${prompt}<script></script><div`
-  const raw = await imagineString(prompt, model)
 
-  // console.log('raw:', raw)
+  console.log('imagineHTML> prompt:', prompt)
+
+  if (openAIUseMockData) {
+    return mocks.html
+  }
+
+  const raw = await imagineString(prompt, model)
 
   const toStrip = `<div ${raw}`
 
@@ -77,6 +92,12 @@ export const imagineScript = async (
 ): Promise<string> => {
   prompt = `${prompt}<script>`
 
+  console.log('imagineScript> prompt:', prompt)
+
+  if (openAIUseMockData) {
+    return mocks.script
+  }
+
   const output = await imagineString(prompt, model)
 
   // we give a hint in our prompt by prefixing it with <script> but we need to put it back in the output
@@ -91,6 +112,12 @@ export const imagineJSON = async <T>(
   prefix: string,
   model?: string
 ): Promise<T> => {
+  console.log('imagineJSON> prompt:', prompt)
+
+  if (openAIUseMockData) {
+    return mocks.json<T>(prefix)
+  }
+
   let output = await imagineString(prompt, model)
 
   try {
@@ -115,7 +142,12 @@ export const imagineJSON = async <T>(
   }
 }
 
-export const getImage = async (prompt: string): Promise<DalleImage> => {
+export const imagineImage = async (prompt: string): Promise<DalleImage> => {
+  console.log('imagineImage', prompt)
+  if (openAIUseMockData) {
+    return mocks.image
+  }
+
   // DallE 2 only supports squares
   // Must be one of 256x256, 512x512, or 1024x1024.
   const size = 1024 // 1024

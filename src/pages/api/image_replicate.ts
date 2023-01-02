@@ -1,5 +1,5 @@
 import { NextApiResponse, NextApiRequest } from 'next'
-import { getImage } from '../../providers/replicate/imagine'
+import { imagineImage } from '../../providers/replicate/imagine'
 import { ReplicateImage } from '../../providers/replicate/types'
 
 export default async function handler(
@@ -11,6 +11,6 @@ export default async function handler(
 
   const prompt = decodeURIComponent(req.query.prompt.toString())
   console.log('prompt:', prompt)
-  const data = await getImage(prompt)
+  const data = await imagineImage(prompt)
   return res.status(200).json(data)
 }

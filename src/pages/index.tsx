@@ -7,118 +7,134 @@ import Icon from 'react-material-symbols/rounded'
 import { downloadHtmlFile } from '../engine/exporters/html'
 import { SearchInput } from '../components/inputs/SearchInput'
 import { Button } from '../components/buttons/Button'
-import { PromptTab, Tabs } from '../components/tabs/Tabs'
+import { IconButton } from '../components/buttons/IconButton'
+import { Tabs } from '../components/tabs/Tabs'
+import { useStoredApps } from '../hooks/useStoredApps'
+import { App, Link } from '../types'
 
-function App() {
-  const [html, setHtml] = useState('')
+function Index() {
   const [query, setQuery] = useState('')
-  const [tabs, setTabs] = useState<PromptTab[]>([
+
+  const [storedApps, setStoredApps] = useStoredApps()
+  const [activeApps, setActiveApps] = useState<App[]>([
     {
       id: uuidv4(),
       type: 'search',
       title: '☊ Latent Search',
+      subtitle: '',
       prompt: '',
+      tasks: {},
+      html: '',
+      script: '',
+      data: {},
     },
   ])
-  const [current, setCurrent] = useState<string>(tabs.length ? tabs[0].id : '')
-  const currentTabIsASearchTab = tabs.some(
-    (tab) => tab.id === current && tab.type === 'search'
+
+  const [currentId, setCurrentId] = useState<string>(
+    activeApps.length ? activeApps[0].id : ''
   )
+  const currentApp = activeApps.find((a) => a.id === currentId)
+  const currentIsAFavorite = storedApps.some((a) => a.id === currentId)
 
-  const onExport = () => {
-    console.log('html to download:', html)
-    downloadHtmlFile(html)
-  }
+  console.log('storedApps:', storedApps)
 
-  const onAdd = () => {
+  const onAddTab = () => {
     const id = uuidv4()
-    setTabs((tabs) =>
-      tabs.concat({
+    setActiveApps((apps) =>
+      apps.concat({
         id,
         type: 'search',
         title: '☊ Latent Search',
+        subtitle: '',
         prompt: '',
+        tasks: {},
+        html: '',
+        script: '',
+        data: {},
       })
     )
-    setCurrent(id)
+    setCurrentId(id)
   }
 
-  const onRemove = (tabId?: string) => {
-    setTabs((tabs) => tabs.filter(({ id }) => id !== tabId))
-    setCurrent(tabs.find(({ id }) => id !== tabId)?.id)
+  const onRemoveTab = (tabId?: string) => {
+    setActiveApps((apps) => apps.filter(({ id }) => id !== tabId))
+    setCurrentId(activeApps.find(({ id }) => id !== tabId)?.id)
   }
 
-  const onSelect = (tabId?: string) => {
-    setCurrent(tabId)
+  const onSelectTab = (tabId?: string) => {
+    setCurrentId(tabId)
   }
 
   useEffect(() => {
-    const tab = tabs.find(({ id }) => id === current)
+    const tab = activeApps.find(({ id }) => id === currentId)
     if (!tab) {
       return
     }
     console.log('selected tab', tab)
     setQuery(tab.prompt)
-  }, [current])
+  }, [currentId])
 
   useEffect(() => {
     const onRenderer = ({
       detail: msg,
     }: CustomEvent<{
       name: string
-      tab?: string
-      html?: string
-      results?: string
-      title?: string
-      prompt?: string
+      // used when an app is ready
+      app?: App
+
+      // used to open links
+      link?: Link
     }>) => {
       console.log('received a message from renderer:', msg)
-      if (msg.name === 'failedQueryModel') {
-        /*
-        {
-          "error": {
-            "message": "That model is currently overloaded with other requests. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID 6878761e3c8efc809980dd857955cbc0 in your message.)",
-            "type": "server_error",
-            "param": null,
-            "code": null
-          }
-        }
-        */
-        setHtml('<p>OpenAI failure (503 error)</p>')
-      } else if (msg.name === 'beforeRender') {
-        console.log('setting html to:', msg.html)
-        if (msg.html) {
-          setHtml(msg.html)
-        }
-      } else if (msg.results) {
-      } else if (msg.name === 'open' && msg.prompt) {
-        // open the link in the same tab
-        /*
-        setTabs((tabs) =>
-          tabs.map((tab) =>
-            tab.id === msg.tab
-              ? {
-                  ...tab,
-                  type: 'content',
-                  title: msg.title,
-                  prompt: msg.prompt,
-                }
-              : tab
-          )
-        )
-        */
-
+      if (msg.name === 'open' && msg.link) {
         // open the link in a new tab
         const id = uuidv4()
-        setTabs((tabs) =>
-          tabs.concat({
+        setActiveApps((apps) =>
+          apps.concat({
             id,
             type: 'content',
-            title: msg.title,
-            prompt: msg.prompt,
+            title: msg.link.title,
+            subtitle: msg.link.title,
+            prompt: msg.link.alt,
+            tasks: {},
+            html: '',
+            script: '',
+            data: {},
           })
         )
-        setCurrent(id)
+        setCurrentId(id)
+      } else if (msg.name === 'restore' && msg.app) {
+        console.log('requested to rehydrate app', msg.app)
+        // open the link in a new tab
+        const id = uuidv4()
+        setActiveApps((apps) =>
+          apps.concat({
+            ...msg.app,
+            id, // important: we create a new id!
+          })
+        )
+        setCurrentId(id)
+      } else if (msg.name === 'update' && msg.app) {
+        setActiveApps((apps) => {
+          const alreadyExists = apps.some(({ id }) => id === msg.app.id)
+
+          if (alreadyExists) {
+            // we only overwrite the data
+            return apps.map((a) =>
+              a.id === msg.app.id
+                ? {
+                    ...a,
+                    // actually, no need for a hard copy since it is coming from a message
+                    // data: JSON.parse(JSON.stringify(msg.app.data)),
+                    data: msg.app.data,
+                  }
+                : a
+            )
+          } else {
+            // add the new app!
+            return apps.concat(msg.app)
+          }
+        })
       }
     }
 
@@ -130,9 +146,9 @@ function App() {
   }, [])
 
   const handleFix = () => {
-    console.log('searching for iframe ', current)
+    console.log('searching for iframe ', currentId)
     const iframe = document.getElementById(
-      current
+      currentId
     ) as unknown as HTMLIFrameElement
     console.log('iframe: ', iframe)
     if (!iframe) {
@@ -163,15 +179,50 @@ function App() {
   const handleGenerate = () => {
     // open the link in a new tab
     const id = uuidv4()
-    setTabs((tabs) =>
-      tabs.concat({
+    setActiveApps((apps) =>
+      apps.concat({
         id,
         type: 'content',
         title: query.length > 20 ? `${query.slice(0, 20)}..` : query,
+        subtitle: '',
         prompt: query,
+        tasks: {},
+        html: '',
+        script: '',
+        data: {},
       })
     )
-    setCurrent(id)
+    setCurrentId(id)
+  }
+
+  const handleFavorites = () => {
+    const id = uuidv4()
+    setActiveApps((apps) =>
+      apps.concat({
+        id,
+        type: 'favorites',
+        title: 'Favorites',
+        subtitle: '',
+        prompt: '',
+        tasks: {},
+        html: '',
+        script: '',
+        data: {},
+      })
+    )
+    setCurrentId(id)
+  }
+
+  const handleToggleFavorite = () => {
+    setStoredApps((apps) => {
+      const activeApp = activeApps.find(({ id }) => id === currentId)
+      const storedApp = storedApps.find(({ id }) => id === currentId)
+
+      // take a new snapshot of the app
+      return storedApp
+        ? apps.filter(({ id }) => id !== currentId)
+        : apps.concat(JSON.parse(JSON.stringify(activeApp)))
+    })
   }
 
   return (
@@ -200,6 +251,20 @@ function App() {
             placeholder="Type a prompt or an app address (coming soon)"
             value={query}
           />
+          {currentApp.type === 'content' && (
+            <IconButton onClick={handleToggleFavorite}>
+              <Icon
+                icon={currentIsAFavorite ? 'bookmark_remove' : 'bookmark_add'}
+                size={24}
+                weight={300}
+                fill={!!currentIsAFavorite}
+                color="#414144"
+              />
+            </IconButton>
+          )}
+          <IconButton onClick={handleFavorites}>
+            <Icon icon="bookmarks" size={24} weight={300} color="#414144" />
+          </IconButton>
           {/*
           !currentTabIsASearchTab && (
             <Button onClick={handleFix}>
@@ -221,15 +286,15 @@ function App() {
         </div>
 
         <Tabs
-          activeTab={current}
-          onAdd={onAdd}
-          onRemove={onRemove}
-          onSelect={onSelect}
-          tabs={tabs}
+          activeTab={currentApp.id}
+          onAdd={onAddTab}
+          onRemove={onRemoveTab}
+          onSelect={onSelectTab}
+          tabs={activeApps}
         />
       </div>
     </div>
   )
 }
 
-export default App
+export default Index

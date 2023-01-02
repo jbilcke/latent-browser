@@ -127,3 +127,22 @@ Maybe you did too many requests to OpenAI?
 ### I don't.. know?
 
 Wait a bit then restart the application, eg. kill it from the terminal.
+
+## Developer Guide (work in progress)
+
+### HTTP Request Mocking
+
+Today web4 can mock the following file formats when the generated code tries to access them:
+
+- `.jpg`, `.jpeg`, `.webm`, `.tga`, `.gif`, `.bmp` -> `mockImage(filename)`
+- `.json` -> `mockJSON(filename)`
+- `.txt` -> `mockText(filename)`
+- `.stl` -> `mockSTL(filename)`
+- `.svg` -> `mockSVG(filename)`
+- `.*` -> `mockAny(filename, extension)`
+
+You can find the code doing the mocking in `src/pages/api/mocker/[filename].ts`.
+
+You can find the mocking prompts in `src/engine/prompts/mocker/`.
+
+Do not hesitate to propose improvements to those prompts!

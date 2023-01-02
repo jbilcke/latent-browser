@@ -5,17 +5,15 @@ export enum LogLevel {
   debug = 3,
 }
 
-export const getString = (name: TemplateStringsArray) =>
-  process.env[name.join('')]?.trim?.() || ''
+export const getString = (strValue = '') => strValue.trim?.() || ''
 
-export const getBoolean = (name: TemplateStringsArray) =>
-  ['true', 'ok', 'yes', 'on'].includes(getString(name).toLowerCase())
+export const getBoolean = (strValue = '') =>
+  ['true', 'ok', 'yes', 'on'].includes(getString(strValue).toLowerCase())
 
-export const getNumber = (name: TemplateStringsArray) => {
-  const value = Number(getString(name))
+export const getNumber = (strValue = '') => {
+  const value = Number(getString(strValue))
 
   return isNaN(value) || !isFinite(value) ? 0 : value
 }
 
-export const getJSON = (name: TemplateStringsArray) =>
-  JSON.parse(getString(name))
+export const getJSON = (strValue = '') => JSON.parse(getString(name))

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
-
+import { v4 as uuidv4 } from 'uuid'
 import { imagineHTML, imagineJSON, imagineScript } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
 import {
@@ -11,9 +11,10 @@ import {
   type Tasks,
 } from '../engine/prompts/content'
 import { emitToParent } from '../utils/event'
-import { useParam } from '../utils/useParam'
+import { useParam } from '../hooks/useParam'
 import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
-import useInterval from '../utils/useInterval'
+import { useInterval } from '../hooks/useInterval'
+import { App } from '../types'
 
 const timePerStage = {
   TASKS: 15,
@@ -21,15 +22,35 @@ const timePerStage = {
   SCRIPT: 40,
 }
 function Content() {
-  const tab = useParam('tab')
-  const prompt = useParam('prompt')
-  const [html, setHtml] = useState('')
-  const [script, setScript] = useState('<script></script>')
-  const [stage, setStage] = useState<'HTML' | 'SCRIPT' | 'TASKS'>('TASKS')
-  const [tasks, setTasks] = useState<Tasks>({})
+  const initialApp = useParam<App>('app', {
+    id: uuidv4(),
+    type: 'content',
+    title: 'New Tab',
+    subtitle: '',
+    prompt: '',
+    tasks: {},
+    html: '',
+    script: '',
+    data: {},
+  })
 
-  // TODO use the download queue to estimate the remaining loading time
-  const [queue, setQueue] = useState<string[]>([])
+  const prompt = initialApp.prompt
+
+  const initialAppHash = JSON.stringify(initialApp)
+  useEffect(() => {
+    console.log('initial app:', initialApp)
+  }, [initialAppHash])
+
+  const [stage, setStage] = useState<'HTML' | 'SCRIPT' | 'TASKS'>('TASKS')
+
+  const [tasks, setTasks] = useState<Tasks>(initialApp.tasks)
+  const [html, setHtml] = useState<string>(initialApp.html)
+  const [data] = useState<Record<string, any>>(initialApp.data)
+  const [script, setScript] = useState<string>(initialApp.script)
+
+  // TODO use a download queue to estimate the remaining loading time
+  // const [queue, setQueue] = useState<string[]>([])
+
   // with the new code splitting the initial loading is much faster
   let estimatedTimeSec = timePerStage[stage] || 50
 
@@ -38,6 +59,7 @@ function Content() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const model = 'text-davinci-003'
+  // console.log('initialApp', initialApp)
 
   useEffect(() => {
     const onMessage = (e: CustomEvent<{ name: string; html: string }>) => {
@@ -58,10 +80,8 @@ function Content() {
     window.document.addEventListener('message', onMessage, false)
 
     if (html) {
-      // emitToParent('afterRender', { html, tab })
       ;(async () => {
         await resolveImages()
-        // emitToParent('afterImages', { html, tab })
       })()
     }
 
@@ -117,21 +137,15 @@ function Content() {
     setElapsedTimeMs(0)
     setStage('HTML')
 
-    emitToParent('beforeQueryModel', { tab })
-
     let best = ''
 
     try {
       best = await imagineHTML(htmlPrompt(tasks), model)
     } catch (exc) {
       console.error(exc)
-
-      emitToParent('failedQueryModel', { tab })
       setIsLoading(false)
       return
     }
-
-    emitToParent('afterQueryModel', { tab })
 
     if (!best) {
       console.log('did not get enough results, aborting')
@@ -139,7 +153,6 @@ function Content() {
       return
     }
 
-    emitToParent('beforeRender', { tab })
     setHtml(best)
     setIsLoading(false)
   }
@@ -156,7 +169,7 @@ function Content() {
     setElapsedTimeMs(0)
     setStage('SCRIPT')
 
-    window['app'] = {}
+    window['app'] = data
 
     window['generateHTMLContent'] = async (query = '') => {
       console.log('generateHTMLContent called:', query)
@@ -191,18 +204,47 @@ function Content() {
 
     setScript(best)
     setIsLoading(false)
+
+    let validData: Record<string, any> = {}
+    try {
+      validData = {
+        ...window['data'],
+      }
+    } catch (err) {
+      console.log('failed to read app data from window.app', err)
+    }
+
+    emitToParent('update', {
+      ...initialApp,
+      tasks,
+      html,
+      script,
+      data: validData,
+    })
   }
 
   useEffect(() => {
-    generateTasks(prompt)
+    console.log('prompt changed! seeing if we should generate tasks..', prompt)
+    if (Object.keys(tasks).length === 0) {
+      generateTasks(prompt)
+    }
   }, [prompt])
 
+  const tasksHash = JSON.stringify(tasks)
   useEffect(() => {
-    generateHTML(tasks)
-  }, [tasks])
+    console.log('tasks changed! seeing if we should generate html..', tasks)
+    if (!html.length) {
+      console.log('html is empty! generating new one..')
+      generateHTML(tasks)
+    }
+  }, [tasksHash])
 
   useEffect(() => {
-    generateScript()
+    console.log('html changed! seeing if we should generate script..')
+    if (!script.length) {
+      console.log('script is empty! generating new one..')
+      generateScript()
+    }
   }, [html])
 
   useInterval(
@@ -241,11 +283,13 @@ function Content() {
         referrerPolicy="no-referrer"
       />
 
+      {/*
       <script
         src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.5.0/Tween.min.js"
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />
+      */}
 
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FirstPersonControls.js" />
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FlyControls.js" />

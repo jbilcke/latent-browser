@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useParam } from '../utils/useParam'
+import { v4 as uuidv4 } from 'uuid'
+import { useParam } from '../hooks/useParam'
 import { emitToParent } from '../utils/event'
 import { imagineJSON } from '../providers/openai'
 import { searchTemplate } from '../engine/prompts/search'
 import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
-import useInterval from '../utils/useInterval'
+import { useInterval } from '../hooks/useInterval'
 import { BigSearchInput } from '../components/inputs/BigSearchInput'
+import { App } from '../types'
 
 interface Result {
   title: string
@@ -17,9 +19,19 @@ const cleanWord = (word) => word.trim().toLocaleLowerCase().replace('.', '')
 
 // a search result page in the style of a famous search engine =)
 function Search() {
-  const tab = useParam('tab')
-  const initialPrompt = useParam('prompt')
-  const [prompt, setPrompt] = useState<string>('')
+  const initialApp = useParam<App>('app', {
+    id: uuidv4(),
+    type: 'search',
+    title: '☊ Latent Search',
+    subtitle: '',
+    prompt: '',
+    tasks: {},
+    html: '',
+    script: '',
+    data: {},
+  })
+  const initialPrompt = initialApp.prompt
+  const [prompt, setPrompt] = useState<string>(initialPrompt)
   const [results, setResults] = useState<Result[]>([])
   const [startTimestamp, setStartTimestamp] = useState<number>(0)
   const [elapsedTimeMs, setElapsedTimeMs] = useState<number>(0)
@@ -127,9 +139,10 @@ function Search() {
                       href="#"
                       onClick={() => {
                         emitToParent('open', {
-                          title,
-                          subtitle,
-                          prompt: description,
+                          link: {
+                            title,
+                            alt: description,
+                          },
                         })
                       }}
                     >

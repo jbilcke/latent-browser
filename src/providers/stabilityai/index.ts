@@ -3,7 +3,7 @@ import { generationClient, metadata } from './stabilityai'
 import { getRequest } from './stablediffusion'
 import { ImaginedImage } from './types'
 
-export const getImage = async (prompt: string): Promise<ImaginedImage> =>
+export const imagineImage = async (prompt: string): Promise<ImaginedImage> =>
   new Promise((resolve, reject) => {
     const { request, width, height } = getRequest(prompt)
 

@@ -16,6 +16,6 @@ export default async function handler(
 
   const prompt = decodeURIComponent(req.query.prompt.toString())
   console.log('prompt:', prompt)
-  const data = await getImage(prompt)
+  const data = await imagineImage(prompt)
   return res.status(200).json(data)
 }

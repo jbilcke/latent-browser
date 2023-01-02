@@ -1,15 +1,9 @@
 import React, { useEffect } from 'react'
-import { DndProvider /*DragSource, DropTarget*/ } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+// import { DndProvider /*DragSource, DropTarget*/ } from 'react-dnd'
+// import HTML5Backend from 'react-dnd-html5-backend'
 import RCTabs from 'rc-tabs'
-import { v4 as uuidv4 } from 'uuid'
-
-export interface PromptTab {
-  id: string
-  type: 'search' | 'content'
-  title: string
-  prompt: string
-}
+// import { v4 as uuidv4 } from 'uuid'
+import { App } from '../../types'
 
 /**
  * we could use this example from:
@@ -29,7 +23,7 @@ export const Tabs = ({
   onAdd?: (tabId?: string) => void
   onRemove?: (tabId?: string) => void
   onSelect?: (tabId?: string) => void
-  tabs: PromptTab[]
+  tabs: App[]
 }) => {
   const onEdit = (
     type: 'add' | 'remove',
@@ -70,18 +64,16 @@ export const Tabs = ({
         onChange={onChange}
         editable={{ onEdit, showAdd: true }}
         activeKey={activeTab}
-        items={tabs.map(({ id, type, title, prompt }) => ({
-          key: id,
-          label: title,
-          tab: <div>oh no</div>,
-          // just noticed that if we wanted to we could pass a custom "tab: ReactNode" here..
+        items={tabs.map((app) => ({
+          key: app.id,
+          label: app.title,
           children: (
             <iframe
-              id={id}
+              id={app.id}
               className="absolute w-screen h-[calc(100vh-81px)] border-none shadow-google"
-              src={`/${type}?tab=${id}&title=${encodeURIComponent(
-                title
-              )}&prompt=${encodeURIComponent(prompt)}`}
+              src={`/${app.type}?app=${encodeURIComponent(
+                JSON.stringify(app)
+              )}`}
             />
           ),
         }))}
