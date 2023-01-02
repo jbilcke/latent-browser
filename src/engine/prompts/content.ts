@@ -84,8 +84,7 @@ const conf: CommonConfig = {
     `import * as Tone from 'tone'; // Tone.js 14.7.77, to generate sounds`,
     // `import * as TWEEN from 'tweenjs'; // Tween.js 18.5.0, to make smooth animations`,
 
-    // we disable Konva for now
-    // `import * as Konva from 'konva'; // Konva, a library to work with HTML5 <canvas> (note: you cannot use images or textures)`,
+    `import * as Konva from 'konva'; // Konva, a library to work with HTML5 <canvas> (note: be descriptive in your image file names, to explain if it's a texture, sprite..)`,
   ],
 }
 
