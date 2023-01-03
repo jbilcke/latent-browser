@@ -1,6 +1,11 @@
 name: 'Artifact Build'
 
-on: push
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - '*'
 
 jobs:
   create-release:
@@ -57,6 +62,7 @@ jobs:
 
   build-tauri:
     needs: create-release
+    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -87,7 +93,6 @@ jobs:
   publish-release:
     runs-on: ubuntu-20.04
     needs: [create-release, build-tauri]
-
     steps:
       - name: publish release
         id: publish-release
@@ -105,7 +110,7 @@ jobs:
   delete-failed-release:
     runs-on: ubuntu-20.04
     needs: [publish-release]
-    if: ${{ cancelled() }}
+    if: ${{ failure() }}
     steps:
       - name: delete release
         id: delete-release
