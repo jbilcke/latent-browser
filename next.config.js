@@ -6,6 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  /*
+  EMERGENCY FIX - TEMPORARY DISABLE
   rewrites: async () => ({
     afterFiles: [
       {
@@ -14,6 +16,7 @@ const nextConfig = {
       }
     ],
   }),
+  */
 };
 
 module.exports = nextConfig;
