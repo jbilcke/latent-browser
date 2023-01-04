@@ -7,9 +7,6 @@ const nextConfig = {
     unoptimized: true,
   },
   /*
-  EMERGENCY FIX - TEMPORARY DISABLE
-  rewrites: async () => ({
-    /*
     EMERGENCY FIX - TEMPORARY DISABLE
     rewrites: async () => ({
       afterFiles: [
@@ -19,8 +16,6 @@ const nextConfig = {
         }
       ],
     }),
-    */
-  }),
   */
 };
 
