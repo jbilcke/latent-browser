@@ -1,8 +1,5 @@
 import { getBoolean, getNumber, getString } from '../utils/config'
 
-export const openAIApiToken = getString(
-  process.env.NEXT_PUBLIC_PROVIDER_OPENAI_API_TOKEN
-)
 export const openAIModel = getString(
   process.env.NEXT_PUBLIC_PROVIDER_OPENAI_MODEL
 )

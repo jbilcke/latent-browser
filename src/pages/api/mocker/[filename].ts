@@ -13,6 +13,7 @@ import {
   imagineImage,
   imagineJSON,
   imagineString,
+  persisted,
 } from '../../../providers/openai'
 
 // creates a substitute whenever we ask for an image that doesn't exist
@@ -21,6 +22,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
+  // TODO we need at least one initial call to populate the apiKey
+  if (!persisted.model || !persisted.apiKey) {
+    throw new Error('not supported')
+  }
   // http://localhost:1420
   // await fetch('/api/image404/parrot.jpg')
   const referrer = req.headers.referer
@@ -101,6 +106,9 @@ export default async function handler(
     const data = await imagineString(prompt, '')
     return res.setHeader('content-type', mimetype).status(200).send(data)
   } else {
+    /*
+    CURRENTLY DISABLED - TOO RISKY RIGHT NOW
+
     const prompt = mockAny(name, extension, mimetype)
     console.log(`mock any .${extension} (${mimetype}):`, {
       referrer,
@@ -112,5 +120,8 @@ export default async function handler(
     })
     const data = await imagineString(prompt, '')
     return res.setHeader('content-type', mimetype).status(200).send(data)
+    */
+
+    return res.setHeader('content-type', mimetype).status(404).send('Not Found')
   }
 }

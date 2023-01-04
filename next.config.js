@@ -9,12 +9,17 @@ const nextConfig = {
   /*
   EMERGENCY FIX - TEMPORARY DISABLE
   rewrites: async () => ({
-    afterFiles: [
-      {
-        source: '/:path*',
-        destination: '/api/mocker/:path*'
-      }
-    ],
+    /*
+    EMERGENCY FIX - TEMPORARY DISABLE
+    rewrites: async () => ({
+      afterFiles: [
+        {
+          source: '/:path*',
+          destination: '/api/mocker/:path*'
+        }
+      ],
+    }),
+    */
   }),
   */
 };

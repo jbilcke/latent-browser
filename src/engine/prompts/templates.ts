@@ -1,4 +1,5 @@
 import { Tasks } from './content'
+import { libraries } from './libraries'
 
 export interface CommonConfig {
   cssFramework: string
@@ -41,9 +42,7 @@ export const genericHtml =
       common.returns
     )}
 import { ${moduleName} } from 'ai'
-
-${extraCode}
-
+${extraCode || ''}
 const html = ${moduleName}(${JSON.stringify(query)}, {
   framework: "${common.cssFramework}",
   design: ${JSON.stringify(common.design, null, 2)},
@@ -54,43 +53,23 @@ console.log(html)
 
 output:`
 
-export const genericScript =
-  (
-    id: string,
-    moduleName: string,
-    description: string,
-    common: CommonConfig,
-    extraCode?: string
-  ) =>
-  (query: string, html: string) =>
-    `
-${genericJSDoc(
-  description,
-  'It will interact with the HTML markup',
-  common.params,
-  common.returns
-)}
-import { ${moduleName} } from 'ai'
-
-${extraCode}
-
-// you have access to the following libraries
-${common.modules.join('\n')}
-
-// object to store persistent data
+/**
+ * Notes about this prompt:
+ * GPT-3 can add more libraries if needed
+ */
+export const genericScript = (id: string) => (query: string, html: string) =>
+  `${html}<script>
+/**
+ * Final implementation of ${query}
+ */
+// we only use those JS libraries
+${Object.values(libraries)
+  .filter(({ basic }) => basic)
+  .map(({ basic }) => basic)
+  .join('\n')}
+// persisted app data
 window.${id} = {};
-
-const script = ${moduleName}(\`${query}\`, {
-  framework: "${common.cssFramework}",
-  logic: ${JSON.stringify(
-    common.logic, // .concat(`you can store your local state in window.${id}`),
-    null,
-    2
-  )}
-})
-console.log(script)
-
-// IMPORTANT: don't forget to generate valid javascript code instructions 
-// NEVER write comments like "// your code or implementation goes here", instead write the actual code!
-
-output:${html}`
+// in this project we use 1 space for indentation
+// we never re-declare the sam variable twice
+// (note: all code comments below have been removed)
+`

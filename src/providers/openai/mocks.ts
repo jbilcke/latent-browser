@@ -14,17 +14,22 @@ export const html = `
   <p>
     And <a classname="text-blue-800" href="/donkey.png">another one</a>.
   </p>
+  <div>
+    One more thing:
+    <canvas id="layer-1" />
+  </div>
 </div>`
 
 export const script = `<script>console.log('Hello, World!')</script>`
 
+let i = 0
 export const json = <T>(prefix: string) =>
   (prefix === '['
     ? [
         {
-          title: 'Hello World',
+          title: `Hello World (${++i})`,
           subtitle: 'Hello World',
-          description: 'Hello, World!',
+          description: `Hello, World! (${i})`,
         },
       ]
     : {

@@ -50,7 +50,7 @@
 
 .rc-tabs-tab-btn {
   /*the max width is very important! */
-  @apply flex-grow min-w-[160px] w-fit;
+  @apply flex-grow min-w-[140px] w-fit;
 }
 
 /* to avoid recalculating the before/after positions everytime we touch the remove button,

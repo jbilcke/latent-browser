@@ -2,10 +2,13 @@
 import { imagineImage } from '../../providers/stabilityai'
 
 import spinner from '../../assets/spinner.gif'
-import { ImaginedImage } from '../../providers/stabilityai/types'
 import { DalleImage } from '../../providers/openai/types'
+import { openAIUseMockData } from '../../config'
 
-export async function resolveImages() {
+export async function resolveImages(model: string, apiKey: string) {
+  if (openAIUseMockData) {
+    return ''
+  }
   // if (loopStarted) {
   //   return
   // }
@@ -16,9 +19,9 @@ export async function resolveImages() {
     // get image src
     const src = images[i].src
     const alt = images[i].alt
-    console.log('found image:', { alt, src })
+    console.log('resolveImages> found image:', { alt, src })
     if (alt) {
-      console.log('found image prompt:', alt)
+      console.log('resolveImages> found image:', alt)
       try {
         images[i].src = spinner.src
         // images[i].width = 300
@@ -28,15 +31,23 @@ export async function resolveImages() {
         // although this is a waste of quota
 
         const response = await fetch(
-          `/api/image?prompt=${encodeURIComponent(alt)}`
+          `/api/image?prompt=${encodeURIComponent(
+            alt
+          )}&model=${encodeURIComponent(model)}&apiKey=${encodeURIComponent(
+            apiKey
+          )}`
         )
         const { url, prompt, width, height } =
           (await response.json()) as DalleImage
 
-        console.log('url', url)
+        console.log(
+          'resolveImages> replacing src with url and deleting alt',
+          url
+        )
         images[i].src = url
+        images[i].removeAttribute('alt')
       } catch (err) {
-        console.log('failed to replace an image:', err)
+        console.log('resolveImages> failed to replace an image, weird', err)
       }
     }
   }

@@ -3,6 +3,6 @@ import { App } from '../types'
 
 export const useStoredApps = () =>
   useLocalStorage<App[]>({
-    key: 'stored-apps-002',
+    key: 'stored-apps-rev-1',
     defaultValue: [],
   })

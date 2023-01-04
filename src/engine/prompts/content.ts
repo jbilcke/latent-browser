@@ -75,16 +75,13 @@ const conf: CommonConfig = {
   ],
   returns: `{string} HTML and JS content (a root <div> and a <script>)`,
   modules: [
-    `import * as $ from 'jquery'; // jQuery 3.6.1`,
-
+    //  `import * as $ from 'jquery'; // jQuery 3.6.1`,
     // we use r124 and not r125
     // unfortunately the latest version of three.js >= r125 introduced a breaking change, which break a lot of things
-    `import * as THREE from 'three'; // Three.js r124, to draw 3D WebGL content in a <canvas>. Try using FirstPersonControls and FlyControls! But you cannot use textures.`,
+    // `import * as THREE from 'three'; // Three.js r124, to draw 3D WebGL content in a <canvas>. Try using FirstPersonControls and FlyControls! But you cannot use textures.`,
     // `import * as THREE from 'three'; // Three.js r125, to draw 3D WebGL content in a <canvas> (note: THREE.Geometry has been replaced by THREE.BufferGeometry)`,
-
-    `import * as Tone from 'tone'; // Tone.js 14.7.77, to generate sounds`,
+    // `import * as Tone from 'tone'; // Tone.js 14.7.77, to generate sounds`,
     // `import * as TWEEN from 'tweenjs'; // Tween.js 18.5.0, to make smooth animations`,
-
     //  `import * as Konva from 'konva'; // Konva, a library to work with HTML5 <canvas> (note: be descriptive in your image file names, to explain if it's a texture, sprite..)`,
   ],
 }
@@ -95,26 +92,9 @@ export const htmlPrompt = genericHtml(
   conf
 )
 
-export const scriptPrompt = genericScript(
-  'appData',
-  'generateJavascript',
-  'Returns a web application that matches a brief',
-  conf,
+export const scriptPrompt = genericScript('appData')
 
-  // the web app is a generic html generator, which has an extra super-power:
-  // it can generate code using an asyncronous function
-  `${genericJSDoc(
-    'An asynchronous function that returns web content that matches a brief',
-    `It will be injected in a <div> somewhere in the page.
-It generates valid HTML and JS, without any error and exception.`,
-    conf.params,
-    '{Promise<string>} HTML and JS content (a root <div> and a <script>)'
-  )}
-import { generateHTMLContent } from 'ai'
-`
-)
-
-export const subHtmlPrompt = (name: string, query: string) =>
+export const subHtmlPrompt = (query: string) =>
   genericHtml(
     'generateHTMLContent',
     'An asynchronous function that returns web content that matches a brief',

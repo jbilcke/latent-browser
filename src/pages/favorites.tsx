@@ -1,32 +1,62 @@
-import { useStoredApps } from '../hooks/useStoredApps'
-import { Button } from '../components/buttons/Button'
-import { emitToParent } from '../utils/event'
 import { App } from '../types'
+import { useStoredApps } from '../hooks/useStoredApps'
+import { useOpenTabs } from '../hooks/useOpenTabs'
+import { Button } from '../components/buttons/Button'
 
 function Favorites() {
-  const stored = useStoredApps()
-  const storedApps = stored[0] // || []
-  const setStoredApps = stored[1]
+  const [storedApps, setStoredApps] = useStoredApps()
+  const [openTabs, setOpenTabs] = useOpenTabs()
+  const isLoading = !storedApps || !openTabs
 
   const handleRemove = (id: string) => {
     setStoredApps((apps) => apps.filter((app) => app.id !== id))
   }
 
   const handleOpen = (app: App) => {
-    emitToParent('restore', {
-      app,
-    })
+    console.log(`tab.favorites(${app.id}): handleOpen for`, app)
+
+    const alreadyExists = openTabs.find(({ id }) => id === app.id)
+    if (alreadyExists) {
+      // select the tab (we only keep one favorite alive at a time)
+      setOpenTabs(
+        openTabs.map((a) => ({
+          ...a,
+          isActive: a.id === app.id,
+        }))
+      )
+    } else {
+      setOpenTabs(
+        openTabs
+          .map((a) => ({ ...a, isActive: false }))
+          .concat({
+            // app properties
+            ...app,
+
+            // tab properties
+            isActive: true,
+            isFavorite: true,
+            type: 'content',
+            isNew: false,
+          })
+      )
+    }
   }
 
-  return (
+  return isLoading ? (
+    <div className="flex items-center justify-center h-screen w-screen text-gray-800">
+      <div className="flex flex-col p-12 rounded-3xl bg-gray-900/10">
+        <h1 className="text-3xl mb-4">Loading favorites</h1>
+        <p></p>
+      </div>
+    </div>
+  ) : (
     <div className="flex flex-col p-12 font-sans">
       <h3 className="text-3xl font-semibold uppercase text-gray-800 ">
-        <span className="font-semibold">{storedApps?.length || 0}</span>{' '}
-        favorite
-        {storedApps?.length > 1 ? 's' : ''}
+        <span className="font-semibold">{storedApps.length || 0}</span> favorite
+        {storedApps.length > 1 ? 's' : ''}
       </h3>
       <div className="flex flex-col w-full">
-        {storedApps?.map((app) => (
+        {storedApps.map((app) => (
           <div key={app.id} className="flex flex-col py-4 w-full">
             <div className="inline-block">
               <a

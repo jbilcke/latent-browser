@@ -1,27 +1,37 @@
 import { Configuration, OpenAIApi } from 'openai'
 import DOMPurify from 'dompurify'
 
-import {
-  openAIApiToken,
-  openAIModel,
-  openAIUseMockData,
-  openAIUser,
-} from '../../config'
+import { openAIModel, openAIUseMockData, openAIUser } from '../../config'
 import { DalleImage } from './types'
 import * as mocks from './mocks'
+import { libraries } from '../../engine/prompts/libraries'
 
-export const configuration = new Configuration({ apiKey: openAIApiToken })
-export const openai = new OpenAIApi(configuration)
+// don't do this at home!
+// if we deploy one day to the cloud, we MUST rewrite this..
+export const persisted = {
+  apiKey: '',
+  model: '',
+}
+
+export const getOpenAI = async (apiKey?: string) => {
+  // don't do this at home!
+  // if we deploy one day to the cloud, we MUST rewrite this..
+  persisted.apiKey = apiKey || persisted.apiKey
+
+  const configuration = new Configuration({ apiKey: persisted.apiKey })
+  const openai = new OpenAIApi(configuration)
+  return openai
+}
 
 export const imagineString = async (
   prompt: string,
-  model: string
+  model?: string,
+  apiKey?: string
 ): Promise<string> => {
   if (openAIUseMockData) {
     return ''
   }
-
-  model = model || openAIModel
+  persisted.model = model || openAIModel
 
   const tokenHardLimit = 4097
 
@@ -30,14 +40,16 @@ export const imagineString = async (
   // 1 token ~= ¾ words
   // 100 tokens ~= 75 words
   // ideally we should have a precise function which try to count them, but until them let's use a rough approximation
-  const maxTokens = Math.round(tokenHardLimit - prompt.length / 3.5)
+  // the actual value for the prompt divider seems to be "2.8" but let's use 2.5, just to be safe
+  const maxTokens = Math.round(tokenHardLimit - prompt.length / 2.5)
   console.log('prompt length:', prompt.length)
   console.log(
     `requesting ${maxTokens} of the ${tokenHardLimit} tokens availables`
   )
 
+  const openai = await getOpenAI(apiKey)
   const response = await openai.createCompletion({
-    model: model || openAIModel,
+    model: persisted.model,
     prompt,
     user: openAIUser,
     temperature: 0.8,
@@ -54,7 +66,8 @@ export const imagineString = async (
 
 export const imagineHTML = async (
   prompt: string,
-  model?: string
+  model?: string,
+  apiKey?: string
 ): Promise<string> => {
   // we put an empty <script> tag to try to prevent code generation
   prompt = `${prompt}<script></script><div`
@@ -65,7 +78,7 @@ export const imagineHTML = async (
     return mocks.html
   }
 
-  const raw = await imagineString(prompt, model)
+  const raw = await imagineString(prompt, model, apiKey)
 
   const toStrip = `<div ${raw}`
 
@@ -79,7 +92,15 @@ export const imagineHTML = async (
       mathMl: true,
       svg: true,
     },
-    ALLOWED_ATTR: ['classname', 'alt', 'id', 'style', 'href'],
+    ALLOWED_ATTR: [
+      'classname',
+      'alt',
+      'id',
+      'style',
+      'href',
+      'width',
+      'height',
+    ],
   })
   console.log('purified html:', purified)
 
@@ -88,9 +109,10 @@ export const imagineHTML = async (
 
 export const imagineScript = async (
   prompt: string,
-  model?: string
+  model: string,
+  apiKey?: string
 ): Promise<string> => {
-  prompt = `${prompt}<script>`
+  prompt = `${prompt}`
 
   console.log('imagineScript> prompt:', prompt)
 
@@ -98,10 +120,29 @@ export const imagineScript = async (
     return mocks.script
   }
 
-  const output = await imagineString(prompt, model)
+  const output = await imagineString(prompt, model, apiKey)
 
-  // we give a hint in our prompt by prefixing it with <script> but we need to put it back in the output
-  const script = `<script>${output}`
+  /*
+  This doesn't work, the browser refuses to add a script type=module
+  let script = `<script type="module">
+${
+Object.values(libraries).map(({ prod }) => prod).join('\n')
+}
+window.appData = {};
+${output}`.trim()
+*/
+  let script = `<script>
+window.appData = {};
+${output}`.trim()
+
+  // for some reason GPT-3 sometimes believe it is in a Markdown file
+  // so we remove this extra garbage
+  script = script.split('```')[0].trim()
+
+  // todo: should be done in a better way
+  if (!script.endsWith('</script>')) {
+    script += '</script>'
+  }
 
   return script
 }
@@ -110,7 +151,8 @@ export const imagineJSON = async <T>(
   prompt: string,
   defaultValue: T,
   prefix: string,
-  model?: string
+  model?: string,
+  apiKey?: string
 ): Promise<T> => {
   console.log('imagineJSON> prompt:', prompt)
 
@@ -118,7 +160,7 @@ export const imagineJSON = async <T>(
     return mocks.json<T>(prefix)
   }
 
-  let output = await imagineString(prompt, model)
+  let output = await imagineString(prompt, model, apiKey)
 
   try {
     // we give a hint in our prompt by prefixing it, but we need to put it back in the output
@@ -142,7 +184,10 @@ export const imagineJSON = async <T>(
   }
 }
 
-export const imagineImage = async (prompt: string): Promise<DalleImage> => {
+export const imagineImage = async (
+  prompt: string,
+  apiKey?: string
+): Promise<DalleImage> => {
   console.log('imagineImage', prompt)
   if (openAIUseMockData) {
     return mocks.image
@@ -153,6 +198,7 @@ export const imagineImage = async (prompt: string): Promise<DalleImage> => {
   const size = 1024 // 1024
   const width = size
   const height = size
+  const openai = await getOpenAI(apiKey)
   const response = await openai.createImage({
     prompt,
     n: 1,

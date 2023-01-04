@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+
 import { useParam } from '../hooks/useParam'
-import { emitToParent } from '../utils/event'
 import { imagineJSON } from '../providers/openai'
 import { searchTemplate } from '../engine/prompts/search'
 import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
 import { useInterval } from '../hooks/useInterval'
 import { BigSearchInput } from '../components/inputs/BigSearchInput'
-import { App } from '../types'
+import { useOpenTabs } from '../hooks/useOpenTabs'
+import { getKeyForApps } from '../utils/getKeyForApps'
+import { useSettings } from '../hooks/useSettings'
 
 interface Result {
   title: string
@@ -15,23 +17,12 @@ interface Result {
   description: string
 }
 
-const cleanWord = (word) => word.trim().toLocaleLowerCase().replace('.', '')
-
 // a search result page in the style of a famous search engine =)
 function Search() {
-  const initialApp = useParam<App>('app', {
-    id: uuidv4(),
-    type: 'search',
-    title: '☊ Latent Search',
-    subtitle: '',
-    prompt: '',
-    tasks: {},
-    html: '',
-    script: '',
-    data: {},
-  })
-  const initialPrompt = initialApp.prompt
-  const [prompt, setPrompt] = useState<string>(initialPrompt)
+  const id = useParam<string>('id', '')
+  const [openTabs, setOpenTabs] = useOpenTabs()
+  const [settings] = useSettings()
+  const [prompt, setPrompt] = useState<string>('')
   const [results, setResults] = useState<Result[]>([])
   const [startTimestamp, setStartTimestamp] = useState<number>(0)
   const [elapsedTimeMs, setElapsedTimeMs] = useState<number>(0)
@@ -44,13 +35,39 @@ function Search() {
   const estimatedTimeSec = nbResults * 4
   const maxNbPasses = 2
 
+  const handleOpen = (title = '', prompt = '') => {
+    console.log('handleOpen:', { title, prompt })
+    setOpenTabs((tabs) =>
+      tabs
+        .map((app) => ({ ...app, isActive: false }))
+        .concat({
+          // app properties
+          id: uuidv4(),
+          title,
+          subtitle: title,
+          prompt,
+          tasks: {},
+          text: {},
+          html: '',
+          script: '',
+          data: {},
+
+          // tab properties
+          isActive: true,
+          isFavorite: false,
+          type: 'content',
+          isNew: true,
+        })
+    )
+  }
+
   const generateSearchResults = async (pass, prompt = '') => {
     prompt = prompt.trim()
     if (!prompt.length || pass > maxNbPasses) {
       return
     }
 
-    console.log('searching..')
+    console.log(`tab.search(${id}): searching..`)
     const startedAt = new Date().valueOf()
     setIsLoading(true)
     setStartTimestamp(startedAt)
@@ -67,7 +84,8 @@ function Search() {
         searchTemplate(prompt, nbResults),
         [],
         '[',
-        model
+        settings?.openAIModel,
+        settings?.openAIKey
       )
     } catch (exc) {
       console.error(exc)
@@ -77,7 +95,7 @@ function Search() {
     }
 
     if (!newResults) {
-      console.log('did not get enough results, aborting')
+      console.log(`tab.search(${id}): did not get enough results, aborting`)
       setIsLoading(false)
       setResults([])
       return
@@ -86,13 +104,31 @@ function Search() {
     // compute the precise final time
     setFinalTimeMs(new Date().valueOf() - startedAt)
     setIsLoading(false)
-    console.log('adding search results:', newResults)
+    console.log(`tab.search(${id}): adding search results:`, newResults)
     setResults((results) => results.concat(newResults))
 
     if (pass < maxNbPasses) {
       setPass(pass + 1)
     }
   }
+
+  // whenever the ID or currently open tabs are ready, we update the prompt
+  useEffect(() => {
+    if (!openTabs || !id) {
+      return
+    }
+    const app = openTabs.find((a) => a.id === id)
+    if (!app) {
+      return
+    }
+    console.log(' prompt:', prompt)
+    console.log('app prompt:', app.prompt)
+    if (app.prompt === prompt) {
+      return
+    }
+    console.log('found a usable prompt! updating..')
+    setPrompt(app.prompt)
+  }, [id, getKeyForApps(openTabs)])
 
   useEffect(() => {
     generateSearchResults(pass, prompt)
@@ -105,10 +141,6 @@ function Search() {
     // Delay in milliseconds or null to stop it
     isLoading ? 200 : null
   )
-
-  useEffect(() => {
-    setPrompt(initialPrompt)
-  }, [initialPrompt])
 
   // later we will put the colors into Tailwind, but right now let's just clone
   // some famous search engine colors
@@ -137,14 +169,7 @@ function Search() {
                     <a
                       className="cursor-pointer hover:underline decoration-2"
                       href="#"
-                      onClick={() => {
-                        emitToParent('open', {
-                          link: {
-                            title,
-                            alt: description,
-                          },
-                        })
-                      }}
+                      onClick={() => handleOpen(title, description)}
                     >
                       {title}
                     </a>

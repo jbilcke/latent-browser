@@ -1,11 +1,8 @@
-export type AppType = 'search' | 'content' | 'favorites'
+export type AppType = 'search' | 'content' | 'favorites' | 'settings'
 
 export interface App {
   // unique app ID (very important)
   id: string
-
-  // mostly used for tabs
-  type: AppType
 
   // app title (and tab title)
   title: string
@@ -22,6 +19,9 @@ export interface App {
   // source code of the HTML layout
   html: string
 
+  // specification used to generate the page text
+  text: Record<string, string>
+
   // source code of the script (app logic)
   script: string
 
@@ -29,7 +29,24 @@ export interface App {
   data: Record<string, any>
 }
 
+export interface Tab {
+  isActive: boolean
+
+  isFavorite: boolean
+
+  type: AppType
+
+  // the tab is not a rehydrated app
+  isNew: boolean
+}
+
+export type AppTab = App & Tab
+
 export interface Link {
   title: string
   alt: string
+}
+export interface Settings {
+  openAIKey: string
+  openAIModel: string
 }
