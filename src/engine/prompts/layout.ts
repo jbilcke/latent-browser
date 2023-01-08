@@ -11,7 +11,7 @@ export const layoutPrompt = (instructions: Instructions) =>
 - colors must be aligned with the guidelines
 - write in English, not in latin
 - all the image alt should be fully captioned and describe the image in details (the subject, how it was created, where, camera position, focal etc)
-- important: replace all {{semantic blocks}} with an imaginary content (not the instructions!)
+- important: replace all {{semantic blocks}} with an imaginary content (don't write back the instructions!)
 - never repeat the JSON instructions verbatim
 
  
@@ -34,7 +34,7 @@ ${getLayout(
   })
 )},
 
-Don't forget to replace {{blocks}} with new imaginary content, not the instructions themselves!
+Don't forget to replace {{blocks}} with new imaginary content, but don't write the instructions themselves!
 Result:`
 
 export const layoutPromptLegacy = (instructions: Instructions) =>
