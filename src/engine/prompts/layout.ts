@@ -10,7 +10,7 @@ export const layoutPrompt = (instructions: Instructions) =>
 - if you change the colors then use Tailwind utility classes
 - colors must be aligned with the guidelines
 - write in English, not in latin
-- all the image alt should be full captiond describing the image in details (the subject, how it was created, where, camera position, focal etc)
+- all the image alt should be fully captioned and describe the image in details (the subject, how it was created, where, camera position, focal etc)
 - important: replace all {{semantic blocks}} with an imaginary content (not the instructions!)
 - never repeat the JSON instructions verbatim
 
