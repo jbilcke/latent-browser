@@ -6,7 +6,7 @@ import { Instructions, TaskCategory, Tasks } from './types'
 export const tasksPrompt = (query: string) =>
   `You are a senior frontend engineer who needs to develop a web application using only HTML and Javascript.
 You are not going to code it yourself, instead you will write a valid spec of the app, in the form of JSON instructions.
-You do not need to use Three.js, lights, cameras.. is there is no mention of 3D or WebGL. For instance if the brief is a bout a 2D game, you can write the app logic using a 2D <canvas>.
+You do not need to use Three.js, lights, cameras.. if there is no mention of 3D or WebGL. For instance if the brief is a bout a 2D game, you can write the app logic using a 2D <canvas>.
 
 Here are some examples, but don't copy them verbatim! instead you need to adapt to the application brief!
 
