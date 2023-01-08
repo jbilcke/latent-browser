@@ -1,13 +1,4 @@
-interface ModulePath {
-  // basic import path used to produce basic code
-  basic: string
-
-  // fake import path used used to teach GPT-3 to use module imports
-  prompt: string
-
-  // full import path for production, with minified code
-  prod: string
-}
+import { ModulePath } from './types'
 
 // why do we use a CDN path in the prompt, and not a shorter "NPM" import?
 // because we want GPT-3 to have freedom of though and import real JS libraries at its discretion
@@ -19,6 +10,7 @@ export const CDN = 'https://cdn.skypack.dev/pin/'
 // note: the version are not randoly chose, those are the versions *suggested* by GPT-3
 export const libraries: Record<string, ModulePath> = {
   lodash: {
+    minimal: `Lodash (for data structure utilities)`,
     basic: `window._; // Lodash (for data structure utilities)`,
     prompt: `import _ from "${CDN}lodash.js";`,
     prod: `import _ from "${CDN}lodash@v4.17.21-K6GEbP02mWFnLA45zAmi/mode=imports,min/optimized/lodash.js";`,
@@ -30,6 +22,7 @@ export const libraries: Record<string, ModulePath> = {
   },
   */
   jQuery: {
+    minimal: `jQuery (for DOM manipulation)`,
     basic: `window.$; // jQuery (for DOM manipulation)`,
     prompt: `import $ from "${CDN}jquery.js";`,
     prod: `import $ from "${CDN}jquery@v3.5.1-GJsJJ2VEWnBDZuot9fRf/mode=imports,min/optimized/jquery.js";`,
@@ -41,11 +34,13 @@ export const libraries: Record<string, ModulePath> = {
   },
   */
   tone: {
+    minimal: `Tone.js (for sound synthesis)`,
     basic: `window.Tone; // tone.js (for sound synthesis)`,
     prompt: `import Tone from "${CDN}tone.js";`,
     prod: `import Tone from "${CDN}tone@v13.8.25-Y8DZtCNdyebBxcPTSCWz/mode=imports,min/optimized/tone.js";`,
   },
   three: {
+    minimal: `Three.js (for 3D games, also has FirstPersonControls, FlyControls and OrbitControls)`,
     basic: `window.THREE; // Three.js (for 3D games, also has FirstPersonControls, FlyControls and OrbitControls)`,
     prompt: `import * as THREE from "${CDN}three.js";`,
     prod: `import * as THREE from "${CDN}three@v0.147.0-OePr4dXxGMRPSzlPRCyx/mode=imports,min/optimized/three.js";`,
@@ -67,9 +62,13 @@ export const libraries: Record<string, ModulePath> = {
     prod: `import * from "${CDN}three.js@v0.77.1-G2wF26QQDO6n9jckAKtK/mode=raw,min/0.124.0/examples/js/controls/OrbitControls.js";`,
   },
   */
+  /*
   tween: {
-    basic: `window.TWEEN; // Three.js (for smooth animations)`,
+    minimal: `Tween.js (for smooth animations)`,
+    basic: `window.TWEEN; // Tween.js (for smooth animations)`,
     prompt: `import TWEEN from "${CDN}@tweenjs/tween.js";`,
     prod: `import TWEEN from "${CDN}@tweenjs/tween.js@v18.6.0-Rr2mERKp2GTA0yArmM61/mode=imports,min/optimized/@tweenjs/tweenjs.js";`,
+    // 16.3.5
   },
+  */
 }

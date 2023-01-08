@@ -1,9 +1,3 @@
-export interface SearchResult {
-  title: string
-  subtitle: string
-  description: string
-}
-
 // sub template shuld be pretty basic, ie just "content"
 export const searchTemplate = (query: string, nbResults: number) =>
   `- Generate a valid JSON for a fantasy search engine like in the examples
@@ -61,7 +55,7 @@ export const searchTemplate = (query: string, nbResults: number) =>
    
    input: {
      "query": "canary island",
-    "nbResults": 6,
+    "nbResults": 7,
    }
    JSON: [
      {
@@ -93,7 +87,12 @@ export const searchTemplate = (query: string, nbResults: number) =>
         "title": "Prints from the Canary Islands",
         "subtitle": "A 3D printing app",
         "description": "A web app where you can 3D models related to the Canary Islands. You can browse the objects pictures or in real-time 3D, and you can see the STL source code in plain text <textarea> next to it. The design is very while, with color highlights on important sections, titles, buttons."
-     }
+     },
+     {
+      "title": "AI-generated movie about the Canary Islands",
+      "subtitle": "AITube",
+      "description": "An AI-generated documentary movie about the Canary Islands. It looks like YouTube, but for AI-generated movies and videos."
+   }
    ]
  
    input: {

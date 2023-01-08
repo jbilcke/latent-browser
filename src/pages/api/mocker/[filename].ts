@@ -15,6 +15,7 @@ import {
   imagineString,
   persisted,
 } from '../../../providers/openai'
+import { presets } from '../../../engine/prompts/presets'
 
 // creates a substitute whenever we ask for an image that doesn't exist
 // this will be useful if we use game libraries, as GPT-3 parrots tutorials that use images
@@ -35,6 +36,8 @@ export default async function handler(
   const parts = filename.split('.')
   const extension = parts.pop().toLowerCase()
   const name = parts.join('.')
+
+  const settings = presets.mocker
 
   if (
     !extension ||
@@ -81,7 +84,7 @@ export default async function handler(
       name,
       prompt,
     })
-    const data = await imagineString(prompt, '')
+    const data = await imagineString(prompt, settings)
     return res.setHeader('content-type', 'text/plain').status(200).send(data)
   } else if (['stl'].includes(extension)) {
     const prompt = mockSTL(name)
@@ -92,7 +95,7 @@ export default async function handler(
       name,
       prompt,
     })
-    const data = await imagineString(prompt, '')
+    const data = await imagineString(prompt, settings)
     return res.setHeader('content-type', mimetype).status(200).send(data)
   } else if (['svg'].includes(extension)) {
     const prompt = mockSVG(name)
@@ -103,7 +106,7 @@ export default async function handler(
       name,
       prompt,
     })
-    const data = await imagineString(prompt, '')
+    const data = await imagineString(prompt, settings)
     return res.setHeader('content-type', mimetype).status(200).send(data)
   } else {
     /*
@@ -118,7 +121,7 @@ export default async function handler(
       name,
       prompt,
     })
-    const data = await imagineString(prompt, '')
+    const data = await imagineString(prompt, settings)
     return res.setHeader('content-type', mimetype).status(200).send(data)
     */
 

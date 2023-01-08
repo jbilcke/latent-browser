@@ -47,6 +47,14 @@ export interface Link {
   alt: string
 }
 export interface Settings {
+  coreVendor: string
+  huggingFaceKey: string
+  huggingFaceModel: string
   openAIKey: string
   openAIModel: string
+  customTasksPrompt: string
+  customHtmlPrompt: string
+  customScriptPrompt: string
+  useAutoCherryPick: boolean
+  useMockData: boolean
 }

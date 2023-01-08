@@ -1,24 +1,28 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
-import { v4 as uuidv4 } from 'uuid'
 import { imagineHTML, imagineJSON, imagineScript } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
+import { layoutPrompt } from '../engine/prompts/layout'
+import { contentPrompt } from '../engine/prompts/content'
+import { scriptPrompt } from '../engine/prompts/script'
 import {
-  htmlPrompt,
-  scriptPrompt,
-  subHtmlPrompt,
+  getInstructions,
   tasksPrompt,
-  type Tasks,
-} from '../engine/prompts/content'
+  tasksValues,
+} from '../engine/prompts/tasks'
+import { type Tasks } from '../engine/prompts/types'
+
 import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
-import { useInterval } from '../hooks/useInterval'
-import { type AppTab } from '../types'
-import { useOpenTabs } from '../hooks/useOpenTabs'
-import { useStoredApps } from '../hooks/useStoredApps'
+import {
+  useInterval,
+  useOpenTabs,
+  useStoredApps,
+  useSettings,
+  useParam,
+} from '../hooks'
 import { readParam } from '../utils/readParam'
-import { useSettings } from '../hooks/useSettings'
 import { getKeyForApps } from '../utils/getKeyForApps'
-import { useParam } from '../hooks/useParam'
+import { type AppTab } from '../types'
 
 const timePerStage = {
   TASKS: 15,
@@ -34,17 +38,26 @@ function Content() {
   // const id = readParam('id', '')
   const id = useParam('id', '')
 
-  const [stage, setStage] = useState<'HTML' | 'SCRIPT' | 'TASKS' | 'TEXT'>(
-    'TASKS'
-  )
+  const [stage, setStage] = useState<
+    | 'INIT'
+    | 'TASKS'
+    | 'LAYOUT'
+    | 'CONTENT'
+    | 'SCRIPT'
+    | 'TEXT'
+    | 'LOADED'
+    | 'CRUD'
+  >('TASKS')
 
   // note: we must make rehydration async to make the SSR happy
   const [prompt, setPrompt] = useState<string>('')
   const [tasks, setTasks] = useState<Tasks>({} as Tasks)
   const [html, setHtml] = useState<string>('')
   const [script, setScript] = useState<string>('')
+  const [trials, setTrials] = useState<number>(0)
   const [text, setText] = useState<Record<string, any>>({})
   const [data, setData] = useState<Record<string, any>>({})
+  const instructions = getInstructions(tasks)
 
   useEffect(() => {
     console.log('primary use effect to init the app', {
@@ -79,6 +92,10 @@ function Content() {
     setData(window['appData'])
 
     setScript(app.script)
+
+    if (app.html?.length > 0) {
+      setStage('LOADED')
+    }
   }, [isLoading, id, getKeyForApps(openTabs)])
 
   // TODO use a download queue to estimate the remaining loading time
@@ -93,6 +110,7 @@ function Content() {
 
   const model = settings?.openAIModel
   const apiKey = settings?.openAIKey
+  const mockData = settings?.useMockData
 
   const updateApp = (extra?: Partial<AppTab>) => {
     setOpenTabs((tabs) =>
@@ -132,7 +150,8 @@ function Content() {
         {},
         '{',
         model,
-        apiKey
+        apiKey,
+        mockData
       )
     } catch (exc) {
       console.error(`tab.content(${id}): generateTasks: failed`, exc)
@@ -157,8 +176,8 @@ function Content() {
     setIsLoadingAssets(false)
   }
 
-  const generateHTML = async (tasks: Tasks = {}) => {
-    console.log(`tab.content(${id}): generateHTML`)
+  const generateHtml = async (tasks: Tasks = {}) => {
+    console.log(`tab.content(${id}): generateHtml`)
     if (!tasks || !Object.keys(tasks).length) {
       return
     }
@@ -166,27 +185,52 @@ function Content() {
     setIsLoadingAssets(true)
     setStartTimestamp(new Date().valueOf())
     setElapsedTimeMs(0)
-    setStage('HTML')
+    setStage('LAYOUT')
 
-    let best = ''
+    let firstPass = ''
 
     try {
-      best = await imagineHTML(htmlPrompt(tasks), model, apiKey)
+      firstPass = await imagineHTML(
+        layoutPrompt(instructions),
+        model,
+        apiKey,
+        mockData
+      )
+      if (!firstPass) {
+        throw new Error('did not get enough results, aborting')
+      }
     } catch (exc) {
       console.error(`tab.content(${id}): generateHTML: failed`, exc)
+      setStage('LOADED')
       setIsLoadingAssets(false)
       return
     }
 
-    if (!best) {
-      console.error(
-        `tab.content(${id}): generateHTML: did not get enough results, aborting`
+    setHtml(firstPass)
+
+    /*
+    let secondPass = ''
+
+    try {
+      secondPass = await imagineHTML(
+        contentPrompt(firstPass, tasks),
+        model,
+        apiKey,
+        mockData
       )
+      if (!secondPass) {
+        throw new Error('did not get enough results, aborting')
+      }
+    } catch (exc) {
+      console.error(`tab.content(${id}): generateHTML: failed`, exc)
+      setStage('LOADED')
       setIsLoadingAssets(false)
       return
     }
 
-    setHtml(best)
+    setHtml(secondPass)
+    */
+
     setIsLoadingAssets(false)
   }
 
@@ -197,6 +241,26 @@ function Content() {
       console.error(
         `tab.content(${id}): generateScript: html is less than 10 characters, aborting`
       )
+      setStage('LOADED')
+      return
+    }
+
+    // normally the LLM gives us a hint about the need for JS
+    const canSkip =
+      !instructions.script ||
+      !instructions.script.length ||
+      instructions.script.some((instruction) =>
+        instruction.match(/no\s+(?:js|javascript)\s+(?:needed|required)/i)
+      )
+
+    if (canSkip) {
+      console.error(
+        `tab.content(${id}): the LLM asked us to skip SCRIPT generation`
+      )
+      setStage('LOADED')
+      setIsLoadingAssets(false)
+      setScript('')
+      updateApp({ script: '' })
       return
     }
 
@@ -204,10 +268,15 @@ function Content() {
     setStartTimestamp(new Date().valueOf())
     setElapsedTimeMs(0)
     setStage('SCRIPT')
+    setTrials(trials + 1)
 
     window['appData'] = data
 
-    window['generateHTMLContent'] = async (query = '') => {
+    /*
+    TODO: we need two functions
+    - one to generate GPT-3 results (in JSON)
+    - one for real CRUD operation (to the local storage)
+    window['callAPI'] = async (query = '') => {
       console.log(
         `tab.content(${id}): generateHTMLContent called by AI script`,
         query
@@ -216,31 +285,68 @@ function Content() {
       if (!query.length) {
         return
       }
-      setStage('HTML')
-      imagineHTML(subHtmlPrompt(query), model, apiKey)
+      setStage('INTERNAL')
+      imagineJSON<Record<string, any>>(
+        recursivePrompt(query),
+        {},
+        '{',
+        model,
+        apiKey,
+        mockData
+      )
     }
+    */
 
-    let best = ''
+    let script = ''
 
     try {
-      best = await imagineScript(scriptPrompt(prompt, html), model, apiKey)
-      if (!best) {
+      script = await imagineScript(
+        scriptPrompt(instructions, html),
+        model,
+        apiKey,
+        mockData
+      )
+      if (!script) {
         throw new Error('did not get enough results, aborting')
+      }
+      if (script.includes('// TODO')) {
+        throw new Error('script generated TODOs, aborting')
       }
     } catch (exc) {
       console.error(`tab.content(${id}): generateScript failed`, exc)
-      setIsLoadingAssets(false)
-      setScript('')
-      updateApp({ script: '' })
-      return
+
+      // we try again!
+      if (settings.useAutoCherryPick) {
+        try {
+          script = await imagineScript(
+            scriptPrompt(instructions, html),
+            model,
+            apiKey,
+            mockData
+          )
+          if (!script) {
+            throw new Error('did not get enough results, aborting')
+          }
+          if (script.includes('// TODO')) {
+            throw new Error('script generated TODOs, aborting')
+          }
+        } catch (exc) {
+          console.error(`tab.content(${id}): generateScript failed`, exc)
+          setStage('LOADED')
+          setIsLoadingAssets(false)
+          setScript('')
+          updateApp({ script: '' })
+          return
+        }
+      }
     }
 
     // replaceImages()
-    console.log(`tab.content(${id}): generateScript: loading script`, best)
-
-    setScript(best)
+    console.log(`tab.content(${id}): generateScript: loading script`, script)
+    setStage('LOADED')
+    setScript(script)
     setIsLoadingAssets(false)
-    updateApp({ script: best })
+    updateApp({ script })
   }
 
   useEffect(() => {
@@ -249,19 +355,19 @@ function Content() {
       { prompt }
     )
 
-    if (Object.keys(tasks).length === 0) {
+    if (Object.keys(tasks).length === 0 && stage !== 'LOADED') {
       generateTasks(prompt)
     }
   }, [prompt])
 
   useEffect(() => {
     console.log(
-      `tab.content(${id}): tasks changed! seeing if we should generate html..`,
+      `tab.content(${id}): tasks changed! seeing if we should generate the html..`,
       { tasks }
     )
-    if (!html.length) {
+    if (!html.length && stage !== 'LOADED') {
       console.log(`tab.content(${id}): html is empty! generating new one..`)
-      generateHTML(tasks)
+      generateHtml(tasks)
     }
   }, [JSON.stringify(tasks)])
 
@@ -270,16 +376,33 @@ function Content() {
       `tab.content(${id}): html changed! seeing if we should generate script..`,
       { html }
     )
-    if (!script.length) {
-      console.log(`tab.content(${id}): script is empty! generating new one..`)
+    if (html && !script.length && stage !== 'LOADED') {
+      console.log(
+        `tab.content(${id}): script is empty and we are not loaded! generating new one..`
+      )
       generateScript()
     }
-  }, [html])
+  }, [html, stage])
+
+  useEffect(() => {
+    const onError = (e: ErrorEvent) => {
+      console.log('SCRIPT failure detected:', e)
+      setScript('')
+      if (settings.useAutoCherryPick && trials < 2) {
+        console.log('auto cherry-pick enabled, so trying once again.. 💸')
+        generateScript()
+      }
+    }
+
+    window.addEventListener('error', onError)
+
+    return () => window.removeEventListener('error', onError)
+  }, [settings.useAutoCherryPick, trials])
 
   // replace all images alt with src
   useEffect(() => {
     const resolve = async () => {
-      await resolveImages(model, apiKey)
+      await resolveImages(model, apiKey, mockData)
       updateApp()
     }
     resolve()
@@ -299,19 +422,14 @@ function Content() {
       <script src="https://code.jquery.com/jquery-3.6.1.min.js" />
       <script src="https://unpkg.com/lodash@4.17.21/lodash.js" />
       <script src="https://unpkg.com/tone@14.7.77/build/Tone.js" />
-      <script src="https://unpkg.com/tween@0.9.0/tween.js" />
+      {/*<script src="https://unpkg.com/tween@0.9.0/tween.js" /> */}
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js" />
       {/* <script src="https://unpkg.com/canvas-utils@0.8.0/es5-generated/index.js" />*/}
       <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.js" />
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FirstPersonControls.js" />
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FlyControls.js" />
       <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/OrbitControls.js" />
-      {html?.length ? (
-        <InnerHTML
-          id="html-tag"
-          className="pt-20 flex w-full items-center flex-col"
-          html={html}
-        />
-      ) : null}
+      {html?.length ? <InnerHTML id="html-tag" html={html} /> : null}
       {script?.length ? <InnerHTML id="script-tag" html={script} /> : null}
       <ModelProgressBar
         elapsedTimeMs={elapsedTimeMs}

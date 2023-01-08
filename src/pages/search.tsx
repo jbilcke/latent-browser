@@ -30,7 +30,6 @@ function Search() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [pass, setPass] = useState<number>(1)
 
-  const model = 'text-davinci-003'
   const nbResults = 4
   const estimatedTimeSec = nbResults * 4
   const maxNbPasses = 2
@@ -85,7 +84,8 @@ function Search() {
         [],
         '[',
         settings?.openAIModel,
-        settings?.openAIKey
+        settings?.openAIKey,
+        settings?.useMockData
       )
     } catch (exc) {
       console.error(exc)
@@ -131,7 +131,9 @@ function Search() {
   }, [id, getKeyForApps(openTabs)])
 
   useEffect(() => {
-    generateSearchResults(pass, prompt)
+    if (pass < maxNbPasses) {
+      generateSearchResults(pass, prompt)
+    }
   }, [pass, prompt])
 
   useInterval(
@@ -221,7 +223,7 @@ function Search() {
         elapsedTimeMs={elapsedTimeMs}
         estimatedTimeSec={estimatedTimeSec}
         isLoading={isLoading}
-        model={model}
+        model={settings.openAIModel || 'text-davinci-003'}
         provider="OpenAI"
         stage={`JSON ${pass}/${maxNbPasses}`}
       />

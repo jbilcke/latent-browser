@@ -1,12 +1,16 @@
+// those are still in the github history if we even need them back
 // import { imagineImage } from '../../providers/replicate/imagine'
-import { imagineImage } from '../../providers/stabilityai'
+// import { imagineImage } from '../../providers/stabilityai'
 
 import spinner from '../../assets/spinner.gif'
 import { DalleImage } from '../../providers/openai/types'
-import { openAIUseMockData } from '../../config'
 
-export async function resolveImages(model: string, apiKey: string) {
-  if (openAIUseMockData) {
+export async function resolveImages(
+  model: string,
+  apiKey: string,
+  useMockData: boolean
+) {
+  if (useMockData) {
     return ''
   }
   // if (loopStarted) {

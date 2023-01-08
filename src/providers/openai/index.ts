@@ -1,10 +1,15 @@
 import { Configuration, OpenAIApi } from 'openai'
 import DOMPurify from 'dompurify'
 
-import { openAIModel, openAIUseMockData, openAIUser } from '../../config'
+// note: attention, GPT-3 encoder requires node:fs
+// import * as gpt3encoder from 'gpt-3-encoder'
+// const { encode, decode } = gpt3encoder
+
 import { DalleImage } from './types'
 import * as mocks from './mocks'
 import { libraries } from '../../engine/prompts/libraries'
+import { presets } from '../../engine/prompts/presets'
+import { type PromptSettings } from '../../engine/prompts/types'
 
 // don't do this at home!
 // if we deploy one day to the cloud, we MUST rewrite this..
@@ -25,13 +30,15 @@ export const getOpenAI = async (apiKey?: string) => {
 
 export const imagineString = async (
   prompt: string,
+  settings: PromptSettings,
   model?: string,
-  apiKey?: string
+  apiKey?: string,
+  mockData?: boolean
 ): Promise<string> => {
-  if (openAIUseMockData) {
+  if (mockData) {
     return ''
   }
-  persisted.model = model || openAIModel
+  persisted.model = model || 'text-davinci-003'
 
   const tokenHardLimit = 4097
 
@@ -51,14 +58,16 @@ export const imagineString = async (
   const response = await openai.createCompletion({
     model: persisted.model,
     prompt,
-    user: openAIUser,
-    temperature: 0.8,
+    user: 'default_user',
+    temperature: settings.temperature,
     max_tokens: maxTokens,
-    top_p: 1,
-    // best_of: 2,
-    frequency_penalty: 0,
-    presence_penalty: 0,
-    // stop: [stop],
+    n: settings.n,
+    // top_p: 1,
+    best_of: settings.bestOf,
+    frequency_penalty: settings.frequencyPenalty,
+    presence_penalty: settings.presencePenalty,
+    logit_bias: settings.gptLogitBias,
+    stop: settings.stop?.length ? settings.stop : undefined,
   })
 
   return response?.data?.choices?.[0]?.text?.trim() || ''
@@ -67,18 +76,21 @@ export const imagineString = async (
 export const imagineHTML = async (
   prompt: string,
   model?: string,
-  apiKey?: string
+  apiKey?: string,
+  mockData?: boolean
 ): Promise<string> => {
   // we put an empty <script> tag to try to prevent code generation
-  prompt = `${prompt}<script></script><div`
+  prompt = `${prompt}<div`
 
   console.log('imagineHTML> prompt:', prompt)
 
-  if (openAIUseMockData) {
+  if (mockData) {
     return mocks.html
   }
 
-  const raw = await imagineString(prompt, model, apiKey)
+  const raw = await imagineString(prompt, presets.html, model, apiKey)
+
+  console.log('imagineHTML> raw:', raw)
 
   const toStrip = `<div ${raw}`
 
@@ -110,17 +122,24 @@ export const imagineHTML = async (
 export const imagineScript = async (
   prompt: string,
   model: string,
-  apiKey?: string
+  apiKey?: string,
+  mockData?: boolean
 ): Promise<string> => {
   prompt = `${prompt}`
 
   console.log('imagineScript> prompt:', prompt)
 
-  if (openAIUseMockData) {
+  if (mockData) {
     return mocks.script
   }
 
-  const output = await imagineString(prompt, model, apiKey)
+  const output = await imagineString(
+    prompt,
+    presets.script,
+    model,
+    apiKey,
+    mockData
+  )
 
   /*
   This doesn't work, the browser refuses to add a script type=module
@@ -133,11 +152,20 @@ ${output}`.trim()
 */
   let script = `<script>
 window.appData = {};
+var app = window.appData;
 ${output}`.trim()
+
+  console.log('raw script:', script)
+
+  // for some reason GPT-3 sometimes generates JS code with ‘ instead of '
+  script = script.replace('‘', "'")
 
   // for some reason GPT-3 sometimes believe it is in a Markdown file
   // so we remove this extra garbage
   script = script.split('```')[0].trim()
+
+  // it is imperative that we ignore everything that might have been added after the main script
+  script = script.split('</script>').shift().trim()
 
   // todo: should be done in a better way
   if (!script.endsWith('</script>')) {
@@ -152,15 +180,22 @@ export const imagineJSON = async <T>(
   defaultValue: T,
   prefix: string,
   model?: string,
-  apiKey?: string
+  apiKey?: string,
+  mockData?: boolean
 ): Promise<T> => {
   console.log('imagineJSON> prompt:', prompt)
 
-  if (openAIUseMockData) {
+  if (mockData) {
     return mocks.json<T>(prefix)
   }
 
-  let output = await imagineString(prompt, model, apiKey)
+  let output = await imagineString(
+    prompt,
+    presets.json,
+    model,
+    apiKey,
+    mockData
+  )
 
   try {
     // we give a hint in our prompt by prefixing it, but we need to put it back in the output
@@ -186,10 +221,11 @@ export const imagineJSON = async <T>(
 
 export const imagineImage = async (
   prompt: string,
-  apiKey?: string
+  apiKey?: string,
+  mockData?: boolean
 ): Promise<DalleImage> => {
   console.log('imagineImage', prompt)
-  if (openAIUseMockData) {
+  if (mockData) {
     return mocks.image
   }
 

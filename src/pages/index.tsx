@@ -11,12 +11,13 @@ import { SearchInput } from '../components/inputs/SearchInput'
 import { Button } from '../components/buttons/Button'
 import { IconButton } from '../components/buttons/IconButton'
 import { getKeyForApps } from '../utils/getKeyForApps'
+import { useSettings } from '../hooks'
 
 const Tabs = lazy(() => import('../components/tabs/Tabs'))
 
 function Index() {
   const [query, setQuery] = useState('')
-
+  const [settings] = useSettings()
   const [storedApps, setStoredApps] = useStoredApps()
   const [openTabs, setOpenTabs] = useOpenTabs()
   const isLoading = !storedApps || !openTabs
@@ -85,6 +86,13 @@ function Index() {
             })
     )
   }
+
+  useEffect(() => {
+    // if settings are ready but no OpenAI key is defined -> we should the config panel
+    if (settings && !settings.openAIKey) {
+      handleSettings()
+    }
+  }, [settings?.openAIKey])
 
   const handleFavorites = () => {
     const alreadyOpen = openTabs.find((a) => a.type === 'favorites')

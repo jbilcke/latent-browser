@@ -39,20 +39,13 @@ wrtc@npm:0.4.7 couldn't be built successfully
 
 The app will still load just fine.
 
-### Before starting the app
+### BEFORE YOU RUN THE APP /!\
 
-web4 is free, but not OpenAI! You will need to configure your token in a `.env.local` config file:
+This application is based on OpenAI for text and image generation.
 
-```
-cp .env.sample .env.local
-open .env.local
-```
+\*You need a valid (billable) OpenAI account before you can use the application.
 
-And configure your OpenAI access token key:
-
-```
-NEXT_PUBLIC_PROVIDER_OPENAI_API_TOKEN=write_your_openai_key_here
-```
+Upon starting it, you will have to enter you OpenAI token in the configuration panel (the "cog" icon).
 
 ### Running the app in development
 
