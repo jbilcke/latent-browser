@@ -154,9 +154,6 @@ ${output}`.trim()
 window.appData = {};
 var app = window.appData;
 ${output}`.trim()
-
-  console.log('raw script:', script)
-
   // for some reason GPT-3 sometimes generates JS code with ‘ instead of '
   script = script.replace('‘', "'")
 

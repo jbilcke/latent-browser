@@ -9,12 +9,14 @@ export const CDN = 'https://cdn.skypack.dev/pin/'
 
 // note: the version are not randoly chose, those are the versions *suggested* by GPT-3
 export const libraries: Record<string, ModulePath> = {
+  /*
   lodash: {
     minimal: `Lodash (for data structure utilities)`,
     basic: `window._; // Lodash (for data structure utilities)`,
     prompt: `import _ from "${CDN}lodash.js";`,
     prod: `import _ from "${CDN}lodash@v4.17.21-K6GEbP02mWFnLA45zAmi/mode=imports,min/optimized/lodash.js";`,
   },
+  */
   /*
   canvasUtils: {
     prompt: `import { canvasUtils } from "${CDN}canvas-utils";`,

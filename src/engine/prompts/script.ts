@@ -8,22 +8,12 @@ import { Instructions } from './types'
  */
 export const genericScript =
   (id: string) => (instructions: Instructions, html: string) =>
-    `Exercice: ${instructions.summary}:
+    `${instructions.summary}
 ${instructions.script.map((instruction) => `- ${instruction}`).join('\n')}
-
-Note: Here are some optional libraries that may or may not be used:
-${Object.values(libraries)
-  .filter(({ basic }) => basic)
-  .map(({ basic }) => `- ${basic}`)
-  .join('\n')}
-Attention: not all applications need all libraries. Games typically need Three.js, or pure canvas, maybe some Tone.js,
-but normal apps usually only need lodash and jQuery.
-
 Code formatting rules:
 - we use 1 space for indentation
-- all variables are compressed to max 3 characters
-- this is the final project, not a demo or example
-- there are no lines starting with "//", code comments are replaced by line returns
+- code is compressed, all JS variables have maximum 3 characters
+- this is not a tutorial or a demo, but the final project
 \`\`\`html
 ${
   // to save space, we only give essential info to the model

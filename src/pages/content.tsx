@@ -121,7 +121,7 @@ function Content() {
               prompt,
               tasks,
               html: document.getElementById('html-tag')?.innerHTML || '',
-              script,
+              script: document.getElementById('script-tag')?.innerHTML || '',
               text,
               data,
               ...extra,
