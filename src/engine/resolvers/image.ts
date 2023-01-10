@@ -4,13 +4,10 @@
 
 import spinner from '../../assets/spinner.gif'
 import { DalleImage } from '../../providers/openai/types'
+import { Settings } from '../../types'
 
-export async function resolveImages(
-  model: string,
-  apiKey: string,
-  useMockData: boolean
-) {
-  if (useMockData) {
+export async function resolveImages(settings?: Settings) {
+  if (settings?.useMockData) {
     return ''
   }
   // if (loopStarted) {
@@ -37,9 +34,9 @@ export async function resolveImages(
         const response = await fetch(
           `/api/image?prompt=${encodeURIComponent(
             alt
-          )}&model=${encodeURIComponent(model)}&apiKey=${encodeURIComponent(
-            apiKey
-          )}`
+          )}&model=${encodeURIComponent(
+            settings?.openAIModel
+          )}&apiKey=${encodeURIComponent(settings?.openAIKey)}`
         )
         const { url, prompt, width, height } =
           (await response.json()) as DalleImage

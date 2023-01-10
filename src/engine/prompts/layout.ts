@@ -1,9 +1,27 @@
 import { stringify } from 'yaml'
+import { Settings } from '../../types'
 
 import { getLayout } from '../templates'
 import { Instructions, Tasks } from './types'
 
-export const layoutPrompt = (instructions: Instructions) =>
+export const newLayoutPrompt = (instructions: Instructions, doc: string) =>
+  `Build the YAML skeleton tree of a web page.
+Here is the documentation of the various components types:
+${doc}
+
+Example (the text content can be either a string, or a YAML list of element):
+\`\`\`yaml
+- Navbar|fluid=true|rounded=true:
+  - Button|color=gray: some text content
+- etc....
+\`\`\`
+YAML skeleton of ${instructions.summary}.
+${instructions.layout}.
+This YAML is fully written in English and not Latin.
+\`\`\`yaml
+- Theme|primaryText=#`
+
+export const layoutPrompt = (instructions: Instructions, settings?: Settings) =>
   `Transform the following HTML template into a full feature web page
 - the template uses Tailwind classes
 - you can make small changes such as add or remove items in <ul> lists
@@ -13,7 +31,7 @@ export const layoutPrompt = (instructions: Instructions) =>
 - all the image alt should be fully captioned and describe the image in details (the subject, how it was created, where, camera position, focal etc)
 - important: replace all {{semantic blocks}} with an imaginary content (don't write back the instructions!)
 - never repeat the JSON instructions verbatim
-
+${settings?.customLayoutPrompt || ''}
  
 JSON instructions: ${JSON.stringify(
     {

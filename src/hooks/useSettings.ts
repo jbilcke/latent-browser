@@ -9,10 +9,11 @@ export const useSettings = (
     openAIKey: '',
     openAIModel: 'text-davinci-003',
     customTasksPrompt: '',
-    customHtmlPrompt: '',
+    customLayoutPrompt: '',
     customScriptPrompt: '',
     useMockData: false,
     useAutoCherryPick: false,
+    useVendorCherryPick: false,
   }
 ) =>
   useLocalStorage<Settings>({

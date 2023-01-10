@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify'
-import { libraries } from './libraries'
+import { Settings } from '../../types'
 import { Instructions } from './types'
 
 /**
@@ -7,13 +7,15 @@ import { Instructions } from './types'
  * GPT-3 can add more libraries if needed
  */
 export const genericScript =
-  (id: string) => (instructions: Instructions, html: string) =>
+  (id: string) =>
+  (instructions: Instructions, html: string, settings?: Settings) =>
     `${instructions.summary}
 ${instructions.script.map((instruction) => `- ${instruction}`).join('\n')}
 Code formatting rules:
 - we use 1 space for indentation
 - code is compressed, all JS variables have maximum 3 characters
 - this is not a tutorial or a demo, but the final project
+${settings?.customScriptPrompt || ''}
 \`\`\`html
 ${
   // to save space, we only give essential info to the model

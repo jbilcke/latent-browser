@@ -1,9 +1,10 @@
 // the following instruction is disabled, as right now we cannot allow "freedom on install"
 // You will decide install any javascript library you would like.
 
+import { Settings } from '../../types'
 import { Instructions, TaskCategory, Tasks } from './types'
 
-export const tasksPrompt = (query: string) =>
+export const tasksPrompt = (query: string, settings?: Settings) =>
   `You are a senior frontend engineer who needs to develop a web application using only HTML and Javascript.
 You are not going to code it yourself, instead you will write a valid spec of the app, in the form of JSON instructions.
 
@@ -61,7 +62,7 @@ Spec: {
 }
 
 Real work is starting now. Remember, you MUST respect the application brief carefully!
-
+${settings?.customTasksPrompt || ''}
 Brief: ${query}
 Spec: {`
 

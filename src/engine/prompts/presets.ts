@@ -5,6 +5,7 @@ export const presets = {
     temperature: 0.7,
     n: 1, // we try to stay optimistic.. we will query again if it fails
     bestOf: 1,
+    bestOfBoost: 1,
     gptLogitBias: {},
     codexLogitBias: {},
     frequencyPenalty: 0,
@@ -15,6 +16,7 @@ export const presets = {
     temperature: 0.8,
     n: 1, // we try to stay optimistic.. we will query again if it fails
     bestOf: 1,
+    bestOfBoost: 1,
     gptLogitBias: {},
     codexLogitBias: {},
     frequencyPenalty: 0,
@@ -25,6 +27,7 @@ export const presets = {
     temperature: 0.8,
     n: 1, // we try to stay optimistic.. we will query again if it fails
     bestOf: 1,
+    bestOfBoost: 1,
     gptLogitBias: {
       // lorem ipsum
       '75': -1,
@@ -43,6 +46,7 @@ export const presets = {
     temperature: 0.8,
     n: 1, // we try to stay optimistic.. we will query again if it fails
     bestOf: 1,
+    bestOfBoost: 1,
     gptLogitBias: {
       // lorem ipsum
       '75': -1,
@@ -59,7 +63,8 @@ export const presets = {
   script: {
     temperature: 0.7, // don't try to get to crazy here
     n: 1, // we try to stay optimistic.. we will query again if it fails
-    bestOf: 1, // also try to be optimistic here..
+    bestOf: 1,
+    bestOfBoost: 2,
     gptLogitBias: {
       // 1003 = //
       // code comments are bad because:

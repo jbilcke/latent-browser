@@ -12,7 +12,7 @@ import {
 } from '../engine/prompts/tasks'
 import { type Tasks } from '../engine/prompts/types'
 
-import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
+import { ModelProgressBar } from '../components/browser-ui/loaders/ModelProgressBar'
 import {
   useInterval,
   useOpenTabs,
@@ -108,10 +108,6 @@ function Content() {
   const [elapsedTimeMs, setElapsedTimeMs] = useState<number>(0)
   const [isLoadingAssets, setIsLoadingAssets] = useState<boolean>(false)
 
-  const model = settings?.openAIModel
-  const apiKey = settings?.openAIKey
-  const mockData = settings?.useMockData
-
   const updateApp = (extra?: Partial<AppTab>) => {
     setOpenTabs((tabs) =>
       tabs.map((a) =>
@@ -146,12 +142,10 @@ function Content() {
 
     try {
       tasks = await imagineJSON<Tasks>(
-        tasksPrompt(prompt),
+        tasksPrompt(prompt, settings),
         {},
         '{',
-        model,
-        apiKey,
-        mockData
+        settings
       )
     } catch (exc) {
       console.error(`tab.content(${id}): generateTasks: failed`, exc)
@@ -191,10 +185,8 @@ function Content() {
 
     try {
       firstPass = await imagineHTML(
-        layoutPrompt(instructions),
-        model,
-        apiKey,
-        mockData
+        layoutPrompt(instructions, settings),
+        settings
       )
       if (!firstPass) {
         throw new Error('did not get enough results, aborting')
@@ -213,10 +205,8 @@ function Content() {
 
     try {
       secondPass = await imagineHTML(
-        contentPrompt(firstPass, tasks),
-        model,
-        apiKey,
-        mockData
+        contentPrompt(firstPass, tasks, settings),
+        settings,
       )
       if (!secondPass) {
         throw new Error('did not get enough results, aborting')
@@ -301,10 +291,8 @@ function Content() {
 
     try {
       script = await imagineScript(
-        scriptPrompt(instructions, html),
-        model,
-        apiKey,
-        mockData
+        scriptPrompt(instructions, html, settings),
+        settings
       )
       if (!script) {
         throw new Error('did not get enough results, aborting')
@@ -319,10 +307,8 @@ function Content() {
       if (settings.useAutoCherryPick) {
         try {
           script = await imagineScript(
-            scriptPrompt(instructions, html),
-            model,
-            apiKey,
-            mockData
+            scriptPrompt(instructions, html, settings),
+            settings
           )
           if (!script) {
             throw new Error('did not get enough results, aborting')
@@ -402,7 +388,7 @@ function Content() {
   // replace all images alt with src
   useEffect(() => {
     const resolve = async () => {
-      await resolveImages(model, apiKey, mockData)
+      await resolveImages(settings)
       updateApp()
     }
     resolve()
@@ -435,8 +421,8 @@ function Content() {
         elapsedTimeMs={elapsedTimeMs}
         estimatedTimeSec={estimatedTimeSec}
         isLoading={isLoadingAssets}
-        model={model}
-        provider="OpenAI"
+        model={settings?.openAIModel}
+        provider={settings?.coreVendor}
         stage={stage}
       />
     </>

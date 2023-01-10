@@ -1,7 +1,6 @@
 import { type Settings } from '../types'
-import { useSettings } from '../hooks/useSettings'
-import { SettingInput } from '../components/inputs/SettingInput'
-import { Toggle } from '../components/toggle'
+import { useSettings } from '../hooks'
+import { SettingInput, Toggle } from '../components/browser-ui'
 
 type BaseField = {
   label: string
@@ -104,7 +103,6 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     type: 'text',
     defaultValue: 'text-davinci-003',
   },
-  /*
   customPrompts: {
     label: 'Custom prompts',
     description: 'Those instructions will be added to all the queries',
@@ -113,12 +111,12 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
   customTasksPrompt: {
     label: 'TASKS Prompt',
     description: '',
-    placeholder: 'Additional instructions for the application brief..',
+    placeholder: 'Additional instructions for the whole application..',
     type: 'text',
     defaultValue: '',
   },
-  customHtmlPrompt: {
-    label: 'HTML Prompt',
+  customLayoutPrompt: {
+    label: 'LAYOUT Prompt',
     description: '',
     placeholder: 'Additional instructions for the HTML layout..',
     type: 'text',
@@ -127,16 +125,21 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
   customScriptPrompt: {
     label: 'SCRIPT Prompt',
     description: '',
-    placeholder: 'Additional instructions for the Javascript..',
+    placeholder: 'Additional instructions for the JS code..',
     type: 'text',
     defaultValue: '',
   },
-  */
   checkPickSection: {
     label: 'Auto Cherry-Pick',
     description: 'Warning: enabling these options will increase your costs',
     type: 'section',
     defaultValue: '',
+  },
+  useVendorCherryPick: {
+    label: 'Socially Acceptable Cherry-Pick™',
+    description: 'Ask the LLM vendor to do some cherry-picking on their side',
+    type: 'boolean',
+    defaultValue: false,
   },
   useAutoCherryPick: {
     label: 'Cherry-Pick Is All You Need™',

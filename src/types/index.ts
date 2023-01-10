@@ -53,8 +53,9 @@ export interface Settings {
   openAIKey: string
   openAIModel: string
   customTasksPrompt: string
-  customHtmlPrompt: string
+  customLayoutPrompt: string
   customScriptPrompt: string
   useAutoCherryPick: boolean
+  useVendorCherryPick: boolean
   useMockData: boolean
 }

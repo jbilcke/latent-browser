@@ -3,6 +3,11 @@ module.exports = {
   mode: 'jit',
   content: [
     './src/**/*.{js,jsx,ts,tsx,md,txt}',
+
+    // UI Kits
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+    'node_modules/daisyui/dist/**/*.js',
+    'node_modules/react-daisyui/dist/**/*.js'
   ],
   theme: {
     extend: {
@@ -14,6 +19,15 @@ module.exports = {
         'noogle': '0 1px 6px 0 #20212451',
       },
       colors: {
+        // new color system (theme-based)
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        negative: 'var(--color-negative)',
+        positive: 'var(--color-positive)',
+        'primary-background': 'var(--background-primary)',
+        'sec-background': 'var(--background-sec)',
+        'primary-text': 'var(--color-text-primary)',
+ 
         light: {
           bg: '#ffffff',
           highlight: '#1a0dab',
@@ -42,6 +56,13 @@ module.exports = {
         '30px': '30px',
       }
     },
+    backgroundColor: (theme) => ({
+      ...theme('colors'),
+    }),
+
+  },
+  variants: {
+    backgroundColor: ['active'],
   },
   plugins: [
     require('tailwind-safelist-generator')({
@@ -117,5 +138,8 @@ module.exports = {
         'hover:text-{colors}',
       ],
     }),
+    // UI kits
+    require('flowbite/plugin'),
+    require('daisyui')
   ],
 }

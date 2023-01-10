@@ -39,6 +39,7 @@ export interface PromptSettings {
   temperature: number
   n: number
   bestOf: number
+  bestOfBoost: number
 
   // attention, gpt and codex tokens are different! https://beta.openai.com/tokenizer?view=bpe
   gptLogitBias: Record<string, number>

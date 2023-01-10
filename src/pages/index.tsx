@@ -4,16 +4,11 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { v4 as uuidv4 } from 'uuid'
 import Icon from 'react-material-symbols/rounded'
 
-import { useStoredApps } from '../hooks/useStoredApps'
-import { useOpenTabs } from '../hooks/useOpenTabs'
-
-import { SearchInput } from '../components/inputs/SearchInput'
-import { Button } from '../components/buttons/Button'
-import { IconButton } from '../components/buttons/IconButton'
+import { useStoredApps, useOpenTabs, useSettings } from '../hooks'
+import { SearchInput, Button, IconButton } from '../components/browser-ui'
 import { getKeyForApps } from '../utils/getKeyForApps'
-import { useSettings } from '../hooks'
 
-const Tabs = lazy(() => import('../components/tabs/Tabs'))
+const Tabs = lazy(() => import('../components/browser-ui/tabs/Tabs'))
 
 function Index() {
   const [query, setQuery] = useState('')

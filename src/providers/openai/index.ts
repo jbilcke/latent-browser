@@ -10,6 +10,8 @@ import * as mocks from './mocks'
 import { libraries } from '../../engine/prompts/libraries'
 import { presets } from '../../engine/prompts/presets'
 import { type PromptSettings } from '../../engine/prompts/types'
+import { getLatentBrowserName } from '../../utils/getLatentBrowserName'
+import { Settings } from '../../types'
 
 // don't do this at home!
 // if we deploy one day to the cloud, we MUST rewrite this..
@@ -30,15 +32,13 @@ export const getOpenAI = async (apiKey?: string) => {
 
 export const imagineString = async (
   prompt: string,
-  settings: PromptSettings,
-  model?: string,
-  apiKey?: string,
-  mockData?: boolean
+  preset: PromptSettings,
+  settings?: Settings
 ): Promise<string> => {
-  if (mockData) {
+  if (settings?.useMockData) {
     return ''
   }
-  persisted.model = model || 'text-davinci-003'
+  persisted.model = settings?.openAIModel || 'text-davinci-003'
 
   const tokenHardLimit = 4097
 
@@ -54,20 +54,26 @@ export const imagineString = async (
     `requesting ${maxTokens} of the ${tokenHardLimit} tokens availables`
   )
 
-  const openai = await getOpenAI(apiKey)
+  const openai = await getOpenAI(settings?.openAIKey)
   const response = await openai.createCompletion({
     model: persisted.model,
     prompt,
-    user: 'default_user',
-    temperature: settings.temperature,
+    user: getLatentBrowserName(),
+    temperature: preset.temperature,
     max_tokens: maxTokens,
-    n: settings.n,
+    n: preset.n,
     // top_p: 1,
-    best_of: settings.bestOf,
-    frequency_penalty: settings.frequencyPenalty,
-    presence_penalty: settings.presencePenalty,
-    logit_bias: settings.gptLogitBias,
-    stop: settings.stop?.length ? settings.stop : undefined,
+
+    // "best_of must be greater than n"
+    ...(settings?.useVendorCherryPick && preset.bestOfBoost > 1
+      ? {
+          best_of: preset.bestOfBoost,
+        }
+      : undefined),
+    frequency_penalty: preset.frequencyPenalty,
+    presence_penalty: preset.presencePenalty,
+    logit_bias: preset.gptLogitBias,
+    stop: preset.stop?.length ? preset.stop : undefined,
   })
 
   return response?.data?.choices?.[0]?.text?.trim() || ''
@@ -75,20 +81,18 @@ export const imagineString = async (
 
 export const imagineHTML = async (
   prompt: string,
-  model?: string,
-  apiKey?: string,
-  mockData?: boolean
+  settings?: Settings
 ): Promise<string> => {
   // we put an empty <script> tag to try to prevent code generation
   prompt = `${prompt}<div`
 
   console.log('imagineHTML> prompt:', prompt)
 
-  if (mockData) {
+  if (settings?.useMockData) {
     return mocks.html
   }
 
-  const raw = await imagineString(prompt, presets.html, model, apiKey)
+  const raw = await imagineString(prompt, presets.html, settings)
 
   console.log('imagineHTML> raw:', raw)
 
@@ -121,25 +125,17 @@ export const imagineHTML = async (
 
 export const imagineScript = async (
   prompt: string,
-  model: string,
-  apiKey?: string,
-  mockData?: boolean
+  settings?: Settings
 ): Promise<string> => {
   prompt = `${prompt}`
 
   console.log('imagineScript> prompt:', prompt)
 
-  if (mockData) {
+  if (settings.useMockData) {
     return mocks.script
   }
 
-  const output = await imagineString(
-    prompt,
-    presets.script,
-    model,
-    apiKey,
-    mockData
-  )
+  const output = await imagineString(prompt, presets.script, settings)
 
   /*
   This doesn't work, the browser refuses to add a script type=module
@@ -176,23 +172,15 @@ export const imagineJSON = async <T>(
   prompt: string,
   defaultValue: T,
   prefix: string,
-  model?: string,
-  apiKey?: string,
-  mockData?: boolean
+  settings?: Settings
 ): Promise<T> => {
   console.log('imagineJSON> prompt:', prompt)
 
-  if (mockData) {
+  if (settings?.useMockData) {
     return mocks.json<T>(prefix)
   }
 
-  let output = await imagineString(
-    prompt,
-    presets.json,
-    model,
-    apiKey,
-    mockData
-  )
+  let output = await imagineString(prompt, presets.json, settings)
 
   try {
     // we give a hint in our prompt by prefixing it, but we need to put it back in the output
@@ -218,11 +206,10 @@ export const imagineJSON = async <T>(
 
 export const imagineImage = async (
   prompt: string,
-  apiKey?: string,
-  mockData?: boolean
+  settings?: Settings
 ): Promise<DalleImage> => {
   console.log('imagineImage', prompt)
-  if (mockData) {
+  if (settings?.useMockData) {
     return mocks.image
   }
 
@@ -231,7 +218,7 @@ export const imagineImage = async (
   const size = 1024 // 1024
   const width = size
   const height = size
-  const openai = await getOpenAI(apiKey)
+  const openai = await getOpenAI(settings?.openAIKey)
   const response = await openai.createImage({
     prompt,
     n: 1,

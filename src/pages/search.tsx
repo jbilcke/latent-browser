@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { useParam } from '../hooks/useParam'
 import { imagineJSON } from '../providers/openai'
 import { searchTemplate } from '../engine/prompts/search'
-import { ModelProgressBar } from '../components/loaders/ModelProgressBar'
-import { useInterval } from '../hooks/useInterval'
-import { BigSearchInput } from '../components/inputs/BigSearchInput'
-import { useOpenTabs } from '../hooks/useOpenTabs'
+import { BigSearchInput, ModelProgressBar } from '../components/browser-ui'
+import { useParam, useInterval, useOpenTabs, useSettings } from '../hooks'
 import { getKeyForApps } from '../utils/getKeyForApps'
-import { useSettings } from '../hooks/useSettings'
+import { Renderer } from '../engine/renderer'
 
 interface Result {
   title: string
@@ -148,6 +145,7 @@ function Search() {
   // some famous search engine colors
   return (
     <>
+      <Renderer />
       {results.length ? (
         <div className="font-google bg-light-bg w-full flex flex-col pt-4 pb-4 pl-8">
           <div className="flex flex-col w-[652px]">
