@@ -1,6 +1,6 @@
 import { type Settings } from '../types'
 import { useSettings } from '../hooks'
-import { SettingInput, Toggle } from '../components/browser-ui'
+import { SettingInput, Toggle } from '../components'
 
 type BaseField = {
   label: string
@@ -119,22 +119,22 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     description: 'Those instructions will be added to all the queries',
     type: 'section',
   },
-  customSpecPrompt: {
-    label: 'General composer',
+  customPlannerPrompt: {
+    label: 'Planner',
     description: '',
     placeholder: 'The topic, subject, theme, mood..',
     type: 'text',
     defaultValue: '',
   },
-  customScenePrompt: {
-    label: 'Scene composer',
+  customBuilderPrompt: {
+    label: 'Builder',
     description: '',
     placeholder: 'Use a specific layout, components, plugin, parameters..',
     type: 'text',
     defaultValue: '',
   },
-  customDerivationPrompt: {
-    label: 'Text composer',
+  customImproverPrompt: {
+    label: 'Improver',
     description: '',
     placeholder: 'Change the language, alter the writing style, text length..',
     type: 'text',

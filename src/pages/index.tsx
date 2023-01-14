@@ -1,12 +1,10 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import Head from 'next/head'
-import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { v4 as uuidv4 } from 'uuid'
 import Icon from 'react-material-symbols/rounded'
 
 import { useStoredApps, useOpenTabs, useSettings } from '../hooks'
-import { SearchInput, Button, IconButton } from '../components/browser-ui'
-import { getKeyForApps } from '../utils/getKeyForApps'
+import { IconButton, SearchInput, SpeechInput } from '../components'
 
 const Tabs = lazy(() => import('../components/browser-ui/tabs/Tabs'))
 
@@ -37,13 +35,7 @@ function Index() {
           // app properties
           id: uuidv4(),
           title: query.length > 20 ? `${query.slice(0, 20)}..` : query,
-          subtitle: '',
           prompt: query,
-          tasks: {},
-          text: {},
-          html: '',
-          script: '',
-          data: {},
 
           // tab properties
           isActive: true,
@@ -65,13 +57,6 @@ function Index() {
               // app properties
               id: uuidv4(),
               title: 'Settings',
-              subtitle: '',
-              prompt: '',
-              tasks: {},
-              text: {},
-              html: '',
-              script: '',
-              data: {},
 
               // tab properties
               isActive: true,
@@ -101,13 +86,6 @@ function Index() {
               // app properties
               id: uuidv4(),
               title: 'Favorites',
-              subtitle: '',
-              prompt: '',
-              tasks: {},
-              text: {},
-              html: '',
-              script: '',
-              data: {},
 
               // tab properties
               isActive: true,
@@ -192,7 +170,11 @@ function Index() {
 
           <div className="flex flex-col w-screen h-screen bg-toolbar-bg overflow-hidden">
             <div className="absolute top-[40px] flex items-center justify-center space-x-2 w-full px-4 h-[40px] bg-toolbar-fg">
-              {/*<Icon icon="refresh" size={24} fill grade={-25} color="#212124" />*/}
+              <SpeechInput
+                language={settings.coreSpeechToTextLanguage}
+                onChange={setQuery}
+                onSubmit={handleGenerate}
+              />
               <SearchInput
                 onChange={setQuery}
                 onSubmit={handleGenerate}
@@ -201,7 +183,7 @@ function Index() {
               />
               {activeApp
                 ? activeApp.type === 'content' &&
-                  activeApp.html && (
+                  activeApp.scene && (
                     <IconButton onClick={handleToggleFavorite}>
                       <Icon
                         icon={

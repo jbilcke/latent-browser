@@ -1,5 +1,6 @@
 import React, { useEffect, useState, ReactNode } from 'react'
-
+import Icon from 'react-material-symbols/rounded'
+import 'regenerator-runtime/runtime' // required by react-speech-recognition it seems
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition'
@@ -18,9 +19,13 @@ SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition)
 export const SpeechInput = ({
   children,
   language,
+  onChange,
+  onSubmit,
 }: {
   children?: ReactNode
   language?: string
+  onChange?: (value: string) => void
+  onSubmit?: (value: string) => void
 }): JSX.Element => {
   const [isReady, setReady] = useState<boolean>(false)
   const {
@@ -47,23 +52,37 @@ export const SpeechInput = ({
 
   const handleEnd = () => {
     SpeechRecognition.stopListening()
+    onSubmit?.(transcript)
   }
 
   useEffect(() => {
     console.log('transcript: ', transcript)
+    onChange?.(transcript)
   }, [transcript])
 
   return isReady ? (
-    <div>
-      <p>Microphone: {listening ? 'on' : 'off'}</p>
-      <button
-        onTouchStart={handleStart}
-        onMouseDown={handleStart}
-        onTouchEnd={handleEnd}
-        onMouseUp={handleEnd}
-      >
-        {children}
-      </button>
-    </div>
+    <button
+      className="flex items-center justify-center hover:bg-gray-600/20 p-1 rounded-full"
+      onTouchStart={handleStart}
+      onMouseDown={handleStart}
+      onTouchEnd={handleEnd}
+      onMouseUp={handleEnd}
+      type="button"
+    >
+      {children ? (
+        children
+      ) : (
+        <>
+          <Icon
+            icon="mic"
+            size={24}
+            fill={listening}
+            grade={-25}
+            weight={200}
+            color="#212124"
+          />
+        </>
+      )}
+    </button>
   ) : undefined
 }

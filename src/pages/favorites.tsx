@@ -1,7 +1,6 @@
 import { App } from '../types'
-import { useStoredApps } from '../hooks/useStoredApps'
-import { useOpenTabs } from '../hooks/useOpenTabs'
-import { Button } from '../components/browser-ui/buttons/Button'
+import { useOpenTabs, useStoredApps } from '../hooks'
+import { Button } from '../components'
 
 function Favorites() {
   const [storedApps, setStoredApps] = useStoredApps()

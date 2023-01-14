@@ -107,6 +107,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-no-ssr", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:1.1.0"],\
             ["react-speech-recognition", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:3.10.0"],\
             ["reactronica", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:0.8.1-canary.1"],\
+            ["regenerator-runtime", "npm:0.13.11"],\
             ["stability-ts", "npm:1.3.0"],\
             ["storybook-addon-next", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:1.7.1"],\
             ["tailgrids", "npm:2.0.0"],\
@@ -22760,6 +22761,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-no-ssr", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:1.1.0"],\
             ["react-speech-recognition", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:3.10.0"],\
             ["reactronica", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:0.8.1-canary.1"],\
+            ["regenerator-runtime", "npm:0.13.11"],\
             ["stability-ts", "npm:1.3.0"],\
             ["storybook-addon-next", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:1.7.1"],\
             ["tailgrids", "npm:2.0.0"],\

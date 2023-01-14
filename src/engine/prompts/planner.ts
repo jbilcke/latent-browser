@@ -4,7 +4,7 @@
 import { Settings } from '../../types'
 import { Specification, SpecCategory, RawSpecification } from './types'
 
-export const specPrompt = (query: string, settings?: Settings) =>
+export const getPlannerPrompt = (query: string, settings?: Settings) =>
   `You are a senior frontend engineer who needs to develop a web application using only HTML and Javascript.
 You are not going to code it yourself, instead you will write a valid spec of the app, in the form of JSON instructions.
 
@@ -62,7 +62,7 @@ Spec: {
 }
 
 Real work is starting now. Remember, you MUST respect the brief carefully!
-${settings?.customSpecPrompt || ''}
+${settings?.customPlannerPrompt || ''}
 Brief: ${query}
 Spec: {`
 

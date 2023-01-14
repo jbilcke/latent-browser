@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { Scene } from '../components/core/Scene'
+import { Scene } from '../components'
 import { mockSceneString } from '../components/core/Scene/mocks'
-import { SpeechInput } from '../components/core/SpeechInput'
-
-import { scenePrompt } from '../engine/prompts/scene'
-import { type Specification } from '../engine/prompts/types'
-
+import { getBuilderPrompt, type Specification } from '../engine/prompts'
 import { apiDoc, components } from '../plugins'
 
 // a search result page in the style of a famous search engine =)
@@ -24,8 +20,8 @@ function Test() {
       style: [],
       summary: [],
     }
-    const prompt = scenePrompt(spec, apiDoc)
-    console.log('prompt:', prompt)
+    const builderPrompt = getBuilderPrompt(spec, apiDoc)
+    console.log('builderPrompt:', builderPrompt)
 
     setScene(mockSceneString)
   }, [])
@@ -34,7 +30,6 @@ function Test() {
   // some famous search engine colors
   return (
     <>
-      <SpeechInput>Click & hold to talk</SpeechInput>
       <Scene>{scene}</Scene>
     </>
   )

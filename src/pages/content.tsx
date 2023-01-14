@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
-import { imagineHTML, imagineJSON, imagineScript } from '../providers/openai'
+import { imagineHTML, imagineString } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
-import { scenePrompt } from '../engine/prompts/scene'
-import { contentPrompt } from '../engine/prompts/content'
 import {
-  specPrompt,
-  taskValues,
-  getCategory,
-  getFinalSpec,
-} from '../engine/prompts/specification'
-import {
+  getPlannerPrompt,
+  getBuilderPrompt,
+  getImproverPrompt,
   type RawSpecification,
   type Scene,
   type Specification,
-} from '../engine/prompts/types'
-
-import { ModelProgressBar } from '../components/browser-ui/loaders/ModelProgressBar'
+} from '../engine/prompts'
+import { ModelProgressBar } from '../components'
 import {
   useInterval,
   useOpenTabs,
@@ -24,15 +18,13 @@ import {
   useSettings,
   useParam,
 } from '../hooks'
-import { readParam } from '../utils/readParam'
-import { getKeyForApps } from '../utils/getKeyForApps'
+import { getKeyForApps } from '../utils'
 import { type AppTab } from '../types'
-import { useStoredApp } from '../hooks/useStoredApp'
 
 const timePerStage = {
-  INSTRUCT: 15,
-  INTERPRET: 25,
-  DERIVATE: 25,
+  PLAN: 15,
+  BUILD: 25,
+  IMPROVE: 25,
 }
 function Content() {
   const [storedApps, setStoredApps] = useStoredApps()
@@ -44,8 +36,8 @@ function Content() {
   const id = useParam('id', '')
 
   const [stage, setStage] = useState<
-    'INIT' | 'INSTRUCT' | 'INTERPRET' | 'DERIVATE' | 'LOADED' | 'CRUD'
-  >('INSTRUCT')
+    'INIT' | 'PLAN' | 'BUILD' | 'IMPROVE' | 'LOADED' | 'CRUD'
+  >('PLAN')
 
   // TODO this is new, let's use this for cool stuff!
   // store data, images etc

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { imagineJSON } from '../providers/openai'
 import { searchTemplate } from '../engine/prompts/search'
-import { BigSearchInput, ModelProgressBar } from '../components/browser-ui'
+import { BigSearchInput, ModelProgressBar } from '../components'
 import { useParam, useInterval, useOpenTabs, useSettings } from '../hooks'
 import { getKeyForApps } from '../utils/getKeyForApps'
 
@@ -41,11 +41,6 @@ function Search() {
           title,
           subtitle: title,
           prompt,
-          tasks: {},
-          text: {},
-          html: '',
-          script: '',
-          data: {},
 
           // tab properties
           isActive: true,
@@ -79,9 +74,7 @@ function Search() {
         searchTemplate(prompt, nbResults),
         [],
         '[',
-        settings?.openAIModel,
-        settings?.openAIKey,
-        settings?.useMockData
+        settings
       )
     } catch (exc) {
       console.error(exc)

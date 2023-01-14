@@ -72,6 +72,7 @@
     "react-no-ssr": "^1.1.0",
     "react-speech-recognition": "^3.10.0",
     "reactronica": "^0.8.1-canary.0",
+    "regenerator-runtime": "^0.13.11",
     "stability-ts": "^1.3.0",
     "tailgrids": "^2.0.0",
     "tailgrids-react": "^0.1.5",

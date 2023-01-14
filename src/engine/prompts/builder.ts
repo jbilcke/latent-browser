@@ -34,7 +34,7 @@ const examples = `
   - "fiber.ball|size={$a * 2.5}|color={$mouse.clicked ? $b : '#00ff00'}"
   - "fiber.ball|size={$b * 3.5}|color={$mouse.clicked ? $b : '#0000ff'}"`
 
-export const scenePrompt = (spec: Specification, apiDoc: string) =>
+export const getBuilderPrompt = (spec: Specification, apiDoc: string) =>
   `Build the YAML skeleton tree of a web page.
 Documentation of available components and their parameters:
 ${apiDoc}

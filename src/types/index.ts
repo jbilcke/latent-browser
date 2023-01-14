@@ -10,16 +10,16 @@ export interface App {
   title: string
 
   // subtitle (not very used right now)
-  subtitle: string
+  subtitle?: string
 
   // the mini-prompt visible in the top bar
-  prompt: string
+  prompt?: string
 
   // specification used to generate the content
-  spec: Specification
+  spec?: Specification
 
   // scene tree
-  scene: Scene
+  scene?: Scene
 }
 
 export interface Tab {
@@ -46,9 +46,9 @@ export interface Settings {
   huggingFaceModel: string
   openAIKey: string
   openAIModel: string
-  customSpecPrompt: string
-  customScenePrompt: string
-  customDerivationPrompt: string
+  customPlannerPrompt: string
+  customBuilderPrompt: string
+  customImproverPrompt: string
   useAutoCherryPick: boolean
   useVendorCherryPick: boolean
   useMockData: boolean
