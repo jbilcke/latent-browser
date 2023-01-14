@@ -6,7 +6,6 @@ import { searchTemplate } from '../engine/prompts/search'
 import { BigSearchInput, ModelProgressBar } from '../components/browser-ui'
 import { useParam, useInterval, useOpenTabs, useSettings } from '../hooks'
 import { getKeyForApps } from '../utils/getKeyForApps'
-import { Renderer } from '../engine/renderer'
 
 interface Result {
   title: string
@@ -145,7 +144,6 @@ function Search() {
   // some famous search engine colors
   return (
     <>
-      <Renderer />
       {results.length ? (
         <div className="font-google bg-light-bg w-full flex flex-col pt-4 pb-4 pl-8">
           <div className="flex flex-col w-[652px]">

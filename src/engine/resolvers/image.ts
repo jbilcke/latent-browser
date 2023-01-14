@@ -3,7 +3,7 @@
 // import { imagineImage } from '../../providers/stabilityai'
 
 import spinner from '../../assets/spinner.gif'
-import { DalleImage } from '../../providers/openai/types'
+import { ImaginedImage } from '../../providers/openai/types'
 import { Settings } from '../../types'
 
 export async function resolveImages(settings?: Settings) {
@@ -39,7 +39,7 @@ export async function resolveImages(settings?: Settings) {
           )}&apiKey=${encodeURIComponent(settings?.openAIKey)}`
         )
         const { url, prompt, width, height } =
-          (await response.json()) as DalleImage
+          (await response.json()) as ImaginedImage
 
         console.log(
           'resolveImages> replacing src with url and deleting alt',

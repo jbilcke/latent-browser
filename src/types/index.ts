@@ -1,3 +1,5 @@
+import { Scene, Specification } from '../engine/prompts/types'
+
 export type AppType = 'search' | 'content' | 'favorites' | 'settings'
 
 export interface App {
@@ -13,20 +15,11 @@ export interface App {
   // the mini-prompt visible in the top bar
   prompt: string
 
-  // specification used to generate the HTML and script
-  tasks: Record<string, string>
+  // specification used to generate the content
+  spec: Specification
 
-  // source code of the HTML layout
-  html: string
-
-  // specification used to generate the page text
-  text: Record<string, string>
-
-  // source code of the script (app logic)
-  script: string
-
-  // persisted data
-  data: Record<string, any>
+  // scene tree
+  scene: Scene
 }
 
 export interface Tab {
@@ -52,9 +45,9 @@ export interface Settings {
   huggingFaceModel: string
   openAIKey: string
   openAIModel: string
-  customTasksPrompt: string
-  customLayoutPrompt: string
-  customScriptPrompt: string
+  customSpecPrompt: string
+  customScenePrompt: string
+  customDerivationPrompt: string
   useAutoCherryPick: boolean
   useVendorCherryPick: boolean
   useMockData: boolean

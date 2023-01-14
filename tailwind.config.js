@@ -138,8 +138,10 @@ module.exports = {
         'hover:text-{colors}',
       ],
     }),
+    require('@tailwindcss/forms'),
     // UI kits
     require('flowbite/plugin'),
-    require('daisyui')
+    // require('daisyui'),
+    require('tailgrids/plugin'),
   ],
 }

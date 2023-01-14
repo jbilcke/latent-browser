@@ -1,7 +1,9 @@
 import { NextApiResponse, NextApiRequest } from 'next'
-import { ModelProgressBar } from '../../components/loaders/ModelProgressBar'
-import { imagineImage, persisted } from '../../providers/openai'
-import { DalleImage } from '../../providers/openai/types'
+import {
+  imagineImage,
+  credentials,
+  ImaginedImage,
+} from '../../providers/openai'
 import { Settings } from '../../types'
 
 // The Images API is in beta.
@@ -11,17 +13,17 @@ import { Settings } from '../../types'
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<DalleImage>
+  res: NextApiResponse<ImaginedImage>
 ) {
   // http://localhost:1420
   // await fetch('/api/image?prompt=picture%20of%20a%20plate%20of%20freshly-baked%20chocolate%20chip%20cookies%2C%20golden%20brown%20and%20oozing%20melted%20chocolate')
   console.log('received request for', req.url)
   const prompt = decodeURIComponent(req.query.prompt.toString())
   try {
-    persisted.model = decodeURIComponent(req.query.model.toString())
-    persisted.apiKey = decodeURIComponent(req.query.apiKey.toString())
+    credentials.model = decodeURIComponent(req.query.model.toString())
+    credentials.apiKey = decodeURIComponent(req.query.apiKey.toString())
   } catch (err) {}
-  if (!persisted.model || !persisted.apiKey) {
+  if (!credentials.model || !credentials.apiKey) {
     throw new Error('no model or apiKey provided')
   }
   console.log('prompt:', prompt)
@@ -29,11 +31,11 @@ export default async function handler(
     coreVendor: '',
     huggingFaceKey: '',
     huggingFaceModel: '',
-    openAIKey: persisted.apiKey,
-    openAIModel: persisted.model,
-    customTasksPrompt: '',
-    customLayoutPrompt: '',
-    customScriptPrompt: '',
+    openAIKey: credentials.apiKey,
+    openAIModel: credentials.model,
+    customSpecPrompt: '',
+    customScenePrompt: '',
+    customDerivationPrompt: '',
     useAutoCherryPick: false,
     useVendorCherryPick: false,
     useMockData: false,

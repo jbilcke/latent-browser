@@ -13,7 +13,7 @@ import {
   imagineImage,
   imagineJSON,
   imagineString,
-  persisted,
+  credentials,
 } from '../../../providers/openai'
 import { presets } from '../../../engine/prompts/presets'
 
@@ -24,7 +24,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   // TODO we need at least one initial call to populate the apiKey
-  if (!persisted.model || !persisted.apiKey) {
+  if (!credentials.model || !credentials.apiKey) {
     throw new Error('not supported')
   }
   // http://localhost:1420

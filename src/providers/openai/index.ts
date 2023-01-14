@@ -4,8 +4,8 @@ import DOMPurify from 'dompurify'
 // note: attention, GPT-3 encoder requires node:fs
 // import * as gpt3encoder from 'gpt-3-encoder'
 // const { encode, decode } = gpt3encoder
-
-import { DalleImage } from './types'
+export * from './types'
+import { ImaginedImage } from './types'
 import * as mocks from './mocks'
 import { libraries } from '../../engine/prompts/libraries'
 import { presets } from '../../engine/prompts/presets'
@@ -15,7 +15,7 @@ import { Settings } from '../../types'
 
 // don't do this at home!
 // if we deploy one day to the cloud, we MUST rewrite this..
-export const persisted = {
+export const credentials = {
   apiKey: '',
   model: '',
 }
@@ -23,9 +23,9 @@ export const persisted = {
 export const getOpenAI = async (apiKey?: string) => {
   // don't do this at home!
   // if we deploy one day to the cloud, we MUST rewrite this..
-  persisted.apiKey = apiKey || persisted.apiKey
+  credentials.apiKey = apiKey || credentials.apiKey
 
-  const configuration = new Configuration({ apiKey: persisted.apiKey })
+  const configuration = new Configuration({ apiKey: credentials.apiKey })
   const openai = new OpenAIApi(configuration)
   return openai
 }
@@ -38,7 +38,7 @@ export const imagineString = async (
   if (settings?.useMockData) {
     return ''
   }
-  persisted.model = settings?.openAIModel || 'text-davinci-003'
+  credentials.model = settings?.openAIModel || 'text-davinci-003'
 
   const tokenHardLimit = 4097
 
@@ -56,7 +56,7 @@ export const imagineString = async (
 
   const openai = await getOpenAI(settings?.openAIKey)
   const response = await openai.createCompletion({
-    model: persisted.model,
+    model: credentials.model,
     prompt,
     user: getLatentBrowserName(),
     temperature: preset.temperature,
@@ -207,7 +207,7 @@ export const imagineJSON = async <T>(
 export const imagineImage = async (
   prompt: string,
   settings?: Settings
-): Promise<DalleImage> => {
+): Promise<ImaginedImage> => {
   console.log('imagineImage', prompt)
   if (settings?.useMockData) {
     return mocks.image

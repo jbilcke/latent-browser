@@ -2,15 +2,19 @@ import { useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
 import { imagineHTML, imagineJSON, imagineScript } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
-import { layoutPrompt } from '../engine/prompts/layout'
+import { scenePrompt } from '../engine/prompts/scene'
 import { contentPrompt } from '../engine/prompts/content'
-import { scriptPrompt } from '../engine/prompts/script'
 import {
-  getInstructions,
-  tasksPrompt,
-  tasksValues,
-} from '../engine/prompts/tasks'
-import { type Tasks } from '../engine/prompts/types'
+  specPrompt,
+  taskValues,
+  getCategory,
+  getFinalSpec,
+} from '../engine/prompts/specification'
+import {
+  type RawSpecification,
+  type Scene,
+  type Specification,
+} from '../engine/prompts/types'
 
 import { ModelProgressBar } from '../components/browser-ui/loaders/ModelProgressBar'
 import {
@@ -23,11 +27,12 @@ import {
 import { readParam } from '../utils/readParam'
 import { getKeyForApps } from '../utils/getKeyForApps'
 import { type AppTab } from '../types'
+import { useStoredApp } from '../hooks/useStoredApp'
 
 const timePerStage = {
-  TASKS: 15,
-  HTML: 25,
-  SCRIPT: 40,
+  INSTRUCT: 15,
+  INTERPRET: 25,
+  DERIVATE: 25,
 }
 function Content() {
   const [storedApps, setStoredApps] = useStoredApps()
@@ -39,25 +44,21 @@ function Content() {
   const id = useParam('id', '')
 
   const [stage, setStage] = useState<
-    | 'INIT'
-    | 'TASKS'
-    | 'LAYOUT'
-    | 'CONTENT'
-    | 'SCRIPT'
-    | 'TEXT'
-    | 'LOADED'
-    | 'CRUD'
-  >('TASKS')
+    'INIT' | 'INSTRUCT' | 'INTERPRET' | 'DERIVATE' | 'LOADED' | 'CRUD'
+  >('INSTRUCT')
+
+  // TODO this is new, let's use this for cool stuff!
+  // store data, images etc
+  // const storedApp = useStoredApp(id)
 
   // note: we must make rehydration async to make the SSR happy
   const [prompt, setPrompt] = useState<string>('')
-  const [tasks, setTasks] = useState<Tasks>({} as Tasks)
-  const [html, setHtml] = useState<string>('')
-  const [script, setScript] = useState<string>('')
-  const [trials, setTrials] = useState<number>(0)
-  const [text, setText] = useState<Record<string, any>>({})
+
+  // contains the specification of the scene
+  const [spec, setSpec] = useState<Specification>({} as Specification)
+  const [scene, setScene] = useState<Scene>({} as Scene) // scene graph
+  const [trials, setTrials] = useState<number>(0) // used to count attempts, but we may not need this anymore
   const [data, setData] = useState<Record<string, any>>({})
-  const instructions = getInstructions(tasks)
 
   useEffect(() => {
     console.log('primary use effect to init the app', {
@@ -138,11 +139,11 @@ function Content() {
     setElapsedTimeMs(0)
     setStage('TASKS')
 
-    let tasks: Tasks = {}
+    let rawSpec: RawSpecification = {}
 
     try {
-      tasks = await imagineJSON<Tasks>(
-        tasksPrompt(prompt, settings),
+      rawSpec = await imagineJSON<RawSpecification>(
+        specPrompt(prompt, settings),
         {},
         '{',
         settings
@@ -150,16 +151,16 @@ function Content() {
     } catch (exc) {
       console.error(`tab.content(${id}): generateTasks: failed`, exc)
       setIsLoadingAssets(false)
-      setScript('')
+      setSpec('')
       return
     }
 
-    if (!tasks || !Object.keys(tasks).length) {
+    if (!rawSpec || !Object.keys(rawSpec).length) {
       console.log(
         `tab.content(${id}): generateTasks: did not get enough tasks, aborting`
       )
       setIsLoadingAssets(false)
-      setScript('')
+      setSpec('')
       return
     }
     // replaceImages()

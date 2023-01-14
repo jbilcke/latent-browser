@@ -108,24 +108,24 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     description: 'Those instructions will be added to all the queries',
     type: 'section',
   },
-  customTasksPrompt: {
-    label: 'TASKS Prompt',
+  customSpecPrompt: {
+    label: 'INSTRUCT Prompt',
     description: '',
-    placeholder: 'Additional instructions for the whole application..',
+    placeholder: 'Custom rules for the instruction step..',
     type: 'text',
     defaultValue: '',
   },
-  customLayoutPrompt: {
-    label: 'LAYOUT Prompt',
+  customScenePrompt: {
+    label: 'INTERPRET Prompt',
     description: '',
-    placeholder: 'Additional instructions for the HTML layout..',
+    placeholder: 'Custom rules for the interpretation step..',
     type: 'text',
     defaultValue: '',
   },
-  customScriptPrompt: {
-    label: 'SCRIPT Prompt',
+  customDerivationPrompt: {
+    label: 'DERIVATE Prompt',
     description: '',
-    placeholder: 'Additional instructions for the JS code..',
+    placeholder: 'Additional instructions for the derivation step..',
     type: 'text',
     defaultValue: '',
   },

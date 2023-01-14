@@ -22,8 +22,8 @@ export interface CommonConfig {
   modules: string[]
 }
 
-export type Tasks = Record<string, string>
-export type TaskCategory =
+export type RawSpecification = Record<string, string>
+export type SpecCategory =
   | 'layout'
   | 'content'
   | 'image'
@@ -31,7 +31,9 @@ export type TaskCategory =
   | 'audio'
   | 'style'
   | 'summary'
-export type Instructions = Record<TaskCategory, string[]>
+export type Specification = Record<SpecCategory, string[]>
+
+export type Scene = Record<string, any>
 
 // https://beta.openai.com/docs/api-reference/completions/create
 // to improve the quality of output we want to forbid certain things
