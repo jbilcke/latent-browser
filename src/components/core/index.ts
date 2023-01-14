@@ -1,2 +1,2 @@
-export * from './Scene'
+export * from './SceneRenderer'
 export * from './SpeechInput'

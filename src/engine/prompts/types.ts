@@ -11,17 +11,6 @@ export interface ModulePath {
   prod: string
 }
 
-export interface CommonConfig {
-  cssFramework: string
-  design: string[]
-  logic: string[]
-  images: string[]
-  direction: string[]
-  params: string[]
-  returns: string
-  modules: string[]
-}
-
 export type RawSpecification = Record<string, string>
 export type SpecCategory =
   | 'layout'
@@ -33,7 +22,7 @@ export type SpecCategory =
   | 'summary'
 export type Specification = Record<SpecCategory, string[]>
 
-export type Scene = Record<string, any>
+export type Scene = Record<string, any>[]
 
 // https://beta.openai.com/docs/api-reference/completions/create
 // to improve the quality of output we want to forbid certain things

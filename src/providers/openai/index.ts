@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from 'openai'
-import DOMPurify from 'dompurify'
+import { parse } from 'yaml'
 
 // note: attention, GPT-3 encoder requires node:fs
 // import * as gpt3encoder from 'gpt-3-encoder'
@@ -7,10 +7,8 @@ import DOMPurify from 'dompurify'
 export * from './types'
 import { ImaginedImage } from './types'
 import * as mocks from './mocks'
-import { libraries } from '../../engine/prompts/libraries'
-import { presets } from '../../engine/prompts/presets'
-import { type PromptSettings } from '../../engine/prompts/types'
-import { getLatentBrowserName } from '../../utils/getLatentBrowserName'
+import { presets, Scene, type PromptSettings } from '../../engine/prompts'
+import { getLatentBrowserName, isSceneEmpty } from '../../utils'
 import { Settings } from '../../types'
 
 // don't do this at home!
@@ -79,95 +77,6 @@ export const imagineString = async (
   return response?.data?.choices?.[0]?.text?.trim() || ''
 }
 
-export const imagineHTML = async (
-  prompt: string,
-  settings?: Settings
-): Promise<string> => {
-  // we put an empty <script> tag to try to prevent code generation
-  prompt = `${prompt}<div`
-
-  console.log('imagineHTML> prompt:', prompt)
-
-  if (settings?.useMockData) {
-    return mocks.html
-  }
-
-  const raw = await imagineString(prompt, presets.html, settings)
-
-  console.log('imagineHTML> raw:', raw)
-
-  const toStrip = `<div ${raw}`
-
-  // we don't care about hallucinated image src
-  const toPurify = toStrip.replace(/src="[^"]+/g, 'src="')
-
-  // we give a hint in our prompt by prefixing it with <div but we need to put it back in the output
-  const purified = DOMPurify.sanitize(toPurify, {
-    USE_PROFILES: {
-      html: true,
-      mathMl: true,
-      svg: true,
-    },
-    ALLOWED_ATTR: [
-      'classname',
-      'alt',
-      'id',
-      'style',
-      'href',
-      'width',
-      'height',
-    ],
-  })
-  console.log('purified html:', purified)
-
-  return purified
-}
-
-export const imagineScript = async (
-  prompt: string,
-  settings?: Settings
-): Promise<string> => {
-  prompt = `${prompt}`
-
-  console.log('imagineScript> prompt:', prompt)
-
-  if (settings.useMockData) {
-    return mocks.script
-  }
-
-  const output = await imagineString(prompt, presets.script, settings)
-
-  /*
-  This doesn't work, the browser refuses to add a script type=module
-  let script = `<script type="module">
-${
-Object.values(libraries).map(({ prod }) => prod).join('\n')
-}
-window.appData = {};
-${output}`.trim()
-*/
-  let script = `<script>
-window.appData = {};
-var app = window.appData;
-${output}`.trim()
-  // for some reason GPT-3 sometimes generates JS code with ‘ instead of '
-  script = script.replace('‘', "'")
-
-  // for some reason GPT-3 sometimes believe it is in a Markdown file
-  // so we remove this extra garbage
-  script = script.split('```')[0].trim()
-
-  // it is imperative that we ignore everything that might have been added after the main script
-  script = script.split('</script>').shift().trim()
-
-  // todo: should be done in a better way
-  if (!script.endsWith('</script>')) {
-    script += '</script>'
-  }
-
-  return script
-}
-
 export const imagineJSON = async <T>(
   prompt: string,
   defaultValue: T,
@@ -201,6 +110,38 @@ export const imagineJSON = async <T>(
   } catch (err) {
     console.log('error!', err)
     return defaultValue
+  }
+}
+
+export const imagineScene = async (
+  prompt: string,
+  settings?: Settings
+): Promise<Scene> => {
+  console.log('imagineScene> prompt:', prompt)
+
+  if (settings?.useMockData) {
+    return mocks.scene
+  }
+
+  let rawYAML = await imagineString(prompt, presets.json, settings)
+
+  console.log(`imagineScene> rawYAML: ${rawYAML}`)
+
+  try {
+    // we give a hint in our prompt by prefixing it, but we need to put it back in the output
+    const cleanYAML = rawYAML.split('```').pop()
+    console.log(`imagineScene> cleanYAML: ${cleanYAML}`)
+
+    const scene = parse(cleanYAML) as Scene
+
+    // remove all trailing commas (`input` variable holds the erroneous JSON)
+    if (isSceneEmpty(scene)) {
+      throw new Error('scene is empty')
+    }
+    return scene
+  } catch (err) {
+    console.log('imagineScene> failed to parse scene', err)
+    return []
   }
 }
 

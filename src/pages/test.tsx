@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Scene } from '../components'
-import { mockSceneString } from '../components/core/Scene/mocks'
+import { mockSceneString } from '../components/core/SceneRenderer/mocks'
 import { getBuilderPrompt, type Specification } from '../engine/prompts'
 import { apiDoc, components } from '../plugins'
 

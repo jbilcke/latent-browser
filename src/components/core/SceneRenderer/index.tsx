@@ -1,19 +1,15 @@
-import { onlyText } from 'react-children-utilities'
-
 // import { useTheme } from '../../theme'
 import { useScene } from './useScene'
 import { renderTree } from './render'
+import { Scene } from '../../../engine/prompts'
 
-export const Scene = ({ children = '' }) => {
-  const scene =
-    typeof children === 'string' ? children.trim() : onlyText(children).trim()
-
-  const tree = useScene(scene)
+export const SceneRenderer = ({ children }: { children?: string | Scene }) => {
+  const root = useScene(children)
   // const [theme, setTheme] = useTheme()
 
   return (
     <div className="bg-primary-background h-screen w-screen">
-      {renderTree(tree)}
+      {renderTree(root)}
     </div>
   )
 }

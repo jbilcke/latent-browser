@@ -2,6 +2,7 @@
 // You will decide install any javascript library you would like.
 
 import { Settings } from '../../types'
+import { getNewEmptySpec } from '../../utils/getNewEmptySpec'
 import { Specification, SpecCategory, RawSpecification } from './types'
 
 export const getPlannerPrompt = (query: string, settings?: Settings) =>
@@ -99,4 +100,4 @@ export const getFinalSpec = (spec: RawSpecification): Specification =>
       ...acc,
       [category]: existing.concat(value),
     }
-  }, {} as Specification)
+  }, getNewEmptySpec())

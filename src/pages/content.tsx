@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
-import { imagineHTML, imagineString } from '../providers/openai'
+import { imagineJSON, imagineScene } from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
 import {
   getPlannerPrompt,
   getBuilderPrompt,
   getImproverPrompt,
+  getFinalSpec,
   type RawSpecification,
   type Scene,
   type Specification,
 } from '../engine/prompts'
-import { ModelProgressBar } from '../components'
+import { ModelProgressBar, SceneRenderer } from '../components'
 import {
   useInterval,
   useOpenTabs,
@@ -18,8 +19,10 @@ import {
   useSettings,
   useParam,
 } from '../hooks'
-import { getKeyForApps } from '../utils'
+import { getKeyForApps, getNewEmptySpec, isSceneEmpty } from '../utils'
 import { type AppTab } from '../types'
+import { isSpecEmpty } from '../utils/isSpecEmpty'
+import { apiDoc } from '../plugins'
 
 const timePerStage = {
   PLAN: 15,
@@ -37,7 +40,7 @@ function Content() {
 
   const [stage, setStage] = useState<
     'INIT' | 'PLAN' | 'BUILD' | 'IMPROVE' | 'LOADED' | 'CRUD'
-  >('PLAN')
+  >('INIT')
 
   // TODO this is new, let's use this for cool stuff!
   // store data, images etc
@@ -47,8 +50,8 @@ function Content() {
   const [prompt, setPrompt] = useState<string>('')
 
   // contains the specification of the scene
-  const [spec, setSpec] = useState<Specification>({} as Specification)
-  const [scene, setScene] = useState<Scene>({} as Scene) // scene graph
+  const [spec, setSpec] = useState<Specification>()
+  const [scene, setScene] = useState<Scene>()
   const [trials, setTrials] = useState<number>(0) // used to count attempts, but we may not need this anymore
   const [data, setData] = useState<Record<string, any>>({})
 
@@ -63,7 +66,10 @@ function Content() {
     }
     const app: AppTab = openTabs.find((a) => a.id === id)
     if (!app) {
-      console.log(`couldn\'t find app ${id} inside:`, openTabs)
+      console.log(
+        `tab.content(${id}): couldn\'t find app ${id} inside:`,
+        openTabs
+      )
       return
     }
 
@@ -71,22 +77,24 @@ function Content() {
       id,
     })
 
-    setPrompt(app.prompt || '')
-    setTasks(app.tasks || {})
-    setHtml(app.html || '')
-    setText(app.text || {})
+    setSpec(app.spec)
+    setScene(app.scene)
+    setPrompt(app.prompt)
 
     // we expose a global window object that GPT-3 can use later
+    /*
     try {
       window['appData'] = JSON.parse(JSON.stringify(app.data)) || {}
     } catch (err) {
       window['appData'] = {}
     }
     setData(window['appData'])
+    */
 
-    setScript(app.script)
-
-    if (app.html?.length > 0) {
+    if (isSceneEmpty(app.scene)) {
+      console.log(`tab.content(${id}): app scene is empty`)
+    } else {
+      console.log(`tab.content(${id}): app scene is present, going to LOADED`)
       setStage('LOADED')
     }
   }, [isLoading, id, getKeyForApps(openTabs)])
@@ -108,11 +116,8 @@ function Content() {
           ? {
               ...a,
               prompt,
-              tasks,
-              html: document.getElementById('html-tag')?.innerHTML || '',
-              script: document.getElementById('script-tag')?.innerHTML || '',
-              text,
-              data,
+              spec,
+              scene,
               ...extra,
             }
           : a
@@ -120,8 +125,8 @@ function Content() {
     )
   }
 
-  const generateTasks = async (prompt = '') => {
-    console.log(`tab.content(${id}): generateTasks for prompt`, { prompt })
+  const buildSpec = async (prompt = '') => {
+    console.log(`tab.content(${id}): buildSpec`, { prompt })
     if (!prompt.length) {
       return
     }
@@ -129,254 +134,133 @@ function Content() {
     setIsLoadingAssets(true)
     setStartTimestamp(new Date().valueOf())
     setElapsedTimeMs(0)
-    setStage('TASKS')
+    setStage('PLAN')
 
-    let rawSpec: RawSpecification = {}
+    let newSpec: Specification = getNewEmptySpec()
 
     try {
-      rawSpec = await imagineJSON<RawSpecification>(
-        specPrompt(prompt, settings),
+      const rawSpec = await imagineJSON<RawSpecification>(
+        getPlannerPrompt(prompt, settings),
         {},
         '{',
         settings
       )
+      if (!rawSpec || !Object.keys(rawSpec).length) {
+        throw new Error(
+          `tab.content(${id}): runPlanner: rawSpec is corrupted, aborting`
+        )
+      }
+      newSpec = getFinalSpec(rawSpec)
+      if (!newSpec || !Object.keys(newSpec).length) {
+        throw new Error(
+          `tab.content(${id}): runPlanner: newSpec is corrupted, aborting`
+        )
+      }
     } catch (exc) {
-      console.error(`tab.content(${id}): generateTasks: failed`, exc)
+      console.error(`tab.content(${id}): runPlanner: PLAN failed`, exc)
       setIsLoadingAssets(false)
-      setSpec('')
+      setSpec(getNewEmptySpec())
       return
     }
 
-    if (!rawSpec || !Object.keys(rawSpec).length) {
-      console.log(
-        `tab.content(${id}): generateTasks: did not get enough tasks, aborting`
-      )
-      setIsLoadingAssets(false)
-      setSpec('')
-      return
-    }
-    // replaceImages()
-
-    console.log(`tab.content(${id}): generateTasks: loading tasks`)
-
-    setTasks(tasks)
+    setSpec(newSpec)
     setIsLoadingAssets(false)
   }
 
-  const generateHtml = async (tasks: Tasks = {}) => {
-    console.log(`tab.content(${id}): generateHtml`)
-    if (!tasks || !Object.keys(tasks).length) {
+  // run the builder - at this stage we are going to see something on the screen
+  const buildScene = async (spec?: Specification) => {
+    console.log(`tab.content(${id}): buildScene`)
+    if (isSpecEmpty(spec)) {
       return
     }
 
+    // ---- PHASE 2: BUILD ------
     setIsLoadingAssets(true)
     setStartTimestamp(new Date().valueOf())
     setElapsedTimeMs(0)
-    setStage('LAYOUT')
-
-    let firstPass = ''
-
-    try {
-      firstPass = await imagineHTML(
-        layoutPrompt(instructions, settings),
-        settings
-      )
-      if (!firstPass) {
-        throw new Error('did not get enough results, aborting')
-      }
-    } catch (exc) {
-      console.error(`tab.content(${id}): generateHTML: failed`, exc)
-      setStage('LOADED')
-      setIsLoadingAssets(false)
-      return
-    }
-
-    setHtml(firstPass)
-
-    /*
-    let secondPass = ''
-
-    try {
-      secondPass = await imagineHTML(
-        contentPrompt(firstPass, tasks, settings),
-        settings,
-      )
-      if (!secondPass) {
-        throw new Error('did not get enough results, aborting')
-      }
-    } catch (exc) {
-      console.error(`tab.content(${id}): generateHTML: failed`, exc)
-      setStage('LOADED')
-      setIsLoadingAssets(false)
-      return
-    }
-
-    setHtml(secondPass)
-    */
-
-    setIsLoadingAssets(false)
-  }
-
-  const generateScript = async () => {
-    console.log(`tab.content(${id}): generateScript`)
-    // something went wrong, we cannot generate JS over garbage
-    if (html.length < 10) {
-      console.error(
-        `tab.content(${id}): generateScript: html is less than 10 characters, aborting`
-      )
-      setStage('LOADED')
-      return
-    }
-
-    // normally the LLM gives us a hint about the need for JS
-    const canSkip =
-      !instructions.script ||
-      !instructions.script.length ||
-      instructions.script.some((instruction) =>
-        instruction.match(/no\s+(?:js|javascript)\s+(?:needed|required)/i)
-      )
-
-    if (canSkip) {
-      console.error(
-        `tab.content(${id}): the LLM asked us to skip SCRIPT generation`
-      )
-      setStage('LOADED')
-      setIsLoadingAssets(false)
-      setScript('')
-      updateApp({ script: '' })
-      return
-    }
-
-    setIsLoadingAssets(true)
-    setStartTimestamp(new Date().valueOf())
-    setElapsedTimeMs(0)
-    setStage('SCRIPT')
+    setStage('BUILD')
     setTrials(trials + 1)
 
-    window['appData'] = data
-
-    /*
-    TODO: we need two functions
-    - one to generate GPT-3 results (in JSON)
-    - one for real CRUD operation (to the local storage)
-    window['callAPI'] = async (query = '') => {
-      console.log(
-        `tab.content(${id}): generateHTMLContent called by AI script`,
-        query
-      )
-      query = query.trim()
-      if (!query.length) {
-        return
-      }
-      setStage('INTERNAL')
-      imagineJSON<Record<string, any>>(
-        recursivePrompt(query),
-        {},
-        '{',
-        model,
-        apiKey,
-        mockData
-      )
-    }
-    */
-
-    let script = ''
+    let newScene: Scene = []
 
     try {
-      script = await imagineScript(
-        scriptPrompt(instructions, html, settings),
+      newScene = await imagineScene(
+        getBuilderPrompt(spec, apiDoc, settings),
         settings
       )
-      if (!script) {
-        throw new Error('did not get enough results, aborting')
-      }
-      if (script.includes('// TODO')) {
-        throw new Error('script generated TODOs, aborting')
+      if (!newScene) {
+        throw new Error('failed to build the scene')
       }
     } catch (exc) {
-      console.error(`tab.content(${id}): generateScript failed`, exc)
-
-      // we try again!
-      if (settings.useAutoCherryPick) {
-        try {
-          script = await imagineScript(
-            scriptPrompt(instructions, html, settings),
-            settings
-          )
-          if (!script) {
-            throw new Error('did not get enough results, aborting')
-          }
-          if (script.includes('// TODO')) {
-            throw new Error('script generated TODOs, aborting')
-          }
-        } catch (exc) {
-          console.error(`tab.content(${id}): generateScript failed`, exc)
-          setStage('LOADED')
-          setIsLoadingAssets(false)
-          setScript('')
-          updateApp({ script: '' })
-          return
-        }
-      }
+      console.error(`tab.content(${id}): runPlanner: BUILD failed`, exc)
+      setStage('LOADED')
+      setIsLoadingAssets(false)
+      return
     }
 
-    // replaceImages()
-    console.log(`tab.content(${id}): generateScript: loading script`, script)
-    setStage('LOADED')
-    setScript(script)
+    setScene(newScene)
+
+    // ---- PHASE 3: IMPROVE ------
+    setStage('IMPROVE')
+    setStartTimestamp(new Date().valueOf())
+    setElapsedTimeMs(0)
+
+    try {
+      newScene = await imagineScene(
+        getImproverPrompt(spec, scene, settings),
+        settings
+      )
+      if (!newScene) {
+        throw new Error('failed to improve the scene')
+      }
+    } catch (exc) {
+      console.error(`tab.content(${id}): runPlanner: IMPROVE failed`, exc)
+      setStage('LOADED')
+      setIsLoadingAssets(false)
+      return
+    }
+
+    setScene(newScene)
     setIsLoadingAssets(false)
-    updateApp({ script })
+    updateApp({ spec, scene })
   }
 
   useEffect(() => {
     console.log(
-      `tab.content(${id}): prompt changed! seeing if we should generate tasks..'`,
+      `tab.content(${id}): prompt changed! seeing if we should PLAN..'`,
       { prompt }
     )
 
-    if (Object.keys(tasks).length === 0 && stage !== 'LOADED') {
-      generateTasks(prompt)
+    if (isSpecEmpty(spec) && stage !== 'LOADED') {
+      buildSpec(prompt)
     }
   }, [prompt])
 
   useEffect(() => {
     console.log(
-      `tab.content(${id}): tasks changed! seeing if we should generate the html..`,
-      { tasks }
+      `tab.content(${id}): spec changed! seeing if we should BUILD..`,
+      { spec }
     )
-    if (!html.length && stage !== 'LOADED') {
-      console.log(`tab.content(${id}): html is empty! generating new one..`)
-      generateHtml(tasks)
+    if (isSceneEmpty(scene) && stage !== 'LOADED') {
+      console.log(`tab.content(${id}): scene is empty! generating new one..`)
+      buildScene(spec)
     }
-  }, [JSON.stringify(tasks)])
-
-  useEffect(() => {
-    console.log(
-      `tab.content(${id}): html changed! seeing if we should generate script..`,
-      { html }
-    )
-    if (html && !script.length && stage !== 'LOADED') {
-      console.log(
-        `tab.content(${id}): script is empty and we are not loaded! generating new one..`
-      )
-      generateScript()
-    }
-  }, [html, stage])
+  }, [spec])
 
   useEffect(() => {
     const onError = (e: ErrorEvent) => {
       console.log('SCRIPT failure detected:', e)
-      setScript('')
+      setScene([])
       if (settings.useAutoCherryPick && trials < 2) {
         console.log('auto cherry-pick enabled, so trying once again.. 💸')
-        generateScript()
+        buildScene(spec)
       }
     }
 
     window.addEventListener('error', onError)
 
     return () => window.removeEventListener('error', onError)
-  }, [settings.useAutoCherryPick, trials])
+  }, [spec, settings.useAutoCherryPick, trials])
 
   // replace all images alt with src
   useEffect(() => {
@@ -385,7 +269,7 @@ function Content() {
       updateApp()
     }
     resolve()
-  }, [html])
+  }, [scene])
 
   useInterval(
     () => {
@@ -397,19 +281,7 @@ function Content() {
 
   return (
     <>
-      {/* <script type="module" doesn't work, so I don't have a lot of choices */}
-      <script src="https://code.jquery.com/jquery-3.6.1.min.js" />
-      <script src="https://unpkg.com/lodash@4.17.21/lodash.js" />
-      <script src="https://unpkg.com/tone@14.7.77/build/Tone.js" />
-      {/*<script src="https://unpkg.com/tween@0.9.0/tween.js" /> */}
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js" />
-      {/* <script src="https://unpkg.com/canvas-utils@0.8.0/es5-generated/index.js" />*/}
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.js" />
-      <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FirstPersonControls.js" />
-      <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/FlyControls.js" />
-      <script src="https://cdn.jsdelivr.net/npm/three@0.124.0/examples/js/controls/OrbitControls.js" />
-      {html?.length ? <InnerHTML id="html-tag" html={html} /> : null}
-      {script?.length ? <InnerHTML id="script-tag" html={script} /> : null}
+      <SceneRenderer>{scene}</SceneRenderer>
       <ModelProgressBar
         elapsedTimeMs={elapsedTimeMs}
         estimatedTimeSec={estimatedTimeSec}
