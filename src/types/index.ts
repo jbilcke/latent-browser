@@ -41,6 +41,7 @@ export interface Link {
 }
 export interface Settings {
   coreVendor: string
+  coreSpeechToTextLanguage: string
   huggingFaceKey: string
   huggingFaceModel: string
   openAIKey: string

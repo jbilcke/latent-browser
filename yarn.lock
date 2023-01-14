@@ -6963,6 +6963,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-speech-recognition@npm:^3.9.0":
+  version: 3.9.0
+  resolution: "@types/react-speech-recognition@npm:3.9.0"
+  checksum: fbddfe1a6bc1c7fb2b00cb7f0517d7632e7440ef6bee835c66b2f2336b54c3c5052469a464451841b17126d2060ce7f78c29615bebcf3eaf5d4c854d90ef6a7a
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*, @types/react@npm:^18.0.17":
   version: 18.0.26
   resolution: "@types/react@npm:18.0.26"
@@ -16695,6 +16702,103 @@ __metadata:
   languageName: node
   linkType: hard
 
+"latent-browser@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "latent-browser@workspace:."
+  dependencies:
+    "@babel/core": ^7.20.7
+    "@babel/runtime": ^7.20.7
+    "@floating-ui/core": ^1.1.0
+    "@heroicons/react": ^2.0.13
+    "@improbable-eng/grpc-web": ^0.15.0
+    "@mantine/hooks": ^5.9.6
+    "@mdx-js/react": ^1.6.22
+    "@react-pdf/renderer": ^3.0.2
+    "@react-spring/core": ^9.6.1
+    "@react-spring/three": ^9.6.1
+    "@react-three/cannon": ^6.5.2
+    "@react-three/drei": ^9.51.24
+    "@react-three/fiber": ^8.10.0
+    "@react-three/postprocessing": ^2.7.0
+    "@react-three/xr": ^5.1.2
+    "@storybook/addon-actions": ^6.5.15
+    "@storybook/addon-docs": ^6.5.15
+    "@storybook/addon-essentials": ^6.5.15
+    "@storybook/addon-interactions": ^6.5.15
+    "@storybook/addon-links": ^6.5.15
+    "@storybook/builder-webpack5": ^6.5.15
+    "@storybook/manager-webpack5": ^6.5.15
+    "@storybook/react": ^6.5.15
+    "@storybook/testing-library": ^0.0.13
+    "@tail-kit/tail-kit": ^0.1.21
+    "@tailwindcss/forms": ^0.5.3
+    "@tauri-apps/api": ^1.1.0
+    "@tauri-apps/cli": ^1.1.0
+    "@types/babel__core": ^7
+    "@types/dompurify": ^2
+    "@types/mime-db": ^1
+    "@types/node": ^18.7.11
+    "@types/pako": ^2
+    "@types/react": ^18.0.17
+    "@types/react-dom": ^18.0.6
+    "@types/react-no-ssr": ^1
+    "@types/react-speech-recognition": ^3.9.0
+    "@types/three": ^0.148.0
+    "@types/uuid": ^9
+    autoprefixer: ^10.4.13
+    babel-loader: ^8.3.0
+    bowser: ^2.11.0
+    daisyui: ^2.46.1
+    dangerously-set-html-content: ^1.0.12
+    dompurify: ^2.4.1
+    dotenv: ^16.0.3
+    express: ^4.18.2
+    flowbite: ^1.6.1
+    flowbite-react: ^0.3.7
+    fuse.js: ^6.6.2
+    google-protobuf: ^3.21.2
+    gpt-3-encoder: ^1.1.3
+    html-to-json-parser: ^1.0.1
+    http-proxy-middleware: ^2.0.6
+    ipfs: ^0.65.0
+    isomorphic-fetch: ^3.0.0
+    jquery: ^3.6.1
+    lamina: ^1.1.23
+    mime-db: ^1.52.0
+    mime-type: ^4.0.0
+    next: ^13.1.1
+    openai: ^3.1.0
+    orbit-db: ^0.28.7
+    pako: ^2.1.0
+    postcss: ^8.4.19
+    rc-tabs: ^12.5.5
+    react: ^18.2.0
+    react-children-utilities: ^2.8.0
+    react-countdown-circle-timer: ^3.1.0
+    react-daisyui: ^3.0.2
+    react-dnd: ^16.0.1
+    react-dnd-html5-backend: ^16.0.1
+    react-dom: ^18.2.0
+    react-hook-form: ^7.41.5
+    react-icons: ^4.7.1
+    react-material-symbols: ^2.0.2
+    react-no-ssr: ^1.1.0
+    react-speech-recognition: ^3.10.0
+    reactronica: ^0.8.1-canary.0
+    stability-ts: ^1.3.0
+    storybook-addon-next: ^1.7.1
+    tailgrids: ^2.0.0
+    tailgrids-react: ^0.1.5
+    tailwind-safelist-generator: ^1.0.0
+    tailwindcss: ^3.2.4
+    three: ^0.148.0
+    typescript: ^4.7.4
+    use-indexeddb: ^2.0.2
+    uuid: ^9.0.0
+    yaml: ^2.2.1
+  languageName: unknown
+  linkType: soft
+
 "latest-version@npm:^7.0.0":
   version: 7.0.0
   resolution: "latest-version@npm:7.0.0"
@@ -21439,6 +21543,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-speech-recognition@npm:^3.10.0":
+  version: 3.10.0
+  resolution: "react-speech-recognition@npm:3.10.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 40f3a2561f525d2624b154ccb6da90592a32fe131c33b3258a8892041bcf0c6f8e4527d7310718aeaee119266b1e8a1c383f9842ae984b7c97987ce9d6a5203f
+  languageName: node
+  linkType: hard
+
 "react-transition-group@npm:^4.4.1":
   version: 4.4.5
   resolution: "react-transition-group@npm:4.4.5"
@@ -25204,101 +25317,6 @@ __metadata:
   checksum: 5149842ccbfbc56fe4f8758957b3f8c8616a281874a5bb84aa1b305e4436a9bad853d21c629a7b8f174902449e1489c7a6c724fccf60965077c5636bd8aed42b
   languageName: node
   linkType: hard
-
-"web4@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "web4@workspace:."
-  dependencies:
-    "@babel/core": ^7.20.7
-    "@babel/runtime": ^7.20.7
-    "@floating-ui/core": ^1.1.0
-    "@heroicons/react": ^2.0.13
-    "@improbable-eng/grpc-web": ^0.15.0
-    "@mantine/hooks": ^5.9.6
-    "@mdx-js/react": ^1.6.22
-    "@react-pdf/renderer": ^3.0.2
-    "@react-spring/core": ^9.6.1
-    "@react-spring/three": ^9.6.1
-    "@react-three/cannon": ^6.5.2
-    "@react-three/drei": ^9.51.24
-    "@react-three/fiber": ^8.10.0
-    "@react-three/postprocessing": ^2.7.0
-    "@react-three/xr": ^5.1.2
-    "@storybook/addon-actions": ^6.5.15
-    "@storybook/addon-docs": ^6.5.15
-    "@storybook/addon-essentials": ^6.5.15
-    "@storybook/addon-interactions": ^6.5.15
-    "@storybook/addon-links": ^6.5.15
-    "@storybook/builder-webpack5": ^6.5.15
-    "@storybook/manager-webpack5": ^6.5.15
-    "@storybook/react": ^6.5.15
-    "@storybook/testing-library": ^0.0.13
-    "@tail-kit/tail-kit": ^0.1.21
-    "@tailwindcss/forms": ^0.5.3
-    "@tauri-apps/api": ^1.1.0
-    "@tauri-apps/cli": ^1.1.0
-    "@types/babel__core": ^7
-    "@types/dompurify": ^2
-    "@types/mime-db": ^1
-    "@types/node": ^18.7.11
-    "@types/pako": ^2
-    "@types/react": ^18.0.17
-    "@types/react-dom": ^18.0.6
-    "@types/react-no-ssr": ^1
-    "@types/three": ^0.148.0
-    "@types/uuid": ^9
-    autoprefixer: ^10.4.13
-    babel-loader: ^8.3.0
-    bowser: ^2.11.0
-    daisyui: ^2.46.1
-    dangerously-set-html-content: ^1.0.12
-    dompurify: ^2.4.1
-    dotenv: ^16.0.3
-    express: ^4.18.2
-    flowbite: ^1.6.1
-    flowbite-react: ^0.3.7
-    fuse.js: ^6.6.2
-    google-protobuf: ^3.21.2
-    gpt-3-encoder: ^1.1.3
-    html-to-json-parser: ^1.0.1
-    http-proxy-middleware: ^2.0.6
-    ipfs: ^0.65.0
-    isomorphic-fetch: ^3.0.0
-    jquery: ^3.6.1
-    lamina: ^1.1.23
-    mime-db: ^1.52.0
-    mime-type: ^4.0.0
-    next: ^13.1.1
-    openai: ^3.1.0
-    orbit-db: ^0.28.7
-    pako: ^2.1.0
-    postcss: ^8.4.19
-    rc-tabs: ^12.5.5
-    react: ^18.2.0
-    react-children-utilities: ^2.8.0
-    react-countdown-circle-timer: ^3.1.0
-    react-daisyui: ^3.0.2
-    react-dnd: ^16.0.1
-    react-dnd-html5-backend: ^16.0.1
-    react-dom: ^18.2.0
-    react-hook-form: ^7.41.5
-    react-icons: ^4.7.1
-    react-material-symbols: ^2.0.2
-    react-no-ssr: ^1.1.0
-    reactronica: ^0.8.1-canary.0
-    stability-ts: ^1.3.0
-    storybook-addon-next: ^1.7.1
-    tailgrids: ^2.0.0
-    tailgrids-react: ^0.1.5
-    tailwind-safelist-generator: ^1.0.0
-    tailwindcss: ^3.2.4
-    three: ^0.148.0
-    typescript: ^4.7.4
-    use-indexeddb: ^2.0.2
-    uuid: ^9.0.0
-    yaml: ^2.2.1
-  languageName: unknown
-  linkType: soft
 
 "webgl-constants@npm:^1.1.1":
   version: 1.1.1

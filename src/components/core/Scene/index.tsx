@@ -2,7 +2,7 @@ import { onlyText } from 'react-children-utilities'
 
 // import { useTheme } from '../../theme'
 import { useScene } from './useScene'
-import { renderTree } from './utils'
+import { renderTree } from './render'
 
 export const Scene = ({ children = '' }) => {
   const scene =

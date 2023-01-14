@@ -51,7 +51,7 @@ function Favorites() {
     </div>
   ) : (
     <div className="flex flex-col p-12 font-sans">
-      <h3 className="text-3xl font-semibold uppercase text-gray-800 ">
+      <h3 className="text-4xl font-semibold uppercase text-gray-800 ">
         <span className="font-semibold">{storedApps.length || 0}</span> favorite
         {storedApps.length > 1 ? 's' : ''}
       </h3>

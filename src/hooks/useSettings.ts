@@ -14,6 +14,7 @@ export const useSettings = (
     useMockData: false,
     useAutoCherryPick: false,
     useVendorCherryPick: false,
+    speechToTextLanguage: '',
   }
 ) =>
   useLocalStorage<Settings>({

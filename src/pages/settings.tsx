@@ -61,6 +61,17 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
       */
     ],
   },
+  coreSpeechToTextLanguage: {
+    label: 'Speech recognition language',
+    description: '',
+    type: 'text',
+    defaultValue: 'en',
+
+    // TODO we should probaly grab the language list from the system
+    // and put it in an autocomplete or something
+    placeholder: 'en, fr..',
+  },
+
   /*
   huggingFace: {
     label: 'HuggingFace Settings',
@@ -109,23 +120,23 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     type: 'section',
   },
   customSpecPrompt: {
-    label: 'INSTRUCT Prompt',
+    label: 'General composer',
     description: '',
-    placeholder: 'Custom rules for the instruction step..',
+    placeholder: 'The topic, subject, theme, mood..',
     type: 'text',
     defaultValue: '',
   },
   customScenePrompt: {
-    label: 'INTERPRET Prompt',
+    label: 'Scene composer',
     description: '',
-    placeholder: 'Custom rules for the interpretation step..',
+    placeholder: 'Use a specific layout, components, plugin, parameters..',
     type: 'text',
     defaultValue: '',
   },
   customDerivationPrompt: {
-    label: 'DERIVATE Prompt',
+    label: 'Text composer',
     description: '',
-    placeholder: 'Additional instructions for the derivation step..',
+    placeholder: 'Change the language, alter the writing style, text length..',
     type: 'text',
     defaultValue: '',
   },
@@ -174,7 +185,7 @@ function Favorites() {
     </div>
   ) : (
     <div className="flex flex-col p-12 font-sans">
-      <h3 className="text-3xl font-semibold uppercase text-gray-800 ">
+      <h3 className="text-4xl font-semibold uppercase text-gray-800 ">
         Settings
       </h3>
       <div className="flex flex-col w-full">

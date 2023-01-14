@@ -52,6 +52,13 @@ And here is a list of possible candidates:
 - https://xtendui.com/
 - https://flowrift.com/c/footer/lJxNF?view=preview
 
+### Icon plugins
+
+Note: for icons we cannot put then app in the API obviously.. but we can use a wrapper and simple semantic search perhaps
+
+- Lucide.dev (nice icons)
+- Material Symbols
+
 ## Creating a custom plugin
 
 Do not hesitate to contact me on Discord or Twitter, or submit pull requests!
