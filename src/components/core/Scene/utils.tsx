@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { parse } from 'yaml'
 
 import { components } from '../../../plugins'
+import { Param } from '../../../plugins/types'
 
 /*
 export const safeParse = (yaml: string) =>
@@ -28,30 +29,14 @@ export const safeParse = (yaml: string) =>
   )
 */
 
-export const renderNode = (
-  node: string | Record<string, any> = {}
-): JSX.Element => {
-  const key = Object.keys(node)[0]
-  const value = node[key]
-  let [comp, ...rest] = key.split('|')
-  comp = comp.toLocaleLowerCase()
-  if (typeof node === 'string') {
-    ;[comp, ...rest] = node.toLocaleLowerCase().split('|')
-  }
-
-  if (!components[comp]) {
-    console.log(`renderNode: component "${comp}" doesn't exist`, {
-      key,
-      comp,
-      node,
-      components,
-    })
-    return <></>
-  }
-  const { component, description, params } = components[comp]
-
-  const Component = component as unknown as React.ComponentType<any>
-
+// get the prop to apply to a component, using a schema (the params object)
+export const getProps = ({
+  rest,
+  params,
+}: {
+  rest?: string[]
+  params: Record<string, Param>
+}): any => {
   const props = (rest || []).reduce((acc, param) => {
     const [key, value] = param.split('=')
 
@@ -87,17 +72,39 @@ export const renderNode = (
     }
   }, {})
   if (props && Object.keys(props).length) {
-    console.log('props:', props)
+    // console.log('props:', props)
+  }
+  return props
+}
+export const renderNode = (
+  node: string | Record<string, any> = {}
+): JSX.Element => {
+  const key = Object.keys(node)[0]
+  const value = node[key]
+  let [comp, ...rest] = key.split('|')
+  comp = comp.toLocaleLowerCase()
+  if (typeof node === 'string') {
+    ;[comp, ...rest] = node.toLocaleLowerCase().split('|')
   }
 
-  if (Array.isArray(value)) {
-    return <Component {...props}>{renderTree(value)}</Component>
+  if (!components[comp]) {
+    console.log(`renderNode: component "${comp}" doesn't exist`, {
+      key,
+      comp,
+      node,
+      components,
+    })
+    return <></>
   }
-  if (value) {
-    return <Component {...props}>{value}</Component>
-  } else {
-    return <Component {...props} />
-  }
+  const { component, params } = components[comp]
+  const Component = component as unknown as React.ComponentType<any>
+  const props = getProps({ rest, params })
+
+  return (
+    <Component {...props}>
+      {Array.isArray(value) ? renderTree(value) : value ? value : undefined}
+    </Component>
+  )
 }
 
 export const renderTree = (tree: Record<string, any>[] = []): JSX.Element => {
