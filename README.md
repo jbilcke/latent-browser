@@ -56,25 +56,17 @@ You have 3 different options to run the app:
 This solution is recommended during development or if you experience build issues.
 
 ```bash
-yarn dev
+yarn start
 ```
 
 Then go to http://localhost:1420
-
-#### In a standalone browser (advanced)
-
-This solution requires a working Rust environment, and is recommended if you need to develop things interacting with the OS (eg. custom windows, system toolbar, auto updater..)
-
-```bash
-yarn tauri:dev
-```
 
 #### Generate a production build for yourselves (advanced)
 
 This is not recommended for day-to-day development as it is slow, and currently there is an issue with images.
 
 ```bash
-yarn tauri build
+yarn release
 ```
 
 then:
@@ -84,7 +76,8 @@ then:
 
 ### Known important bugs
 
-Images don't seem to work when runing a standalone built using `yarn tauri build`, it might be caused by a security setting.
+- Speech input doesn'tseem to work when starting to app with `yarn tauri:dev`
+- Images don't seem to work when runing a standalone built using `yarn release`, it might be caused by a security setting.
 
 ## Using the browser
 
@@ -124,6 +117,33 @@ Maybe you did too many requests to OpenAI?
 Wait a bit then restart the application, eg. kill it from the terminal.
 
 ## Developer Guide (work in progress)
+
+### Development mode (web)
+
+If you are developing on the latent browser, you will want to run it in development mode:
+
+```bash
+yarn dev
+```
+
+Then go to http://localhost:1420
+
+Note: development mode can be a bit a bit frustrating, as we have a lot of dependencies so it takes quite a while to load tabs.
+
+Sometimes it also lazy load them, compile in the background, then refresh the page.
+Don't be surprised if that happens while you were trying to type something!
+
+### Development mode (tauri)
+
+There is also a way to run Tauri in develpment mode.
+
+This solution requires a working Rust environment, and is recommended if you need to develop things interacting with the OS (eg. custom windows, system toolbar, auto updater..)
+
+```bash
+yarn tauri:dev
+```
+
+Note: speech recognition won't work here, as the Info.plist file won't be recognized for some reason.
 
 ### HTTP Request Mocking
 

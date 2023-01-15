@@ -2,7 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>This application requires access to the microphone to search using the voice</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Request microphone access for WebRTC</string>
+    <string>This application requires access to the microphone to search using the voice</string>
 </dict>
 </plist>
