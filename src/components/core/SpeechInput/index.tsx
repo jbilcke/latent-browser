@@ -47,6 +47,7 @@ export const SpeechInput = ({
       console.log("Browser doesn't support speech recognition.")
       return
     }
+
     setReady(true)
   }, [])
 

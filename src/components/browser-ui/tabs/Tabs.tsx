@@ -51,11 +51,6 @@ const Tabs = () => {
           title: '☊ Latent Search',
           subtitle: '',
           prompt: '',
-          tasks: {},
-          text: {},
-          html: '',
-          script: '',
-          data: {},
 
           // tab properties
           isActive: true,

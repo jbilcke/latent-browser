@@ -28,7 +28,12 @@ export default async function handler(
   }
   console.log('prompt:', prompt)
   const settings: Settings = {
-    coreVendor: '',
+    coreVendor: 'OpenAI',
+    imageVendor: 'OpenAI_dalle2',
+    speechToTextLanguage: '',
+    useTurboPrompt: false,
+    usePlanStep: false,
+    useImproveStep: false,
     huggingFaceKey: '',
     huggingFaceModel: '',
     openAIKey: credentials.apiKey,

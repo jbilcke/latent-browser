@@ -8,7 +8,7 @@ Check out the Discord for news, updates, tips, and feature requests! https://t.c
 
 See the latest demo here! https://twitter.com/flngr/status/1609616068057698304
 
-<img src="https://raw.githubusercontent.com/jbilcke/web4/main/docs/images/screenshot-4.jpg?sanitize=true" width="100%" />
+<img src="https://raw.githubusercontent.com/jbilcke/latent-browser/main/docs/images/screenshot-4.jpg?sanitize=true" width="100%" />
 
 ## Presentation
 
@@ -25,7 +25,7 @@ You will need NVM and Node 18.12.1
 ### Initial setup
 
 ```bash
-cd web4
+cd latent-browser
 nvm use
 yarn
 ```
@@ -127,7 +127,7 @@ Wait a bit then restart the application, eg. kill it from the terminal.
 
 ### HTTP Request Mocking
 
-Today web4 can mock the following file formats when the generated code tries to access them:
+Today the Latent Browser can mock the following file formats when the generated code tries to access them:
 
 - `.jpg`, `.jpeg`, `.webm`, `.tga`, `.gif`, `.bmp` -> `mockImage(filename)`
 - `.json` -> `mockJSON(filename)`

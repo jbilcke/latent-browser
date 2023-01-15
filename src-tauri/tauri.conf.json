@@ -7,8 +7,8 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "web4",
-    "version": "0.0.0"
+    "productName": "Latent Browser",
+    "version": "0.0.5"
   },
   "tauri": {
     "allowlist": {
@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.datagica.web4",
+      "identifier": "com.datagica.latentbrowser",
       "longDescription": "Latent web browser",
       "macOS": {
         "entitlements": null,

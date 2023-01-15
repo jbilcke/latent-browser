@@ -1,10 +1,10 @@
 [package]
-name = "web4"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
+name = "latent-browser"
+version = "0.0.5"
+description = "A browser for the Latent Web"
+authors = ["Julian Bilcke <julian.bilcke@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/jblcke/latent-browser"
 edition = "2021"
 rust-version = "1.57"
 

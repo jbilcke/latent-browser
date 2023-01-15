@@ -1,6 +1,6 @@
 import { Theme, MappedTheme } from './types'
 
-export const mapTheme = (variables: Theme): IMappedTheme => {
+export const mapTheme = (variables: Theme): MappedTheme => {
   return {
     '--color-primary': variables.primary || '',
     '--color-secondary': variables.secondary || '',
