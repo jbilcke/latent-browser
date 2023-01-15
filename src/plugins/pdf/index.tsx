@@ -118,6 +118,7 @@ export const pdf: Plugin = {
         ) : null
       ),
       description: 'PDF document (for a book, report, manual etc)',
+      allowedChildren: 'pdf',
     },
     /*
   Page: {
@@ -130,44 +131,109 @@ export const pdf: Plugin = {
   },
   */
     author: {
-      component: ({ children }: { children: ReactNode }) => (
-        <PDFText style={styles.author}>
+      component: ({
+        children,
+        color,
+      }: {
+        children: ReactNode
+        color?: string
+      }) => (
+        <PDFText style={[styles.author, { color: color || 'black' }]}>
           {typeof children === 'string' ? children : ''}
         </PDFText>
       ),
       description: 'author of the book',
+      allowedParents: 'pdf',
+      allowedChildren: 'pdf',
+      params: {
+        color: {
+          description: 'color',
+        },
+      },
     },
     h1: {
-      component: ({ children }: { children: ReactNode }) => (
-        <PDFText style={styles.h1}>
+      component: ({
+        children,
+        color,
+      }: {
+        children: ReactNode
+        color?: string
+      }) => (
+        <PDFText style={[styles.h1, { color: color || 'black' }]}>
           {typeof children === 'string' ? children : ''}
         </PDFText>
       ),
       description: 'book title',
+      allowedParents: 'pdf',
+      allowedChildren: 'pdf',
+      params: {
+        color: {
+          description: 'color',
+        },
+      },
     },
     h2: {
-      component: ({ children }: { children: ReactNode }) => (
-        <PDFText style={styles.h2}>
+      component: ({
+        children,
+        color,
+      }: {
+        children: ReactNode
+        color?: string
+      }) => (
+        <PDFText style={[styles.h2, { color: color || 'black' }]}>
           {typeof children === 'string' ? children : ''}
         </PDFText>
       ),
       description: 'chapter title',
+      allowedParents: 'pdf',
+      allowedChildren: 'pdf',
+      params: {
+        color: {
+          description: 'color',
+        },
+      },
     },
     h3: {
-      component: ({ children }: { children: ReactNode }) => (
-        <PDFText style={styles.h3}>
+      component: ({
+        children,
+        color,
+      }: {
+        children: ReactNode
+        color?: string
+      }) => (
+        <PDFText style={[styles.h3, { color: color || 'black' }]}>
           {typeof children === 'string' ? children : ''}
         </PDFText>
       ),
       description: 'paragraph title',
+      allowedParents: 'pdf',
+      allowedChildren: 'pdf',
+      params: {
+        color: {
+          description: 'color',
+        },
+      },
     },
     p: {
-      component: ({ children }: { children: ReactNode }) => (
-        <PDFText style={styles.p}>
+      component: ({
+        children,
+        color,
+      }: {
+        children: ReactNode
+        color?: string
+      }) => (
+        <PDFText style={[styles.p, { color: color || 'black' }]}>
           {typeof children === 'string' ? children : ''}
         </PDFText>
       ),
       description: 'paragraph written in English',
+      allowedParents: 'pdf',
+      allowedChildren: 'pdf',
+      params: {
+        color: {
+          description: 'color',
+        },
+      },
     },
   },
 }

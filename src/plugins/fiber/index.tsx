@@ -75,18 +75,30 @@ export const name = 'fiber'
 export const fiber: Plugin = {
   name,
   examples: {},
+
   api: {
     Scene: {
       component: Scene,
-      description: 'scene graph renderer used for 3D apps and 3D games',
+      description:
+        "root of the webgl scene, used for 3D apps and games (allowed children: 'fiber.*')",
     },
     Ball: {
       component: Ball,
-      description: '3D ball',
+      description: '3D ball or sphere',
+      scope: 'fiber',
+      params: {
+        color: {
+          description: 'color (in HEX)',
+        },
+        size: {
+          description: 'float (between 0.5 and 2.0)',
+        },
+      },
     },
     Box: {
       component: Box,
-      description: '3D box',
+      description: '3D box or cube',
+      scope: 'fiber',
     },
   },
 }

@@ -15,7 +15,6 @@ export const getProps = ({
   const props = (chunks || []).reduce(
     (acc, param) => {
       if (!param) {
-        console.log('getProps: invalid param, skipping')
         return acc
       }
       let key = 'children'
@@ -25,7 +24,6 @@ export const getProps = ({
       // so we only keep the head (key) of the generated splitted array
       const arr = param.split('=')
       if (arr.length > 1) {
-        console.log('popping this open!' + JSON.stringify(arr))
         key = arr.shift().toLocaleLowerCase().trim()
         value = arr.join('=')
       }

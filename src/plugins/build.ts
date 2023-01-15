@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js'
 import { type Plugin, type API, type Plugins, Component } from './types'
 
 // TODO: try to compress/minify the modules names with obfuscated IDs
@@ -46,3 +47,27 @@ export const getPluginDoc = (plugin: Plugin): string =>
 // return the Markdown documentation of a plugin API
 export const getDocumentation = (plugins: Plugins): string =>
   Object.values(plugins).map(getPluginDoc).join('\n')
+
+export const getIndex = (components: API) => {
+  return new Fuse(
+    Object.entries(components).map(([name, component]) => ({
+      name,
+      ...component,
+    })),
+    {
+      keys: [
+        {
+          name: 'name',
+          weight: 2,
+        },
+        {
+          name: 'description',
+          weight: 1,
+        },
+      ],
+      findAllMatches: true,
+      isCaseSensitive: false,
+      threshold: 1.0,
+    }
+  )
+}

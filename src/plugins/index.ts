@@ -6,7 +6,8 @@ import { fiber } from './fiber'
 import { music } from './music'
 import { pdf } from './pdf'
 import { type Plugins } from './types'
-import { getComponents, getDocumentation } from './build'
+import { getIndex, getComponents, getDocumentation } from './build'
+import Fuse from 'fuse.js'
 
 // expose all the plugins components onto the same level
 export const plugins: Plugins = {
@@ -21,3 +22,15 @@ export const plugins: Plugins = {
 
 export const components = getComponents(plugins)
 export const apiDoc = getDocumentation(plugins)
+export const globalIndex = getIndex(components)
+
+export const scopedIndexes = Object.entries(plugins).reduce(
+  (acc, [name, plugin]) => ({
+    ...acc,
+    [name]: getIndex(
+      // ok so.... getComponents wasn't designed to work on ONE plugin but hey.. it works anyway!
+      getComponents({ [name]: plugin })
+    ),
+  }),
+  {}
+)

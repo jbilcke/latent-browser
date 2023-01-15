@@ -13,6 +13,11 @@ export interface Param {
 export interface Component {
   component?: ExoticComponent | FC
   description: string
+
+  // indicate a scope restriction
+  allowedParents?: string
+  allowedChildren?: string
+
   params?: Record<string, Param>
 }
 export type API = Record<string, Component>
@@ -22,7 +27,7 @@ export type Examples = Record<string, Example>
 
 export interface Plugin {
   name: string
-  examples: Examples
+  examples?: Examples
   api: API
 }
 

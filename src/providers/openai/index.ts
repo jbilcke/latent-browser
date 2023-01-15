@@ -50,8 +50,8 @@ export const imagineString = async (
   // 1 token ~= ¾ words
   // 100 tokens ~= 75 words
   // ideally we should have a precise function which try to count them, but until them let's use a rough approximation
-  // the actual value for the prompt divider seems to be "2.8" but let's use 2.5, just to be safe
-  const maxTokens = Math.round(tokenHardLimit - prompt.length / 2.5)
+  // the actual value for the prompt divider seems to be "2.8" but let's use 2.4, just to be safe
+  const maxTokens = Math.round(tokenHardLimit - prompt.length / 2.4)
   console.log('prompt length:', prompt.length)
   console.log(
     `requesting ${maxTokens} of the ${tokenHardLimit} tokens availables`

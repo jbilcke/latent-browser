@@ -13,14 +13,14 @@ const examples = `
 On this site you will
 know everything about my dog life.
 Woof, woof!"
-# a one page book called "The Test" written by an anonymous developer, with two test paragraphs
+# a one page book called "The Test" written by an anonymous developer (written in grey), with two test paragraphs in dark green and blue text color schemes
 - "pdf.file":
   - "pdf.h1߷The Test"
-  - "pdf.author߷Anonymous Developer"
-  - "pdf.h3߷Hello"
-  - "pdf.p߷Hello. This is a test."
-  - "pdf.h3߷World"
-  - "pdf.p߷Hello, World!"
+  - "pdf.author߷color=#484a48߷Anonymous Developer"
+  - "pdf.h3߷color=#16a42e߷Hello"
+  - "pdf.p߷color=#057317߷Hello. This is a test."
+  - "pdf.h3߷color=#1674a4߷World"
+  - "pdf.p߷color=#052c63߷Hello, World!"
 # minimalist page displaying the mouse cursor position, with a simple 2-chords song playing in the background
 - "ui.h1߷Mouse tracking app"
 - "ui.p߷Mouse cursor is at $mouse.x and $mouse.y"

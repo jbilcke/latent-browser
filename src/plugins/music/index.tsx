@@ -21,10 +21,13 @@ export const music: Plugin = {
           description: 'beats per minute (eg. 90, 120..)',
         },
       },
+      allowedChildren: 'music',
     },
     track: {
       component: Track,
       description: 'a track contains instruments',
+      allowedParents: 'music',
+      allowedChildren: 'music',
       params: {
         steps: {
           description: 'an array of musical steps like C3, E3, B2, E3 etc',
@@ -34,6 +37,8 @@ export const music: Plugin = {
     instrument: {
       component: Instrument,
       description: 'an instrument',
+      allowedParents: 'music',
+      allowedChildren: 'music',
       params: {
         type: {
           description: 'instrument type',
