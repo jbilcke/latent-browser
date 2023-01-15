@@ -38,12 +38,27 @@ export type MiscPanelFields = Record<string, Field>
 
 const fields: Partial<SettingsFields> & MiscPanelFields = {
   core: {
-    label: 'Vendor settings',
-    description: 'Those are the core settings',
+    label: 'Core settings ⚙️',
+    description: '',
+    type: 'section',
+  },
+  speechToTextLanguage: {
+    label: 'Speech recognition language',
+    description: '',
+    type: 'text',
+    defaultValue: 'en',
+
+    // TODO we should probaly grab the language list from the system
+    // and put it in an autocomplete or something
+    placeholder: 'en, fr..',
+  },
+  vendor: {
+    label: 'Service providers 🧑‍💼',
+    description: 'Only OpenAI right now, but more vendors are coming soon',
     type: 'section',
   },
   coreVendor: {
-    label: 'Backend vendor',
+    label: 'LLM service provider',
     description: '',
     type: 'radio',
     defaultValue: 'OpenAI',
@@ -61,17 +76,24 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
       */
     ],
   },
-  coreSpeechToTextLanguage: {
-    label: 'Speech recognition language',
+  imageVendor: {
+    label: 'Image generation provider',
     description: '',
-    type: 'text',
-    defaultValue: 'en',
-
-    // TODO we should probaly grab the language list from the system
-    // and put it in an autocomplete or something
-    placeholder: 'en, fr..',
+    type: 'radio',
+    defaultValue: 'OpenAI_dalle2',
+    options: [
+      {
+        description: 'OpenAI DALL·E 2 (1024*1024px)',
+        value: 'OpenAI_dalle2',
+      },
+      /*
+      {
+        description: 'HuggingFace',
+        value: 'HuggingFace',
+      },
+      */
+    ],
   },
-
   /*
   huggingFace: {
     label: 'HuggingFace Settings',
@@ -95,7 +117,7 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
   },
   */
   openAI: {
-    label: 'OpenAI Settings',
+    label: 'OpenAI Settings 💸',
     description:
       'You need a valid OpenAI account and API token to use this vendor',
     type: 'section',
@@ -115,7 +137,7 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     defaultValue: 'text-davinci-003',
   },
   customPrompts: {
-    label: 'Custom prompts',
+    label: 'Custom prompts ✍️',
     description: 'Those instructions will be added to all the queries',
     type: 'section',
   },
@@ -141,25 +163,40 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     defaultValue: '',
   },
   checkPickSection: {
-    label: 'Auto Cherry-Pick',
-    description: 'Warning: enabling these options will increase your costs',
+    label: 'AUTO-TUNE 👩‍🎤',
+    description:
+      'Note: those options create more queries, and thus increase costs and latency',
     type: 'section',
     defaultValue: '',
   },
+  usePlanStep: {
+    label: 'Use PLAN step (recommended)',
+    description: 'Take some time for thinking before generating the page',
+    type: 'boolean',
+    defaultValue: true,
+  },
+  useImproveStep: {
+    label: 'Use IMPROVE step (recommended)',
+    description: 'Perform one more request to improve the text content',
+    type: 'boolean',
+    defaultValue: true,
+  },
   useVendorCherryPick: {
     label: 'Socially Acceptable Cherry-Pick™',
-    description: 'Ask the LLM vendor to do some cherry-picking on their side',
+    description:
+      'Ask the LLM to generate twice and cherry-pick the best (server-side 🍒)',
     type: 'boolean',
     defaultValue: false,
   },
   useAutoCherryPick: {
     label: 'Cherry-Pick Is All You Need™',
-    description: 'Re-run the Javascript prompt if an exception is raised',
+    description:
+      "Ask the LLM to run again if we can't parse the response (client-side 🍒)",
     type: 'boolean',
     defaultValue: false,
   },
   forDevelopers: {
-    label: 'Developer Settings',
+    label: 'Developer Settings 🔧',
     description: 'Settings for developers of the latent browser itself',
     type: 'section',
   },
@@ -167,6 +204,13 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     label: 'Use mock data (free)',
     description:
       'Simulate queries made to the selected vendor, but return fake data instead',
+    type: 'boolean',
+    defaultValue: false,
+  },
+  useTurboPrompt: {
+    label: "Use Turboprompt (EXPERIMENTAL - PLEASE DON'T USE 🙏)",
+    description:
+      'Ask the LLM to attempt data compression (note: IMPROVE step will be skipped)',
     type: 'boolean',
     defaultValue: false,
   },

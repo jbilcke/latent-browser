@@ -1,15 +1,27 @@
 import { useEffect, useState } from 'react'
 
-import { Scene } from '../components'
+import { SceneRenderer } from '../components'
 import { mockSceneString } from '../components/core/SceneRenderer/mocks'
-import { getBuilderPrompt, type Specification } from '../engine/prompts'
+import {
+  getBuilderPrompt,
+  newExamples,
+  type Specification,
+} from '../engine/prompts'
 import { apiDoc, components } from '../plugins'
+
+import { sample } from '../engine/parser/mock'
+import { parseTurbo } from '../engine/parser'
 
 // a search result page in the style of a famous search engine =)
 function Test() {
   const [scene, setScene] = useState<string>('')
   useEffect(() => {
+    /*
+    console.log('newExamples:', newExamples)
+    console.log('sample:', sample)
+    console.log('result:', parseTurbo(sample))
     console.log('Test:', { apiDoc, components })
+    */
 
     const spec: Specification = {
       layout: ['many articles'],
@@ -30,7 +42,7 @@ function Test() {
   // some famous search engine colors
   return (
     <>
-      <Scene>{scene}</Scene>
+      <SceneRenderer>{scene}</SceneRenderer>
     </>
   )
 }

@@ -2,13 +2,13 @@ import { Specification } from '../engine/prompts'
 
 export const isSpecEmpty = (spec?: Specification): boolean => {
   if (!spec) {
-    return false
+    return true
   }
 
   try {
     const specs = Object.entries(spec)
-    return specs.length > 0
+    return !specs.length
   } catch (err) {
-    return false
+    return true
   }
 }

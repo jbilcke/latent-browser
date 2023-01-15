@@ -1,9 +1,10 @@
+import { memo } from 'react'
 // import { useTheme } from '../../theme'
 import { useScene } from './useScene'
 import { renderTree } from './render'
 import { Scene } from '../../../engine/prompts'
 
-export const SceneRenderer = ({ children }: { children?: string | Scene }) => {
+export const Renderer = ({ children }: { children?: string | Scene }) => {
   const root = useScene(children)
   // const [theme, setTheme] = useTheme()
 
@@ -13,3 +14,4 @@ export const SceneRenderer = ({ children }: { children?: string | Scene }) => {
     </div>
   )
 }
+export const SceneRenderer = memo(Renderer)

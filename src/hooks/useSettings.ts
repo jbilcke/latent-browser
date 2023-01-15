@@ -4,7 +4,9 @@ import { Settings } from '../types'
 export const useSettings = (
   defaultValue: Settings = {
     coreVendor: 'OpenAI',
-    coreSpeechToTextLanguage: '',
+    imageVendor: 'OpenAI_dalle2',
+    speechToTextLanguage: '',
+    useTurboPrompt: false,
     huggingFaceKey: '',
     huggingFaceModel: 'EleutherAI/gpt-j-6B',
     openAIKey: '',
@@ -13,11 +15,13 @@ export const useSettings = (
     customBuilderPrompt: '',
     customImproverPrompt: '',
     useMockData: false,
+    usePlanStep: true,
+    useImproveStep: true,
     useAutoCherryPick: false,
     useVendorCherryPick: false,
   }
 ) =>
   useLocalStorage<Settings>({
-    key: 'settings-rev-2',
+    key: 'settings-rev-3',
     defaultValue,
   })

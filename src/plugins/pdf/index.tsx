@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { memo, ReactNode } from 'react'
 import {
   Document as PDFDocument,
   Font as PDFFont,
@@ -8,9 +8,7 @@ import {
   StyleSheet as PDFStyleSheet,
   PDFViewer,
 } from '@react-pdf/renderer'
-import { toggle } from '../common'
-import { type Plugin, type PluginAPI, type PluginExamples } from '../types'
-import { prefix } from '../build'
+import { type Plugin } from '../types'
 
 PDFFont.register({
   family: 'Oswald',
@@ -105,15 +103,19 @@ export const pdf: Plugin = {
   },
   api: {
     file: {
-      component: ({ children }: { children: ReactNode }) => (
-        <PDFViewer className="w-full h-screen">
-          <PDFDocument>
-            <PDFPage size="A4" style={styles.body}>
-              {children}
-              <Pagination />
-            </PDFPage>
-          </PDFDocument>
-        </PDFViewer>
+      // to avoid flickering we neet to memoize the PDF Viewer,
+      // or else on each re-render it will generate a new document ID
+      component: memo(({ children }: { children: ReactNode }) =>
+        children ? (
+          <PDFViewer className="w-full h-screen">
+            <PDFDocument>
+              <PDFPage size="A4" style={styles.body}>
+                {children}
+                <Pagination />
+              </PDFPage>
+            </PDFDocument>
+          </PDFViewer>
+        ) : null
       ),
       description: 'PDF document (for a book, report, manual etc)',
     },

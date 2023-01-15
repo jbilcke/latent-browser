@@ -15,6 +15,7 @@ import {
   accent,
   ghost,
 } from '../common'
+import { useImage } from '../../hooks/useImage'
 
 export const H1 = ({ children }: { children: ReactNode }) => (
   <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 lg:font-extrabold lg:text-6xl lg:leading-none dark:text-white lg:text-center lg:mb-7">
@@ -52,7 +53,11 @@ export const Image = ({
   alt: string
   width: string
   height: string
-}) => <img alt={alt} width={width} height={height} />
+}) => {
+  const src = useImage({ alt, width, height })
+
+  return src ? <img alt={alt} src={src} width={width} height={height} /> : null
+}
 
 export const name = 'ui'
 export const ui: Plugin = {
@@ -91,7 +96,8 @@ export const ui: Plugin = {
         width: {
           description: 'image width in CSS unit',
         },
-        children: {
+        caption: {
+          prop: 'children',
           description:
             'string caption to vividly describe an image or illustration, enough for someone to reproduce it again',
         },

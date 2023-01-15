@@ -171,7 +171,7 @@ function Index() {
           <div className="flex flex-col w-screen h-screen bg-toolbar-bg overflow-hidden">
             <div className="absolute top-[40px] flex items-center justify-center space-x-2 w-full px-4 h-[40px] bg-toolbar-fg">
               <SpeechInput
-                language={settings.coreSpeechToTextLanguage}
+                language={settings.speechToTextLanguage}
                 onChange={setQuery}
                 onSubmit={handleGenerate}
               />

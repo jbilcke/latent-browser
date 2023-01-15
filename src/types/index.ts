@@ -41,7 +41,11 @@ export interface Link {
 }
 export interface Settings {
   coreVendor: string
-  coreSpeechToTextLanguage: string
+  imageVendor: string
+  speechToTextLanguage: string
+  useTurboPrompt: boolean
+  usePlanStep: boolean
+  useImproveStep: boolean
   huggingFaceKey: string
   huggingFaceModel: string
   openAIKey: string

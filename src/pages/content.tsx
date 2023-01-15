@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
-import { imagineJSON, imagineScene } from '../providers/openai'
+import {
+  imagineJSON,
+  imagineScene,
+  imagineTurboScene,
+} from '../providers/openai'
 import { resolveImages } from '../engine/resolvers/image'
 import {
   getPlannerPrompt,
@@ -10,6 +14,7 @@ import {
   type RawSpecification,
   type Scene,
   type Specification,
+  presets,
 } from '../engine/prompts'
 import { ModelProgressBar, SceneRenderer } from '../components'
 import {
@@ -23,6 +28,7 @@ import { getKeyForApps, getNewEmptySpec, isSceneEmpty } from '../utils'
 import { type AppTab } from '../types'
 import { isSpecEmpty } from '../utils/isSpecEmpty'
 import { apiDoc } from '../plugins'
+import { getTurboPrompt } from '../engine/prompts/turbo'
 
 const timePerStage = {
   PLAN: 15,
@@ -61,7 +67,7 @@ function Content() {
       id,
       openTabs,
     })
-    if (isLoading || !openTabs.length) {
+    if (!id || isLoading || !openTabs.length) {
       return
     }
     const app: AppTab = openTabs.find((a) => a.id === id)
@@ -75,6 +81,7 @@ function Content() {
 
     console.log(`tab.content(${id}): app id changed and open tabs are ready!`, {
       id,
+      app,
     })
 
     setSpec(app.spec)
@@ -97,7 +104,7 @@ function Content() {
       console.log(`tab.content(${id}): app scene is present, going to LOADED`)
       setStage('LOADED')
     }
-  }, [isLoading, id, getKeyForApps(openTabs)])
+  }, [id, isLoading, getKeyForApps(openTabs)])
 
   // TODO use a download queue to estimate the remaining loading time
   // const [queue, setQueue] = useState<string[]>([])
@@ -126,17 +133,26 @@ function Content() {
   }
 
   const buildSpec = async (prompt = '') => {
-    console.log(`tab.content(${id}): buildSpec`, { prompt })
     if (!prompt.length) {
       return
     }
-
+    console.log(`tab.content(${id}): buildSpec`, { prompt })
     setIsLoadingAssets(true)
     setStartTimestamp(new Date().valueOf())
     setElapsedTimeMs(0)
     setStage('PLAN')
 
     let newSpec: Specification = getNewEmptySpec()
+
+    // if PLAN step is disabled we resort to using a simple spec file
+    if (!settings.usePlanStep) {
+      setSpec({
+        ...newSpec,
+        summary: [prompt],
+      })
+      setIsLoadingAssets(false)
+      return
+    }
 
     try {
       const rawSpec = await imagineJSON<RawSpecification>(
@@ -169,10 +185,10 @@ function Content() {
 
   // run the builder - at this stage we are going to see something on the screen
   const buildScene = async (spec?: Specification) => {
-    console.log(`tab.content(${id}): buildScene`)
     if (isSpecEmpty(spec)) {
       return
     }
+    console.log(`tab.content(${id}): buildScene`)
 
     // ---- PHASE 2: BUILD ------
     setIsLoadingAssets(true)
@@ -182,13 +198,27 @@ function Content() {
     setTrials(trials + 1)
 
     let newScene: Scene = []
+    let newSceneStr: string = ''
 
     try {
-      newScene = await imagineScene(
-        getBuilderPrompt(spec, apiDoc, settings),
-        settings
-      )
-      if (!newScene) {
+      let result
+      if (settings.useTurboPrompt) {
+        console.log('Turbo mode!')
+        result = await imagineTurboScene(
+          getTurboPrompt(spec, apiDoc, settings),
+          presets.turbo,
+          settings
+        )
+      } else {
+        result = await imagineScene(
+          getBuilderPrompt(spec, apiDoc, settings),
+          presets.build,
+          settings
+        )
+      }
+      newScene = result.scene
+      newSceneStr = result.sceneStr
+      if (!newScene || !newSceneStr) {
         throw new Error('failed to build the scene')
       }
     } catch (exc) {
@@ -200,17 +230,29 @@ function Content() {
 
     setScene(newScene)
 
-    // ---- PHASE 3: IMPROVE ------
+    // ---- OPTIONAL PHASE 3: IMPROVE ------
+
+    // we can only perform the improve step if the stars are aligned
+    if (!settings.useImproveStep || settings.useTurboPrompt) {
+      setStage('LOADED')
+      setIsLoadingAssets(false)
+      updateApp({ spec, scene })
+      return
+    }
+
     setStage('IMPROVE')
     setStartTimestamp(new Date().valueOf())
     setElapsedTimeMs(0)
 
     try {
-      newScene = await imagineScene(
-        getImproverPrompt(spec, scene, settings),
+      const result = await imagineScene(
+        getImproverPrompt(spec, newSceneStr, settings),
+        presets.improve,
         settings
       )
-      if (!newScene) {
+      newScene = result.scene
+      newSceneStr = result.sceneStr
+      if (!newScene || !newSceneStr) {
         throw new Error('failed to improve the scene')
       }
     } catch (exc) {
@@ -221,33 +263,31 @@ function Content() {
     }
 
     setScene(newScene)
+    setStage('LOADED')
     setIsLoadingAssets(false)
     updateApp({ spec, scene })
   }
 
   useEffect(() => {
-    console.log(
-      `tab.content(${id}): prompt changed! seeing if we should PLAN..'`,
-      { prompt }
-    )
-
-    if (isSpecEmpty(spec) && stage !== 'LOADED') {
+    if (id && prompt && isSpecEmpty(spec) && stage !== 'LOADED') {
+      console.log(`tab.content(${id}): buildSpec(prompt)`, { prompt })
       buildSpec(prompt)
     }
-  }, [prompt])
+  }, [id, prompt])
 
   useEffect(() => {
-    console.log(
-      `tab.content(${id}): spec changed! seeing if we should BUILD..`,
-      { spec }
-    )
-    if (isSceneEmpty(scene) && stage !== 'LOADED') {
-      console.log(`tab.content(${id}): scene is empty! generating new one..`)
+    if (id && !isSpecEmpty(spec) && isSceneEmpty(scene) && stage !== 'LOADED') {
+      console.log(`tab.content(${id}): buildScene(spec)`, {
+        spec,
+      })
       buildScene(spec)
     }
-  }, [spec])
+  }, [id, spec])
 
   useEffect(() => {
+    if (!id) {
+      return
+    }
     const onError = (e: ErrorEvent) => {
       console.log('SCRIPT failure detected:', e)
       setScene([])
@@ -260,16 +300,19 @@ function Content() {
     window.addEventListener('error', onError)
 
     return () => window.removeEventListener('error', onError)
-  }, [spec, settings.useAutoCherryPick, trials])
+  }, [id, spec, settings.useAutoCherryPick, trials])
 
   // replace all images alt with src
   useEffect(() => {
+    if (!id || isSceneEmpty(scene)) {
+      return
+    }
     const resolve = async () => {
       await resolveImages(settings)
       updateApp()
     }
     resolve()
-  }, [scene])
+  }, [id, scene])
 
   useInterval(
     () => {

@@ -23,8 +23,27 @@ export const presets = {
     presencePenalty: 0,
   } as PromptSettings,
 
-  scene: {
-    temperature: 0.7,
+  turbo: {
+    temperature: 0.6,
+    n: 1, // we try to stay optimistic.. we will query again if it fails
+    bestOf: 1,
+    bestOfBoost: 1,
+    gptLogitBias: {
+      // lorem ipsum
+      '75': -1,
+      '29625': -1,
+      '220': -1,
+      '2419': -1,
+      '388': -1,
+    },
+    codexLogitBias: {},
+    frequencyPenalty: 0,
+    presencePenalty: 0,
+    stop: ['ᐅ'],
+  } as PromptSettings,
+
+  build: {
+    temperature: 0.6,
     n: 1, // we try to stay optimistic.. we will query again if it fails
     bestOf: 1,
     bestOfBoost: 1,
@@ -42,7 +61,7 @@ export const presets = {
     stop: ['```'],
   } as PromptSettings,
 
-  derivate: {
+  improve: {
     temperature: 0.8,
     n: 1, // we try to stay optimistic.. we will query again if it fails
     bestOf: 1,

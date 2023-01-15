@@ -10,6 +10,7 @@ import * as mocks from './mocks'
 import { presets, Scene, type PromptSettings } from '../../engine/prompts'
 import { getLatentBrowserName, isSceneEmpty } from '../../utils'
 import { Settings } from '../../types'
+import { parseTurbo } from '../../engine/parser'
 
 // don't do this at home!
 // if we deploy one day to the cloud, we MUST rewrite this..
@@ -115,33 +116,80 @@ export const imagineJSON = async <T>(
 
 export const imagineScene = async (
   prompt: string,
+  preset?: PromptSettings,
   settings?: Settings
-): Promise<Scene> => {
+): Promise<{
+  scene: Scene
+  sceneStr: string
+}> => {
   console.log('imagineScene> prompt:', prompt)
 
   if (settings?.useMockData) {
-    return mocks.scene
+    return {
+      scene: mocks.scene,
+      sceneStr: '',
+    }
   }
 
-  let rawYAML = await imagineString(prompt, presets.json, settings)
+  let rawSceneStr = await imagineString(prompt, preset, settings)
 
-  console.log(`imagineScene> rawYAML: ${rawYAML}`)
+  console.log(`imagineScene> rawSceneStr:\n${rawSceneStr}`)
 
   try {
     // we give a hint in our prompt by prefixing it, but we need to put it back in the output
-    const cleanYAML = rawYAML.split('```').pop()
-    console.log(`imagineScene> cleanYAML: ${cleanYAML}`)
+    let sceneStr = rawSceneStr.split('```')[0]
 
-    const scene = parse(cleanYAML) as Scene
+    // GPT hallucinate extra examples! we need to remove them too, by only keepin the first one
+    sceneStr = sceneStr.split('\n#')[0]
+
+    console.log(`imagineScene> sceneStr:\n${sceneStr}`)
+
+    const scene = parse(sceneStr) as Scene
 
     // remove all trailing commas (`input` variable holds the erroneous JSON)
     if (isSceneEmpty(scene)) {
       throw new Error('scene is empty')
     }
-    return scene
+    return { scene, sceneStr }
   } catch (err) {
     console.log('imagineScene> failed to parse scene', err)
-    return []
+    return { scene: [], sceneStr: '' }
+  }
+}
+
+export const imagineTurboScene = async (
+  prompt: string,
+  preset?: PromptSettings,
+  settings?: Settings
+): Promise<{
+  scene: Scene
+  sceneStr: string
+}> => {
+  console.log('imagineTurboScene> prompt:', prompt)
+
+  if (settings?.useMockData) {
+    return {
+      scene: mocks.scene,
+      sceneStr: '',
+    }
+  }
+
+  let rawSceneStr = await imagineString(prompt, preset, settings)
+
+  console.log(`imagineTurboScene> rawSceneStr:\n${rawSceneStr}`)
+
+  try {
+    const sceneStr = rawSceneStr
+    const scene = parseTurbo(sceneStr)
+
+    // remove all trailing commas (`input` variable holds the erroneous JSON)
+    if (isSceneEmpty(scene)) {
+      throw new Error('scene is empty')
+    }
+    return { scene, sceneStr }
+  } catch (err) {
+    console.log('imagineTurboScene> failed to parse scene', err)
+    return { scene: [], sceneStr: '' }
   }
 }
 

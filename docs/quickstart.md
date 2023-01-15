@@ -68,6 +68,10 @@ Thanks to the PDF plugin you can also generate PDF documents, such as simple rep
 #### Examples
 
 ```
+a PDF book with 4 poems about programming on the Atari, in the style of 18th century poetry
+```
+
+```
 a book about an obscure wizard called Vermor, it explains how to create an invisibility potion in multiple paragraphs
 ```
 
