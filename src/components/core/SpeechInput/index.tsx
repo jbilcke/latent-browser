@@ -52,12 +52,19 @@ export const SpeechInput = ({
 
   const handleEnd = () => {
     SpeechRecognition.stopListening()
-    onSubmit?.(transcript)
+    const query = transcript.trim()
+    console.log('query: ', query)
+    if (query) {
+      onSubmit?.(query)
+    }
   }
 
   useEffect(() => {
-    console.log('transcript: ', transcript)
-    onChange?.(transcript)
+    const query = transcript.trim()
+    console.log('query: ', query)
+    if (query) {
+      onChange?.(query)
+    }
   }, [transcript])
 
   return isReady ? (
