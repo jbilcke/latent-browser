@@ -1,18 +1,7 @@
 import { useEffect, useState } from 'react'
 import { parse } from 'yaml'
 import { Scene } from '../../../engine/prompts'
-
-const cleanInput = (input: string) => {
-  // the character ᐃ will be used to indicate line returns
-  // we we replace all line returns with ᐃ
-  // except the "normal" YAML line returns
-  // (sorry, the substitution code is a bit complicate due to this..)
-  const step1 = input.trim().replace(/\n/g, 'ᐃ')
-  console.log('cleanInput: step1', step1)
-  const step2 = step1.replace(/([:]?)ᐃ(\s*)-\s"/g, '$1\n$2- "')
-  console.log('cleanInput: step2', step2)
-  return step2
-}
+import { safeYamlLineReturns } from '../../../utils'
 
 export const useScene = (input?: string | Scene) => {
   const [scene, setScene] = useState<Scene>([])
@@ -24,7 +13,7 @@ export const useScene = (input?: string | Scene) => {
   useEffect(() => {
     try {
       const newScene: Scene =
-        typeof input === 'string' ? parse(cleanInput(input)) : input
+        typeof input === 'string' ? parse(safeYamlLineReturns(input)) : input
       console.log('useScene: newScene = ', newScene)
       if (!Array.isArray(newScene) || newScene.length === 0) {
         console.log(

@@ -8,7 +8,11 @@ export * from './types'
 import { ImaginedImage } from './types'
 import * as mocks from './mocks'
 import { presets, Scene, type PromptSettings } from '../../engine/prompts'
-import { getLatentBrowserName, isSceneEmpty } from '../../utils'
+import {
+  getLatentBrowserName,
+  isSceneEmpty,
+  safeYamlLineReturns,
+} from '../../utils'
 import { Settings } from '../../types'
 import { parseTurbo } from '../../engine/parser'
 
@@ -144,7 +148,7 @@ export const imagineScene = async (
 
     console.log(`imagineScene> sceneStr:\n${sceneStr}`)
 
-    const scene = parse(sceneStr) as Scene
+    const scene = parse(safeYamlLineReturns(sceneStr)) as Scene
 
     // remove all trailing commas (`input` variable holds the erroneous JSON)
     if (isSceneEmpty(scene)) {
@@ -179,7 +183,7 @@ export const imagineTurboScene = async (
   console.log(`imagineTurboScene> rawSceneStr:\n${rawSceneStr}`)
 
   try {
-    const sceneStr = rawSceneStr
+    const sceneStr = safeYamlLineReturns(rawSceneStr)
     const scene = parseTurbo(sceneStr)
 
     // remove all trailing commas (`input` variable holds the erroneous JSON)
