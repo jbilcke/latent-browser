@@ -91,18 +91,18 @@ export const pdf: Plugin = {
   examples: {
     'a one page book called "The Test" written by an anonymous developer, with two test paragraphs':
       {
-        'pdf.file': [
-          { 'pdf.h1': 'The Test' },
-          { 'pdf.author': 'Anonymous Developer' },
-          { 'pdf.h3': 'Hello' },
-          { 'pdf.p': 'Hello. This is a test.' },
-          { 'pdf.h3': 'World' },
-          { 'pdf.p': 'Hello, World!' },
+        'pf.pdf': [
+          { 'pf.h1': 'The Test' },
+          { 'pf.author': 'Anonymous Developer' },
+          { 'pdfpf.h3': 'Hello' },
+          { 'pf.p': 'Hello. This is a test.' },
+          { 'pf.h3': 'World' },
+          { 'pf.p': 'Hello, World!' },
         ],
       },
   },
   api: {
-    file: {
+    pdf: {
       // to avoid flickering we neet to memoize the PDF Viewer,
       // or else on each re-render it will generate a new document ID
       component: memo(({ children }: { children: ReactNode }) =>
@@ -146,9 +146,7 @@ export const pdf: Plugin = {
       allowedParents: 'pdf',
       allowedChildren: 'pdf',
       params: {
-        color: {
-          description: 'color',
-        },
+        color: {},
       },
     },
     h1: {
@@ -167,9 +165,7 @@ export const pdf: Plugin = {
       allowedParents: 'pdf',
       allowedChildren: 'pdf',
       params: {
-        color: {
-          description: 'color',
-        },
+        color: {},
       },
     },
     h2: {
@@ -188,9 +184,7 @@ export const pdf: Plugin = {
       allowedParents: 'pdf',
       allowedChildren: 'pdf',
       params: {
-        color: {
-          description: 'color',
-        },
+        color: {},
       },
     },
     h3: {
@@ -209,9 +203,7 @@ export const pdf: Plugin = {
       allowedParents: 'pdf',
       allowedChildren: 'pdf',
       params: {
-        color: {
-          description: 'color',
-        },
+        color: {},
       },
     },
     p: {
@@ -230,9 +222,7 @@ export const pdf: Plugin = {
       allowedParents: 'pdf',
       allowedChildren: 'pdf',
       params: {
-        color: {
-          description: 'color',
-        },
+        color: {},
       },
     },
   },

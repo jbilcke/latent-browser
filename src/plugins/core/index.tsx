@@ -1,6 +1,6 @@
 import { Plugin } from '../types'
 import { Dummy } from '../common'
-
+import { Image } from '../../components/core'
 export const name = 'core'
 
 export const core: Plugin = {
@@ -9,7 +9,20 @@ export const core: Plugin = {
   api: {
     eval: {
       component: Dummy,
-      description: 'small JS one-liner expression to evaluate',
+      description: 'JS one-liner expression to evaluate',
+    },
+    image: {
+      component: Image,
+      description:
+        'an image, with a caption to vividly describing an image or illustration',
+      params: {
+        height: {
+          description: 'in CSS unit',
+        },
+        width: {
+          description: 'in CSS unit',
+        },
+      },
     },
     /*
   when: {

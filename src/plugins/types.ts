@@ -1,7 +1,7 @@
 import { ExoticComponent, FC, ReactNode } from 'react'
 
 export interface Param {
-  description: string
+  description?: string
 
   // sometimes we want to give to the LLM a simplified name,
   // so we use "prop" to define the actual component prop field key

@@ -81,11 +81,13 @@ export const fiber: Plugin = {
       component: Scene,
       description:
         "root of the webgl scene, used for 3D apps and games (allowed children: 'fiber.*')",
+      allowedChildren: 'fiber',
     },
     Ball: {
       component: Ball,
       description: '3D ball or sphere',
-      scope: 'fiber',
+      allowedParents: 'fiber',
+      allowedChildren: 'fiber',
       params: {
         color: {
           description: 'color (in HEX)',
@@ -98,7 +100,8 @@ export const fiber: Plugin = {
     Box: {
       component: Box,
       description: '3D box or cube',
-      scope: 'fiber',
+      allowedParents: 'fiber',
+      allowedChildren: 'fiber',
     },
   },
 }

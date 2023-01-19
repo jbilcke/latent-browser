@@ -14,10 +14,10 @@ export const plugins: Plugins = {
   core,
   ui,
   // daisyui, // note: also re-enable it in the tailwind config then (in the bottom -> plugins)
-  flowbite,
-  fiber,
-  music,
-  pdf,
+  fl: flowbite,
+  fb: fiber,
+  mu: music,
+  pf: pdf,
 }
 
 export const components = getComponents(plugins)

@@ -34,7 +34,9 @@ export const getComponentDoc = (
   `# ${name.toLocaleLowerCase()}: ${description}${Object.entries(params || {})
     .map(
       ([param, { description, values }]) =>
-        `\n- ${param}: ${description}${printValues(values)}`
+        `\n- ${param}${
+          description || values?.length ? ': ' : ''
+        }${description}${printValues(values)}`
     )
     .join('')}`
 
