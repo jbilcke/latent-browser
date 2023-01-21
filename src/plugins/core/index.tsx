@@ -1,7 +1,8 @@
 import { Plugin } from '../types'
 import { Dummy } from '../common'
 import { Image } from '../../components/core'
-export const name = 'core'
+
+export const name = 'co'
 
 export const core: Plugin = {
   name,
@@ -14,7 +15,7 @@ export const core: Plugin = {
     image: {
       component: Image,
       description:
-        'an image, with a caption to vividly describing an image or illustration',
+        'an image, with a caption to vividly describe an image or illustration',
       params: {
         height: {
           description: 'in CSS unit',

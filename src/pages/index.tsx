@@ -183,7 +183,7 @@ function Index() {
               />
               {activeApp
                 ? activeApp.type === 'content' &&
-                  activeApp.scene && (
+                  activeApp.tree && (
                     <IconButton onClick={handleToggleFavorite}>
                       <Icon
                         icon={

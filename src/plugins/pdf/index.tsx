@@ -84,7 +84,7 @@ export const Pagination = () => (
   />
 )
 
-export const name = 'pdf'
+export const name = 'pf'
 
 export const pdf: Plugin = {
   name,

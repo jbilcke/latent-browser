@@ -2,7 +2,7 @@ import { Song, Track, Instrument } from 'reactronica'
 import { toggle } from '../common'
 import { type Plugin } from '../types'
 
-export const name = 'music'
+export const name = 'mu'
 
 export const music: Plugin = {
   name,
@@ -30,7 +30,7 @@ export const music: Plugin = {
       allowedChildren: 'music',
       params: {
         steps: {
-          description: 'an array of musical steps like C3, E3, B2, E3 etc',
+          description: 'array of musical steps like C3, E3, B2, E3 etc',
         },
       },
     },
@@ -38,7 +38,7 @@ export const music: Plugin = {
       component: Instrument,
       description: 'an instrument',
       allowedParents: 'music',
-      allowedChildren: 'music',
+      allowedChildren: null,
       params: {
         type: {
           description: 'instrument type',

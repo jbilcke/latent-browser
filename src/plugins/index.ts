@@ -5,19 +5,21 @@ import { flowbite } from './flowbite'
 import { fiber } from './fiber'
 import { music } from './music'
 import { pdf } from './pdf'
+import { slider } from './slider'
 import { type Plugins } from './types'
 import { getIndex, getComponents, getDocumentation } from './build'
 import Fuse from 'fuse.js'
 
 // expose all the plugins components onto the same level
 export const plugins: Plugins = {
-  core,
-  ui,
+  [core.name]: core,
+  [ui.name]: ui,
   // daisyui, // note: also re-enable it in the tailwind config then (in the bottom -> plugins)
-  fl: flowbite,
-  fb: fiber,
-  mu: music,
-  pf: pdf,
+  [flowbite.name]: flowbite,
+  [fiber.name]: fiber,
+  [music.name]: music,
+  [pdf.name]: pdf,
+  [slider.name]: slider,
 }
 
 export const components = getComponents(plugins)

@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { SceneRenderer } from '../components'
-import { mockSceneString } from '../components/core/SceneRenderer/mocks'
-import {
-  getBuilderPrompt,
-  newExamples,
-  type Specification,
-} from '../engine/prompts'
+import { ComponentTreeRenderer } from '../components'
+import { mockTreeString } from '../components/core/ComponentTreeRenderer/mocks'
+import { getBuilderPrompt, type Specification } from '../engine/prompts'
 import { apiDoc, components } from '../plugins'
 
 import { sample } from '../engine/parser/mock'
@@ -14,10 +10,9 @@ import { parseTurbo } from '../engine/parser'
 
 // a search result page in the style of a famous search engine =)
 function Test() {
-  const [scene, setScene] = useState<string>('')
+  const [tree, setTree] = useState<string>('')
   useEffect(() => {
     /*
-    console.log('newExamples:', newExamples)
     console.log('sample:', sample)
     console.log('result:', parseTurbo(sample))
     console.log('Test:', { apiDoc, components })
@@ -35,14 +30,14 @@ function Test() {
     const builderPrompt = getBuilderPrompt(spec, apiDoc)
     console.log('builderPrompt:', builderPrompt)
 
-    setScene(mockSceneString)
+    setTree(mockTreeString)
   }, [])
 
   // later we will put the colors into Tailwind, but right now let's just clone
   // some famous search engine colors
   return (
     <>
-      <SceneRenderer>{scene}</SceneRenderer>
+      <ComponentTreeRenderer>{tree}</ComponentTreeRenderer>
     </>
   )
 }

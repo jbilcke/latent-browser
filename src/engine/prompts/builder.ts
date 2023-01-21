@@ -13,7 +13,7 @@ const examples = `
     On this site you will
     know everything about my dog life.
     Woof, woof!"
-- "core.image߷portrait of a cute dog sticking the tongue in a living room, Sigma 24mm f/8, instagram"
+- "co.image߷portrait of a cute dog sticking the tongue in a living room, Sigma 24mm f/8, instagram"
 
 # a one page book called "The Test" written by an anonymous developer (written in grey), with two test paragraphs in dark green and blue text color schemes
 - "pf.pdf":
@@ -30,9 +30,9 @@ const examples = `
   - "mu.track߷steps=[['C3','E3','G3'],['G3','B4','D4']]":
     - "mu.instrument߷type=synth"
 - "ui.h2߷Images"
-- "fl.carousel":
-  - "core.image߷a grand piano on a scene, bright lights, canon EOS | Sigma 85mm f/8"
-  - "core.image߷a rare violin in its case, close-up, Nikon D810 | ISO 64 | focal length 20mm | Aperture f/9 | Exposure Time 1/40 Sec"
+- "sl.slider߷height=600px":
+  - "co.image߷a grand piano on a scene, bright lights, canon EOS | Sigma 85mm f/8"
+  - "co.image߷a rare violin in its case, close-up, Nikon D810 | ISO 64 | focal length 20mm | Aperture f/9 | Exposure Time 1/40 Sec"
 # Landing page of a swiss german device manufacturer which sells a mysterious watch to predict the future. It also offer some kind of "time travelling" life insurance scheme.
 - "ui.h2߷TimeWatch. The future is bright."
 - "ui.p߷Stay ahead of the masses and purchase our new time travel device, marvelously crafter in precious time-resistant materials. It's time to build your future."
@@ -41,8 +41,8 @@ const examples = `
   - "fl.feat߷icon=microscope߷title=Incredible quality߷Made in the Swiss Alps our TimeWatch has been tested in deep space, on Mars, in the New York subway and in a wormhole. It truly passes the trial of time."
   - "fl.feat߷icon=health߷title=SaveMyLife+߷Our special life insurance program! If you get injured or killed our special TimeSquad will travel back to time to save your "past self". Don't worry, you will have no recollection of the event. It's that magical."
 # 3D app with three rgb balls of different size, without any UI except a title. Balls should become twice as big and white when the mouse is clicked
-- "eval߷$a = $mouse.clicked ? 2 : 1"
-- "eval߷$b = '#ffffff'"
+- "co.eval߷$a = $mouse.clicked ? 2 : 1"
+- "co.eval߷$b = '#ffffff'"
 - "ui.h2߷3D App Demo"
 - "fb.scene":
   - "fb.ball߷size={$a * 1.5}߷color=$mouse.clicked ? $b : '#ff0000'"

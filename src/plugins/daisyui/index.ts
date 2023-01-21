@@ -29,7 +29,7 @@ const colors = [
   ghost,
 ]
 
-export const name = 'daisy'
+export const name = 'da'
 
 // https://github.com/daisyui/react-daisyui
 export const daisyui: Plugin = {

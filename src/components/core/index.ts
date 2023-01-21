@@ -1,3 +1,3 @@
 export * from './Image'
-export * from './SceneRenderer'
+export * from './ComponentTreeRenderer'
 export * from './SpeechInput'

@@ -14,7 +14,7 @@ import { type Plugin } from '../types'
 
 // doc: https://tailgrids.com/docs/react
 
-export const name = 'tailgrids'
+export const name = 'tl'
 
 export const tailgrids: Plugin = {
   name,

@@ -33,7 +33,7 @@ import { Icon } from '../../components/icon'
 // https://flowbite-react.com/theme
 // https://flowbite-react.com/
 
-export const name = 'flowbite'
+export const name = 'fl'
 
 export const flowbite: Plugin = {
   name,
@@ -176,21 +176,6 @@ export const flowbite: Plugin = {
           description: 'link label',
         },
       },
-    },
-    carousel: {
-      description: 'image carousel, it contains a list of images',
-      component: ({ children }: { children?: ReactNode }) => (
-        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-          <Carousel>{children}</Carousel>
-        </div>
-      ),
-      /*
-      params: {
-        children: {
-          description: 'list of images',
-        },
-      },
-      */
     },
     /*
   'flowbite.Table': {

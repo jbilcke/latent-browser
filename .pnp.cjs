@@ -43,6 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@react-three/fiber", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:8.10.0"],\
             ["@react-three/postprocessing", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:2.7.0"],\
             ["@react-three/xr", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:5.1.2"],\
+            ["@splidejs/react-splide", "npm:0.7.12"],\
             ["@storybook/addon-actions", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:6.5.15"],\
             ["@storybook/addon-docs", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:6.5.15"],\
             ["@storybook/addon-essentials", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:6.5.15"],\
@@ -8331,6 +8332,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@socket.io-component-emitter-npm-3.1.0-3f778351c2-db069d9542.zip/node_modules/@socket.io/component-emitter/",\
           "packageDependencies": [\
             ["@socket.io/component-emitter", "npm:3.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@splidejs/react-splide", [\
+        ["npm:0.7.12", {\
+          "packageLocation": "./.yarn/cache/@splidejs-react-splide-npm-0.7.12-424f59f4d5-715517b0ac.zip/node_modules/@splidejs/react-splide/",\
+          "packageDependencies": [\
+            ["@splidejs/react-splide", "npm:0.7.12"],\
+            ["@splidejs/splide", "npm:4.1.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@splidejs/splide", [\
+        ["npm:4.1.4", {\
+          "packageLocation": "./.yarn/cache/@splidejs-splide-npm-4.1.4-574032679c-919f6e1e5d.zip/node_modules/@splidejs/splide/",\
+          "packageDependencies": [\
+            ["@splidejs/splide", "npm:4.1.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -22781,6 +22801,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@react-three/fiber", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:8.10.0"],\
             ["@react-three/postprocessing", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:2.7.0"],\
             ["@react-three/xr", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:5.1.2"],\
+            ["@splidejs/react-splide", "npm:0.7.12"],\
             ["@storybook/addon-actions", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:6.5.15"],\
             ["@storybook/addon-docs", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:6.5.15"],\
             ["@storybook/addon-essentials", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:6.5.15"],\

@@ -7,10 +7,14 @@ import { parse } from 'yaml'
 export * from './types'
 import { ImaginedImage } from './types'
 import * as mocks from './mocks'
-import { presets, Scene, type PromptSettings } from '../../engine/prompts'
+import {
+  type ComponentTree,
+  presets,
+  type PromptSettings,
+} from '../../engine/prompts'
 import {
   getLatentBrowserName,
-  isSceneEmpty,
+  isTreeEmpty,
   safeYamlLineReturns,
 } from '../../utils'
 import { Settings } from '../../types'
@@ -118,82 +122,82 @@ export const imagineJSON = async <T>(
   }
 }
 
-export const imagineScene = async (
+export const imagineTree = async (
   prompt: string,
   preset?: PromptSettings,
   settings?: Settings
 ): Promise<{
-  scene: Scene
-  sceneStr: string
+  tree: ComponentTree
+  treeStr: string
 }> => {
-  console.log('imagineScene> prompt:', prompt)
+  console.log('imagineTree> prompt:', prompt)
 
   if (settings?.useMockData) {
     return {
-      scene: mocks.scene,
-      sceneStr: '',
+      tree: mocks.tree,
+      treeStr: '',
     }
   }
 
-  let rawSceneStr = await imagineString(prompt, preset, settings)
+  let rawTreeStr = await imagineString(prompt, preset, settings)
 
-  console.log(`imagineScene> rawSceneStr:\n${rawSceneStr}`)
+  console.log(`imagineTree> rawTreeStr:\n${rawTreeStr}`)
 
   try {
     // we give a hint in our prompt by prefixing it, but we need to put it back in the output
-    let sceneStr = rawSceneStr.split('```')[0]
+    let treeStr = rawTreeStr.split('```')[0]
 
     // GPT hallucinate extra examples! we need to remove them too, by only keepin the first one
-    sceneStr = sceneStr.split('\n#')[0]
+    treeStr = treeStr.split('\n#')[0]
 
-    console.log(`imagineScene> sceneStr:\n${sceneStr}`)
+    console.log(`imagineTree> treeStr:\n${treeStr}`)
 
-    const scene = parse(safeYamlLineReturns(sceneStr)) as Scene
+    const tree = parse(safeYamlLineReturns(treeStr)) as ComponentTree
 
     // remove all trailing commas (`input` variable holds the erroneous JSON)
-    if (isSceneEmpty(scene)) {
-      throw new Error('scene is empty')
+    if (isTreeEmpty(tree)) {
+      throw new Error('tree is empty')
     }
-    return { scene, sceneStr }
+    return { tree, treeStr }
   } catch (err) {
-    console.log('imagineScene> failed to parse scene', err)
-    return { scene: [], sceneStr: '' }
+    console.log('imagineTree> failed to parse tree', err)
+    return { tree: [], treeStr: '' }
   }
 }
 
-export const imagineTurboScene = async (
+export const imagineTurboTree = async (
   prompt: string,
   preset?: PromptSettings,
   settings?: Settings
 ): Promise<{
-  scene: Scene
-  sceneStr: string
+  tree: ComponentTree
+  treeStr: string
 }> => {
-  console.log('imagineTurboScene> prompt:', prompt)
+  console.log('imagineTurboTree> prompt:', prompt)
 
   if (settings?.useMockData) {
     return {
-      scene: mocks.scene,
-      sceneStr: '',
+      tree: mocks.tree,
+      treeStr: '',
     }
   }
 
-  let rawSceneStr = await imagineString(prompt, preset, settings)
+  let rawTreeStr = await imagineString(prompt, preset, settings)
 
-  console.log(`imagineTurboScene> rawSceneStr:\n${rawSceneStr}`)
+  console.log(`imagineTurboTree> rawTreeStr:\n${rawTreeStr}`)
 
   try {
-    const sceneStr = safeYamlLineReturns(rawSceneStr)
-    const scene = parseTurbo(sceneStr)
+    const treeStr = safeYamlLineReturns(rawTreeStr)
+    const tree = parseTurbo(treeStr)
 
     // remove all trailing commas (`input` variable holds the erroneous JSON)
-    if (isSceneEmpty(scene)) {
-      throw new Error('scene is empty')
+    if (isTreeEmpty(tree)) {
+      throw new Error('tree is empty')
     }
-    return { scene, sceneStr }
+    return { tree, treeStr }
   } catch (err) {
-    console.log('imagineTurboScene> failed to parse scene', err)
-    return { scene: [], sceneStr: '' }
+    console.log('imagineTurboTree> failed to parse tree', err)
+    return { tree: [], treeStr: '' }
   }
 }
 

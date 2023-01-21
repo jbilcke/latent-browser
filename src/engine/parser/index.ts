@@ -1,5 +1,5 @@
 import { parse as parseArray } from 'yaml'
-import { Scene } from '../prompts'
+import { type ComponentTree } from '../prompts'
 
 const symbols = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧']
 const pt = (depth: number) => `${symbols[depth]}${'  '.repeat(depth)}- ᐅ`
@@ -7,15 +7,15 @@ const pt = (depth: number) => `${symbols[depth]}${'  '.repeat(depth)}- ᐅ`
 // a new experimental format
 // converts a string in the following format:
 // ①ui.navbar߷fluid=true߷rounded=tru,②ui.button߷Home②ui.button߷About
-export const parseTurbo = (code: string): Scene => {
+export const parseTurbo = (code: string): ComponentTree => {
   // add some padding for each line, depending on the depth level
   const step1 = code
     .replace(/⓪/g, pt(0))
     .replace(/①/g, pt(1))
     .replace(/②/g, pt(2))
     .replace(/③/g, pt(3))
-    .replace(/④/g, pt(4))
-    .replace(/⑤/g, pt(5))
+    .replace(/④/g, pt(4)) // want to refactor this code? well, feel free
+    .replace(/⑤/g, pt(5)) // but we should probably add some unit tests first
     .replace(/⑥/g, pt(6))
     .replace(/⑦/g, pt(7))
     .replace(/⑧/g, pt(8))

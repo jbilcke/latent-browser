@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, ReactNode } from 'react'
 
 import { components, globalIndex, scopedIndexes } from '../../../plugins'
 import { getProps } from './getProps'
@@ -99,12 +99,6 @@ export const renderNode = (
 export const renderTree = (
   tree: Record<string, any>[] = [],
   parent = ''
-): JSX.Element => {
-  return (
-    <>
-      {tree.map((node, i) => (
-        <Fragment key={i}>{renderNode(node)}</Fragment>
-      ))}
-    </>
-  )
+): ReactNode => {
+  return tree.map((node, i) => <Fragment key={i}>{renderNode(node)}</Fragment>)
 }

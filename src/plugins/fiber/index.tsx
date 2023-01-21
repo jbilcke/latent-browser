@@ -70,7 +70,7 @@ export const Scene = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export const name = 'fiber'
+export const name = 'fb'
 
 export const fiber: Plugin = {
   name,

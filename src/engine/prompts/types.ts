@@ -22,7 +22,7 @@ export type SpecCategory =
   | 'summary'
 export type Specification = Record<SpecCategory, string[]>
 
-export type Scene = Record<string, any>[]
+export type ComponentTree = Record<string, any>[]
 
 // https://beta.openai.com/docs/api-reference/completions/create
 // to improve the quality of output we want to forbid certain things

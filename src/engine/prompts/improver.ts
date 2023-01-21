@@ -1,6 +1,5 @@
-import { stringify } from 'yaml'
 import { Settings } from '../../types'
-import { Scene, Specification } from './types'
+import { Specification } from './types'
 
 export const getImproverPrompt = (
   spec: Specification,

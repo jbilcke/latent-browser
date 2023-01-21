@@ -5,7 +5,7 @@ import { ImaginedImage } from './types'
  *
  */
 
-export const scene = [
+export const tree = [
   {
     'flowbite.navbar|fluid=true|rounded=true': [
       { 'flowbite.button': 'Home' },

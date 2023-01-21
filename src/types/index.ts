@@ -1,4 +1,4 @@
-import { Scene, Specification } from '../engine/prompts/types'
+import { type ComponentTree, Specification } from '../engine/prompts/types'
 
 export type AppType = 'search' | 'content' | 'favorites' | 'settings'
 
@@ -19,7 +19,7 @@ export interface App {
   spec?: Specification
 
   // scene tree
-  scene?: Scene
+  tree?: ComponentTree
 }
 
 export interface Tab {
