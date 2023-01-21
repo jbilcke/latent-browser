@@ -20,6 +20,6 @@ export const pdf: Component = {
       </PDFViewer>
     ) : null
   ),
-  description: 'PDF document (for a book, report, manual etc)',
+  doc: 'PDF document (for a book, report, manual etc)',
   allowedChildren: 'pf',
 }

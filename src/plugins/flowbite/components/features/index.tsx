@@ -31,7 +31,7 @@ export const feats: Component = {
       </div>
     </section>
   ),
-  description: 'feature showcase section with list of feature cards',
+  doc: 'feature showcase section with list of feature cards',
   params: {
     title: {},
     subtitle: {},
@@ -60,9 +60,9 @@ export const feat: Component = {
       <p className="text-gray-500 dark:text-gray-400">{children}</p>
     </div>
   ),
-  description: 'a feature description card with an icon, a title and a body',
+  doc: 'a feature description card with an icon, a title and a body',
   params: {
-    icon: { description: 'icon name' },
+    icon: { doc: 'icon name' },
     title: {},
   },
 }

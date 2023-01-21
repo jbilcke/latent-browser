@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { imagineImage } from '../providers/openai'
+import { imagineImage } from 'providers/openai'
 import { useSettings } from './useSettings'
+import mock from '../../public/mocks/mock.jpg'
 
 export const useImage = ({
   alt,
@@ -16,9 +17,15 @@ export const useImage = ({
   const [settings] = useSettings()
   const openAIKey = settings?.openAIKey
   const openAIModel = settings?.openAIModel
+  const isMocked = settings?.useMockData
 
   useEffect(() => {
     const fn = async () => {
+      if (isMocked) {
+        setSrc(mock.src)
+        return
+      }
+
       if (!openAIKey || !openAIModel || !alt) {
         // cannot generate the image yet
         return
@@ -30,7 +37,7 @@ export const useImage = ({
       setSrc(url)
     }
     fn()
-  }, [alt, openAIKey, openAIModel])
+  }, [alt, openAIKey, openAIModel, isMocked])
 
   return src
 }

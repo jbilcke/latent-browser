@@ -4,12 +4,12 @@ import { type Component } from '../../../types'
 
 export const instrument: Component = {
   component: Instrument,
-  description: 'instrument config',
+  doc: 'instrument config',
   allowedParents: 'mu',
   allowedChildren: null,
   params: {
     type: {
-      description: '', // instrument type',
+      doc: '', // instrument type',
       values: ['synth'],
     },
   },

@@ -17,7 +17,7 @@ export const p: Component = {
       {onlyText(children)}
     </Text>
   ),
-  description: 'paragraph written in English',
+  doc: 'paragraph written in English',
   allowedParents: 'pf',
   allowedChildren: 'pf',
   params: {

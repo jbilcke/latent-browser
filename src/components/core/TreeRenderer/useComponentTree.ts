@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { parse } from 'yaml'
-import { ComponentTree } from '../../../engine/prompts'
-import { safeYamlLineReturns } from '../../../utils'
+
+import { ComponentTree } from 'engine/prompts'
+import { safeYamlLineReturns } from 'utils'
 
 export const useComponentTree = (input?: string | ComponentTree) => {
   const [tree, setTree] = useState<ComponentTree>([])
@@ -12,6 +13,10 @@ export const useComponentTree = (input?: string | ComponentTree) => {
 
   useEffect(() => {
     try {
+      // empty inputs are okay, it means we are not initialized yet
+      if (JSON.stringify(input) === '""') {
+        return
+      }
       const newTree: ComponentTree =
         typeof input === 'string' ? parse(safeYamlLineReturns(input)) : input
       console.log('useComponentTree: newTree = ', newTree)

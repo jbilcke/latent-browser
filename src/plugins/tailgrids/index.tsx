@@ -22,17 +22,17 @@ export const tailgrids: Plugin = {
   api: {
     button: {
       component: Button,
-      description: 'button',
+      doc: 'button',
       params: {
         label: {
-          description: 'button label',
+          doc: 'button label',
         },
         color: {
-          description: 'button color',
+          doc: 'button color',
           values: ['primary', 'secondary', 'dark'],
         },
         roundedLg: {
-          description: 'add large rounded corners or not',
+          doc: 'add large rounded corners or not',
           values: [true, false],
         },
       },
@@ -40,64 +40,64 @@ export const tailgrids: Plugin = {
     /*
   blog: {
     component: Blog,
-    description: 'a blog container',
+    doc: 'a blog container',
     params: {},
   },
   'blog.section.title': {
     component: BlogSectionTitle,
-    description: 'a blog container',
+    doc: 'a blog container',
     params: {
       title: {
-        description: 'blog title',
+        doc: 'blog title',
       },
       subtitle: {
-        description: 'blog subtitle',
+        doc: 'blog subtitle',
       },
-      description: {
-        description: 'blog description',
+      doc: {
+        doc: 'blog description',
       },
     },
   },
   'blog.card': {
     component: BlogCard,
-    description: 'a blog container',
+    doc: 'a blog container',
     params: {
       date: {
-        description: 'blog article publication date',
+        doc: 'blog article publication date',
       },
       title: {
-        description: 'blog article title',
+        doc: 'blog article title',
       },
       subtitle: {
-        description: 'blog article - subtitle',
+        doc: 'blog article - subtitle',
       },
       blogDescription: {
-        description: 'blog article summary',
+        doc: 'blog article summary',
       },
     },
   },
   */
     navbar: {
       component: Button,
-      description: 'button',
+      doc: 'button',
       params: {
         button1: {
-          description: 'button 1',
+          doc: 'button 1',
         },
         button2: {
-          description: 'button 2',
+          doc: 'button 2',
         },
       },
     },
     'navbar.item': {
       component: NavbarListItem,
-      description: 'navbar item',
+      doc: 'navbar item',
       params: {
         href: {
-          description: 'link',
+          doc: 'link',
         },
         children: {
-          description: 'item label',
+          doc: 'item label',
         },
       },
     },
@@ -107,7 +107,7 @@ export const tailgrids: Plugin = {
   // because the data structure used by TailGrids is not based on nesting
   table: {
     component: Table,
-    description: 'table',
+    doc: 'table',
     params: { 
     }
   }

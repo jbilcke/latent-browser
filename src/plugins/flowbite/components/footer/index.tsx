@@ -4,35 +4,35 @@ import { type Component } from '../../../types'
 
 export const footer: Component = {
   component: Footer,
-  description: 'footer',
+  doc: 'footer',
   params: {},
 }
 
 export const footer_copyright: Component = {
   component: Footer.Copyright,
-  description: 'copyright',
+  doc: 'copyright',
   params: {
     by: {
-      description: 'author (eg. company)',
+      doc: 'author (eg. company)',
     },
     year: {
-      description: 'copyright year',
+      doc: 'copyright year',
     },
   },
 }
 
 export const footer_links: Component = {
   component: Footer.LinkGroup,
-  description: 'list of links',
+  doc: 'list of links',
   params: {},
 }
 
 export const footer_link: Component = {
   component: Footer.Link,
-  description: 'link to another page',
+  doc: 'link to another page',
   params: {
     href: {
-      description: 'internal link',
+      doc: 'internal link',
     },
     label: {},
   },

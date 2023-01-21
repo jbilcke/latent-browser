@@ -16889,6 +16889,7 @@ __metadata:
     tailgrids: ^2.0.0
     tailgrids-react: ^0.1.5
     tailwind-safelist-generator: ^1.0.0
+    tailwind-scrollbar: ^2.1.0
     tailwindcss: ^3.2.4
     three: ^0.148.0
     typescript: ^4.7.4
@@ -23956,6 +23957,15 @@ __metadata:
   peerDependencies:
     tailwindcss: ^2.2.7 || ^3.0.0
   checksum: 2692142d8e1e459a2d524a8ec46659170d9d3cdb57bf371a4e6c2317adea11011c2ddfe32a4bea8f57fcc7b6adc6b2de83afde7f9bc14f27337dc8f533d1eafc
+  languageName: node
+  linkType: hard
+
+"tailwind-scrollbar@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "tailwind-scrollbar@npm:2.1.0"
+  peerDependencies:
+    tailwindcss: 3.x
+  checksum: ef06182dc9316ccd58b446c7ca98296a53cc39a610b9eb2d641c7dd0d5b6e3366f6a126e5ca47ccb844f2665c28012a065a05f5a808e39a385d83a2f07c50da0
   languageName: node
   linkType: hard
 

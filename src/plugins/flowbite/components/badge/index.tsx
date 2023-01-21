@@ -4,10 +4,10 @@ import { type Component } from '../../../types'
 
 export const badge: Component = {
   component: Badge,
-  description: 'badge, label or tag',
+  doc: 'badge, label or tag',
   params: {
     color: {
-      description: '',
+      doc: '',
       values: [
         'info',
         'gray',

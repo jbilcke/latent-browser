@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, memo } from 'react'
 import { Canvas } from '@react-three/fiber'
 
 import { type Component } from '../../../types'
@@ -24,7 +24,7 @@ const Scene = ({ children }: { children?: ReactNode }) => {
 }
 
 export const scene: Component = {
-  component: Scene,
-  description: 'WebGL canvas used for 3D apps, games & simulators',
+  component: memo(Scene),
+  doc: 'WebGL canvas used for 3D apps, games & simulators',
   allowedChildren: 'fb',
 }

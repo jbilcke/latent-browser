@@ -36,10 +36,10 @@ export const cta: Component = {
       </svg>
     </a>
   ),
-  description: 'call to action',
+  doc: 'call to action',
   params: {
     badge: {
-      description: 'badge ("new!", "exclusive" etc)',
+      doc: 'badge ("new!", "exclusive" etc)',
     },
   },
 }

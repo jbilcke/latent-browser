@@ -5,7 +5,7 @@ import { type Component } from '../../../types'
 
 export const accordion: Component = {
   component: Accordion,
-  description: 'accordion',
+  doc: 'accordion',
   params: {},
 }
 
@@ -16,6 +16,6 @@ export const accordion_section: Component = {
       <Accordion.Content>{children}</Accordion.Content>
     </Accordion.Panel>
   ),
-  description: 'togglable show-hide section',
+  doc: 'togglable show-hide section',
   params: {},
 }

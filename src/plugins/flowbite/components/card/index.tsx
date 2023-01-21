@@ -5,15 +5,15 @@ import { toggle } from '../../../common'
 
 export const card: Component = {
   component: Card,
-  description: 'card component with sub-items',
+  doc: 'card component with sub-items',
   params: {
     horizontal: {
-      description: 'whether the layout is horizontal or not',
+      doc: 'whether the layout is horizontal or not',
       values: toggle,
     },
     /*
     label: {
-      description: 'button label',
+      doc: 'button label',
       values: ['some label'],
     },
     */

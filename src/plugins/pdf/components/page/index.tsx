@@ -10,5 +10,5 @@ export const page: Component = {
       {children}
     </Page>
   ),
-  description: 'a page of a PDF',
+  doc: 'a page of a PDF',
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
-import { imagineJSON, imagineTree, imagineTurboTree } from '../providers/openai'
-import { resolveImages } from '../engine/resolvers/image'
+
+import { imagineJSON, imagineTree, imagineTurboTree } from 'providers/openai'
+import { resolveImages } from 'engine/resolvers/image'
 import {
   getPlannerPrompt,
   getBuilderPrompt,
@@ -11,20 +12,19 @@ import {
   type ComponentTree,
   type Specification,
   presets,
-} from '../engine/prompts'
-import { ModelProgressBar, ComponentTreeRenderer } from '../components'
+} from 'engine/prompts'
+import { ModelProgressBar, TreeRenderer } from 'components'
 import {
   useInterval,
   useOpenTabs,
   useStoredApps,
   useSettings,
   useParam,
-} from '../hooks'
-import { getKeyForApps, getNewEmptySpec, isTreeEmpty } from '../utils'
-import { type AppTab } from '../types'
-import { isSpecEmpty } from '../utils/isSpecEmpty'
-import { apiDoc } from '../plugins'
-import { getTurboPrompt } from '../engine/prompts/turbo'
+} from 'hooks'
+import { getKeyForApps, getNewEmptySpec, isTreeEmpty, isSpecEmpty } from 'utils'
+import { type AppTab } from 'types'
+import { apiDoc } from 'plugins'
+import { getTurboPrompt } from 'engine/prompts/turbo'
 
 const timePerStage = {
   PLAN: 15,
@@ -320,7 +320,7 @@ function Content() {
 
   return (
     <>
-      <ComponentTreeRenderer>{tree}</ComponentTreeRenderer>
+      <TreeRenderer>{tree}</TreeRenderer>
       <ModelProgressBar
         elapsedTimeMs={elapsedTimeMs}
         estimatedTimeSec={estimatedTimeSec}

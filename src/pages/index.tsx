@@ -3,8 +3,8 @@ import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import Icon from 'react-material-symbols/rounded'
 
-import { useStoredApps, useOpenTabs, useSettings } from '../hooks'
-import { IconButton, SearchInput, SpeechInput } from '../components'
+import { useStoredApps, useOpenTabs, useSettings } from 'hooks'
+import { IconButton, SearchInput, SpeechInput } from 'components'
 
 const Tabs = lazy(() => import('../components/browser-ui/tabs/Tabs'))
 

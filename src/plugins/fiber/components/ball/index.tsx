@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { type Component } from '../../../types'
 
 import { Sphere } from '../../primitives/Sphere'
@@ -11,24 +12,24 @@ const Ball = ({ color = 'orange', size = 0.5, sparkles = false }) => (
     size={size}
     sparkles={sparkles}
     position={[
-      Math.random() * 4 - 2,
+      size,
       size, // height (must be linked to the size)
-      Math.random() * 4 - 2,
+      size,
     ]}
   />
 )
 
 export const ball: Component = {
-  component: Ball,
-  description: '3D ball or sphere',
+  component: memo(Ball),
+  doc: '3D ball or sphere',
   allowedParents: 'fb',
   allowedChildren: 'fb',
   params: {
     color: {
-      description: 'HEX color',
+      doc: 'HEX color',
     },
     size: {
-      description: 'float (between 0.5 and 2.0)',
+      doc: 'float (between 0.5 and 2.0)',
     },
   },
 }

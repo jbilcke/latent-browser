@@ -1,3 +1,4 @@
-export * from './Image'
-export * from './ComponentTreeRenderer'
+export * from './LatentComponent'
+export * from './LatentImage'
+export * from './TreeRenderer'
 export * from './SpeechInput'

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { imagineJSON } from '../providers/openai'
-import { searchTemplate } from '../engine/prompts/search'
-import { BigSearchInput, ModelProgressBar } from '../components'
-import { useParam, useInterval, useOpenTabs, useSettings } from '../hooks'
-import { getKeyForApps } from '../utils/getKeyForApps'
+import { imagineJSON } from 'providers/openai'
+import { searchTemplate } from 'engine/prompts/search'
+import { BigSearchInput, ModelProgressBar } from 'components'
+import { useParam, useInterval, useOpenTabs, useSettings } from 'hooks'
+import { getKeyForApps } from 'utils/getKeyForApps'
 
 interface Result {
   title: string

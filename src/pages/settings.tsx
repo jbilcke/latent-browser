@@ -1,6 +1,6 @@
-import { type Settings } from '../types'
-import { useSettings } from '../hooks'
-import { SettingInput, Toggle } from '../components'
+import { type Settings } from 'types'
+import { useSettings } from 'hooks'
+import { SettingInput, Toggle } from 'components'
 
 type BaseField = {
   label: string

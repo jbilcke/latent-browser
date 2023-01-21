@@ -5,7 +5,7 @@ import { Specification } from './types'
 
 // a new prompt designed to be "one shot"
 export const turboPromptExamples = `ᐅA simple blog made by a dog${[
-  `⓪ui.theme߷primaryText=#000000߷secondaryText=#666666߷foreground=#ffffff߷background=#cccccc߷accent=#ff0000`,
+  `⓪ui.theme߷primary=#000000߷secondary=#666666߷fg=#ffffff߷bg=#cccccc߷accent=#ff0000`,
   `①ui.navbar߷fluid=true߷rounded=true`,
   `②ui.button߷Home`,
   `②ui.button߷About`,
@@ -34,13 +34,13 @@ Woof, woof!`,
 ].join(
   ''
 )}ᐅ3D app with three rgb balls of different size, without any UI except a title. Balls should become twice as big and white when the mouse is clicked${[
-  `⓪eval߷$a = $mouse.clicked ? 2 : 1`,
-  `⓪eval߷$b = '#ffffff'`,
+  `⓪co.js⎝$a = $mouse.clicked ? 2 : 1⎞`,
+  `⓪co.js⎝$b = '#ffffff'⎞`,
   `⓪ui.h2߷3D App Demo`,
-  `①fiber.scene`,
-  `②fiber.ball߷size=$a * 1.5߷color=$mouse.clicked ? $b : '#ff0000'`,
-  `②fiber.ball߷size=$a * 2.5߷color=$mouse.clicked ? $b : '#00ff00'`,
-  `②fiber.ball߷size=$b * 3.5߷color=$mouse.clicked ? $b : '#0000ff'`,
+  `①fb.scene`,
+  `②fb.ball߷size=⎝$a * 1.5⎞߷color=⎝$mouse.clicked ? $b : '#ff0000'⎞`,
+  `②fb.ball߷size=⎝$a * 2.5⎞߷color=⎝$mouse.clicked ? $b : '#00ff00'⎞`,
+  `②fb.ball߷size=⎝$a * 3.5⎞߷color=⎝$mouse.clicked ? $b : '#0000ff'⎞`,
 ].join('')}`
 
 export const getTurboPrompt = (

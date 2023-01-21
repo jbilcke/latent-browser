@@ -8,14 +8,14 @@ import {
   mockSTL,
   mockSVG,
   mockText,
-} from '../../../engine/prompts/mocker'
+} from 'engine/prompts/mocker'
 import {
   imagineImage,
   imagineJSON,
   imagineString,
   credentials,
-} from '../../../providers/openai'
-import { presets } from '../../../engine/prompts/presets'
+} from 'providers/openai'
+import { presets } from 'engine/prompts/presets'
 
 // creates a substitute whenever we ask for an image that doesn't exist
 // this will be useful if we use game libraries, as GPT-3 parrots tutorials that use images

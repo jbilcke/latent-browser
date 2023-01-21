@@ -5,19 +5,19 @@ import { toggle } from '../../../common'
 
 export const navbar: Component = {
   component: Navbar,
-  description: 'top navigation bar holding buttons',
+  doc: 'top navigation bar holding buttons',
   params: {
     fluid: {
-      description: 'fluid layout',
+      doc: 'fluid layout',
       values: toggle,
     },
     rounded: {
-      description: 'rounded corners',
+      doc: 'rounded corners',
       values: toggle,
     },
     /*
     children: {
-      description: 'nav buttons',
+      doc: 'nav buttons',
       values: ['Button'],
     },
     */

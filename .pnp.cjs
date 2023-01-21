@@ -115,6 +115,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tailgrids", "npm:2.0.0"],\
             ["tailgrids-react", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:0.1.5"],\
             ["tailwind-safelist-generator", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:1.0.0"],\
+            ["tailwind-scrollbar", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:2.1.0"],\
             ["tailwindcss", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:3.2.4"],\
             ["three", "npm:0.148.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"],\
@@ -22873,6 +22874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tailgrids", "npm:2.0.0"],\
             ["tailgrids-react", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:0.1.5"],\
             ["tailwind-safelist-generator", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:1.0.0"],\
+            ["tailwind-scrollbar", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:2.1.0"],\
             ["tailwindcss", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:3.2.4"],\
             ["three", "npm:0.148.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=ad5954"],\
@@ -31347,6 +31349,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/tailwind-safelist-generator-virtual-fc26b05a75/0/cache/tailwind-safelist-generator-npm-1.0.0-c1f7db2758-2692142d8e.zip/node_modules/tailwind-safelist-generator/",\
           "packageDependencies": [\
             ["tailwind-safelist-generator", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:1.0.0"],\
+            ["@types/tailwindcss", null],\
+            ["tailwindcss", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:3.2.4"]\
+          ],\
+          "packagePeers": [\
+            "@types/tailwindcss",\
+            "tailwindcss"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["tailwind-scrollbar", [\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/tailwind-scrollbar-npm-2.1.0-d4d7a59a1f-ef06182dc9.zip/node_modules/tailwind-scrollbar/",\
+          "packageDependencies": [\
+            ["tailwind-scrollbar", "npm:2.1.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:2.1.0", {\
+          "packageLocation": "./.yarn/__virtual__/tailwind-scrollbar-virtual-38e23e36c9/0/cache/tailwind-scrollbar-npm-2.1.0-d4d7a59a1f-ef06182dc9.zip/node_modules/tailwind-scrollbar/",\
+          "packageDependencies": [\
+            ["tailwind-scrollbar", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:2.1.0"],\
             ["@types/tailwindcss", null],\
             ["tailwindcss", "virtual:40025be7d38b37adc364701e289e3999df13e89c98b763074b7453dd38d28cbf0bf9c7105c79e4945a763816b07e1c8a2e0cd1e7cf4c2a351d920fcc469de1df#npm:3.2.4"]\
           ],\

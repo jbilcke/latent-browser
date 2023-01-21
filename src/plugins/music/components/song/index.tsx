@@ -5,15 +5,15 @@ import { toggle } from '../../../common'
 
 export const song: Component = {
   component: Song,
-  description: 'song',
+  doc: 'song',
   params: {
     autoplay: {
-      description: 'should we auto-start the music or not',
+      doc: 'should we auto-start the music or not',
       prop: 'isPlaying',
       values: toggle,
     },
     bpm: {
-      description: 'beats per minute (eg. 90, 120..)',
+      doc: 'beats per minute (eg. 90, 120..)',
     },
   },
   allowedChildren: 'mu',

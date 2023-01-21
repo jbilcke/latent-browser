@@ -38,54 +38,54 @@ export const daisyui: Plugin = {
   api: {
     Badge: {
       component: Badge,
-      description: 'a badge component',
+      doc: 'a badge component',
       params: {
         color: {
-          description: 'badge color',
+          doc: 'badge color',
           values: colors,
         },
         size: {
-          description: 'badge size',
+          doc: 'badge size',
           values: sizes,
         },
         children: {
-          description: 'badge label',
+          doc: 'badge label',
           values: ['some label'],
         },
       },
     },
     Button: {
       component: Button,
-      description: 'an action button',
+      doc: 'an action button',
       params: {
         variant: {
-          description: 'button style',
+          doc: 'button style',
           values: ['outline', 'link'],
         },
         size: {
-          description: 'button size',
+          doc: 'button size',
           values: sizes,
         },
         children: {
-          description: 'button label',
+          doc: 'button label',
           values: ['some label'],
         },
       },
     },
     Navbar: {
       component: Navbar,
-      description: 'a top navigation bar',
+      doc: 'a top navigation bar',
       params: {
         fluid: {
-          description: 'fluid layout',
+          doc: 'fluid layout',
           values: toggle,
         },
         rounded: {
-          description: 'rounded corners',
+          doc: 'rounded corners',
           values: toggle,
         },
         children: {
-          description: 'nav buttons',
+          doc: 'nav buttons',
           values: ['some label'],
         },
       },

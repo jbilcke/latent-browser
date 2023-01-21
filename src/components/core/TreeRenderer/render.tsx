@@ -1,15 +1,46 @@
-import { Fragment, ReactNode } from 'react'
+import { Fragment, ReactNode, memo } from 'react'
 
-import { components, globalIndex, scopedIndexes } from '../../../plugins'
+import { components, globalIndex, scopedIndexes } from 'plugins'
 import { getProps } from './getProps'
 
-export const renderNode = (
-  node: string | Record<string, any> = {},
-  parent = ''
-): JSX.Element => {
+export const RenderNode = ({
+  children: node = {},
+  parent = '',
+}: {
+  children?: string | Record<string, any>
+  parent?: string
+}): JSX.Element => {
   const isString = typeof node === 'string'
-  const chunks = (isString ? node : Object.keys(node)[0]).split('߷')
-  const comp = chunks.shift().toLowerCase().trim()
+  const chunks = (isString ? node : Object.keys(node)[0]).split('⎛')
+
+  // length 1 means we only have text as children, which is not an ivalid use case
+  // eg:
+  // - "pf.pdf":
+  //   - "The Test” <--- this
+  if (chunks.length === 1) {
+    const child = chunks[0].split('߷').pop()
+
+    return child ? <>child</> : undefined
+  }
+
+  // sanity check: if the length was not 1, as is not 2 either
+  // then it means the LLM is going haywire
+  if (chunks.length !== 2) {
+    // the canary died :/
+    console.log('error when trying to split node with ⎛: ' + node)
+    return undefined
+  }
+  const [rawComp, rawProps] = chunks
+
+  const comp = rawComp.toLowerCase().trim()
+
+  if (!comp) {
+    // we have a weird case, like this:
+    // - "⎛foobar"
+    // this is considered invalid
+    console.log('invalid case: ' + node)
+    return undefined
+  }
 
   // the "scope" is always the first element
   // pdf.file
@@ -45,12 +76,14 @@ export const renderNode = (
     componentData = match.item
   }
   const { component, params, allowedParents } = componentData
+  /*
   console.log('scope analysis:', {
     component,
     params,
     parentScope,
     allowedParents,
   })
+  */
 
   /*
   if (allowedParents && parentScope !== allowedParents) {
@@ -78,27 +111,48 @@ export const renderNode = (
   */
 
   const Component = component as unknown as React.ComponentType<any>
-  const { children, ...props } = getProps({
-    chunks,
+  const res = getProps({
+    rawProps,
     params,
     defaultChildren: isString ? undefined : Object.values(node)[0],
   })
+  const isDynamic = res.isDynamic
+  const { children, ...props } = res.props
+  /*
   console.log('<Component> ', {
     children,
     props,
     foo: isString ? undefined : Object.values(node)[0],
   })
+  */
 
-  return (
+  const returned = (
     <Component {...props}>
-      {Array.isArray(children) ? renderTree(children, parent) : children}
+      {Array.isArray(children) ? (
+        <RenderTree parent={parent}>{children}</RenderTree>
+      ) : (
+        children
+      )}
     </Component>
   )
+
+  return returned
 }
 
-export const renderTree = (
-  tree: Record<string, any>[] = [],
-  parent = ''
-): ReactNode => {
-  return tree.map((node, i) => <Fragment key={i}>{renderNode(node)}</Fragment>)
+export const RenderTree = ({
+  children = [],
+  parent = '',
+}: {
+  children?: Record<string, any>[]
+  parent?: string
+}) => {
+  return (
+    <>
+      {children.map((node, i) => (
+        <RenderNode parent={parent} key={i}>
+          {node}
+        </RenderNode>
+      ))}
+    </>
+  )
 }

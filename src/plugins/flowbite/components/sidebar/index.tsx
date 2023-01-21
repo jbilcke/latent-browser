@@ -15,7 +15,7 @@ export const sidebar: Component = {
       </Sidebar.Items>
     </Sidebar>
   ),
-  description: 'left sidebar',
+  doc: 'left sidebar',
   params: {},
 }
 
@@ -27,13 +27,13 @@ export const sidebar_item: Component = {
       </Sidebar.Item>
     </Sidebar.ItemGroup>
   ),
-  description: 'link or action button inside sidebar',
+  doc: 'link or action button inside sidebar',
   params: {
     icon: {
-      description: 'icon name',
+      doc: 'icon name',
     },
     children: {
-      description: 'link label',
+      doc: 'link label',
     },
   },
 }

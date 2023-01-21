@@ -7,16 +7,16 @@ export const name = 'co'
 /*
   when: {
     component: NoopComponent,
-    description: 'event that could be observed',
+    doc: 'event that could be observed',
     params: {
       then: {
-        description: 'action to perform in that case',
+        doc: 'action to perform in that case',
       },
     },
   },
   agent: {
     component: NoopComponent,
-    description: 'an autonomous agent',
+    doc: 'an autonomous agent',
   },
   */
 

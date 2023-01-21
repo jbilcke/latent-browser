@@ -17,7 +17,7 @@ export const author: Component = {
       {onlyText(children)}
     </Text>
   ),
-  description: 'author of the book',
+  doc: 'author of the book',
   allowedParents: 'pf',
   allowedChildren: 'pf',
   params: {

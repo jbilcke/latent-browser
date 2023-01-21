@@ -1,35 +1,39 @@
-import { parse } from 'yaml'
-
-import { Param } from '../../../plugins/types'
+import { Param } from 'plugins/types'
+import { evaluate } from 'utils'
 
 // get the prop to apply to a component, using a schema (the params object)
 export const getProps = ({
-  chunks,
+  rawProps,
   defaultChildren,
   params = {},
 }: {
-  chunks?: string[]
+  rawProps?: string
   defaultChildren?: any
   params?: Record<string, Param>
-}): any => {
-  const props = (chunks || []).reduce(
+}): { props: any; isDynamic: boolean } => {
+  let isDynamic = false
+  const props = (rawProps || '').split('߷').reduce(
     (acc, param) => {
       if (!param) {
         return acc
       }
+
       let key = 'children'
       let value = param
 
-      // we split using the equal symbol, however it might be used for something else
+      // we split using the ≋ symbol, however it might be used for something else
       // so we only keep the head (key) of the generated splitted array
-      const arr = param.split('=')
+      const arr = param.split('≋')
       if (arr.length > 1) {
         key = arr.shift().toLocaleLowerCase().trim()
-        value = arr.join('=')
+        value = arr.join('≋')
       }
 
       // we finally restore our line returns!..
       value = value.replace(/ᐃ/g, '\n')
+
+      // now it's time to interpret some JS, if any
+      const { result } = evaluate(value)
 
       const propDoc = params[key]
 
@@ -71,26 +75,19 @@ export const getProps = ({
       // (this approaches is simpler for us, because in most case we may not need to bother specifying different names)
       const prop = propDoc?.prop || key
 
-      let parsed = value
-      try {
-        // obviously this is super dangerous, but that's also the goal:
-        // we need the LLM to program us
-        parsed = eval(parsed)
-      } catch (err) {
-        // nope.
-      }
-
       return {
         ...acc,
-        [prop]: parsed,
+        [prop]: result,
       }
     },
     {
       children: defaultChildren,
     }
   )
+  /*
   if (props && Object.keys(props).length) {
     console.log('props:', props)
   }
-  return props
+  */
+  return { props, isDynamic }
 }

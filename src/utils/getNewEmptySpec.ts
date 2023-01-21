@@ -1,4 +1,4 @@
-import { type Specification } from '../engine/prompts'
+import { type Specification } from 'engine/prompts'
 
 export const getNewEmptySpec = (): Specification => ({
   layout: [],

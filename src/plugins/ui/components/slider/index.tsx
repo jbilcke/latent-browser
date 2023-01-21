@@ -43,10 +43,10 @@ const Slider = ({
 
 export const slider: Component = {
   component: Slider,
-  description: 'a carousel slider and image gallery, contains a list of images',
+  doc: 'a carousel slider and image gallery, contains a list of images',
   params: {
     height: {
-      description: 'in CSS unit',
+      doc: 'in CSS unit',
     },
   },
 }

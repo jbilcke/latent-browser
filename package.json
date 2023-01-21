@@ -9,9 +9,8 @@
     "build": "next build && next export -o dist",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
-    "start": "next build && next start",
+    "start": "next build && next export -o dist && next start",
     "release": "next build && next export -o dist && tauri build",
-    "proxy": "node proxy/index.js",
     "ts-node": "ts-node",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -111,6 +110,7 @@
     "@types/uuid": "^9",
     "babel-loader": "^8.3.0",
     "storybook-addon-next": "^1.7.1",
+    "tailwind-scrollbar": "^2.1.0",
     "typescript": "^4.7.4"
   },
   "packageManager": "yarn@3.3.1"

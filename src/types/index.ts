@@ -1,4 +1,4 @@
-import { type ComponentTree, Specification } from '../engine/prompts/types'
+import { type ComponentTree, Specification } from 'engine/prompts/types'
 
 export type AppType = 'search' | 'content' | 'favorites' | 'settings'
 

@@ -1,4 +1,5 @@
+export * from './content'
 export * from './slider'
-export * from './theme'
+export * from './page'
 export * from './headings'
 export * from './paragraph'

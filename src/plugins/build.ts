@@ -29,14 +29,14 @@ export const getComponents = (plugins: Plugins): API =>
 // return the Markdown documentation of a plugin API
 export const getComponentDoc = (
   name: string,
-  { description, params }: Component
+  { doc, params }: Component
 ): string =>
-  `# ${name.toLocaleLowerCase()}: ${description}${Object.entries(params || {})
+  `# ${name.toLocaleLowerCase()}: ${doc}${Object.entries(params || {})
     .map(
-      ([param, { description, values }]) =>
-        `\n- ${param}${
-          description || values?.length ? ': ' : ''
-        }${description}${printValues(values)}`
+      ([param, { doc, values }]) =>
+        `\n- ${param}${doc || values?.length ? ': ' : ''}${doc}${printValues(
+          values
+        )}`
     )
     .join('')}`
 
@@ -57,17 +57,21 @@ export const getIndex = (components: API) => {
       ...component,
     })),
     {
+      // TODO use embeddings instead!
       keys: [
         {
           name: 'name',
-          weight: 2,
+          weight: 1,
         },
         {
-          name: 'description',
+          name: 'doc',
           weight: 1,
         },
       ],
+
+      // TODO disable this for better performance
       findAllMatches: true,
+
       isCaseSensitive: false,
       threshold: 1.0,
     }

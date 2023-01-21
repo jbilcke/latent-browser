@@ -17,7 +17,7 @@ export const h1: Component = {
       {onlyText(children)}
     </Text>
   ),
-  description: 'book title',
+  doc: 'book title',
   allowedParents: 'pf',
   allowedChildren: 'pf',
   params: {
@@ -37,7 +37,7 @@ export const h2: Component = {
       {onlyText(children)}
     </Text>
   ),
-  description: 'chapter title',
+  doc: 'chapter title',
   allowedParents: 'pf',
   allowedChildren: 'pf',
   params: {
@@ -57,7 +57,7 @@ export const h3: Component = {
       {onlyText(children)}
     </Text>
   ),
-  description: 'paragraph title',
+  doc: 'paragraph title',
   allowedParents: 'pf',
   allowedChildren: 'pf',
   params: {

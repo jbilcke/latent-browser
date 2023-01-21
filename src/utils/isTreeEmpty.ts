@@ -1,4 +1,4 @@
-import { type ComponentTree } from '../engine/prompts'
+import { type ComponentTree } from 'engine/prompts'
 
 export const isTreeEmpty = (tree?: ComponentTree): boolean => {
   if (!tree) {

@@ -15,8 +15,7 @@ export const hero: Component = {
       </div>
     </section>
   ),
-  description:
-    'section containing hero.cta, hero.title, hero.p, hero.buttons etc',
+  doc: 'section containing hero.cta, hero.title, hero.p, hero.buttons etc',
 }
 export const hero_title: Component = {
   component: ({ children }: { children?: ReactNode }) => (
@@ -24,7 +23,7 @@ export const hero_title: Component = {
       {onlyText(children)}
     </h1>
   ),
-  description: 'big catchy title used for marketing (landing page etc)',
+  doc: 'big catchy title used for marketing (landing page etc)',
 }
 
 export const hero_p: Component = {
@@ -33,7 +32,7 @@ export const hero_p: Component = {
       {onlyText(children)}
     </p>
   ),
-  description: 'paragraph containing some marketing pitch',
+  doc: 'paragraph containing some marketing pitch',
 }
 
 export const hero_buttons: Component = {
@@ -42,5 +41,5 @@ export const hero_buttons: Component = {
       {children}
     </div>
   ),
-  description: 'container for CTA buttons with sub items of type fl.button',
+  doc: 'container for CTA buttons with sub items of type fl.button',
 }

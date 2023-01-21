@@ -9,7 +9,7 @@ const Box = () => (
 
 export const box: Component = {
   component: Box,
-  description: '3D box or cube',
+  doc: '3D box or cube',
   allowedParents: 'fb',
   allowedChildren: 'fb',
 }

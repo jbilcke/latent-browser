@@ -7,8 +7,7 @@ export const h1 = {
       {children}
     </h1>
   ),
-  description:
-    'a huge title (eg. for a big marketing pitch, or a product name, or a welcome message)',
+  doc: 'a huge title (eg. for a big marketing pitch, or a product name, or a welcome message)',
 }
 
 export const h2 = {
@@ -17,7 +16,7 @@ export const h2 = {
       {children}
     </h2>
   ),
-  description: 'a big title (eg. for the titles of articles)',
+  doc: 'a big title (eg. for the titles of articles)',
 }
 
 export const h3 = {
@@ -26,7 +25,7 @@ export const h3 = {
       {children}
     </h3>
   ),
-  description: 'medium title (eg for an article section)',
+  doc: 'medium title (eg for an article section)',
 }
 
 export const h4: Component = {
@@ -35,5 +34,5 @@ export const h4: Component = {
       {children}
     </h4>
   ),
-  description: 'small title (eg. for a paragraph)',
+  doc: 'small title (eg. for a paragraph)',
 }
