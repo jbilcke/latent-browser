@@ -5,7 +5,6 @@ import { flowbite } from './flowbite'
 import { fiber } from './fiber'
 import { music } from './music'
 import { pdf } from './pdf'
-import { slider } from './slider'
 import { type Plugins } from './types'
 import { getIndex, getComponents, getDocumentation } from './build'
 import Fuse from 'fuse.js'
@@ -19,7 +18,6 @@ export const plugins: Plugins = {
   [fiber.name]: fiber,
   [music.name]: music,
   [pdf.name]: pdf,
-  [slider.name]: slider,
 }
 
 export const components = getComponents(plugins)

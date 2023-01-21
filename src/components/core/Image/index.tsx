@@ -6,15 +6,25 @@ import { placeholder } from './placeholder'
 
 export const Image = ({
   children,
+  className,
   width,
   height,
 }: {
   children?: ReactNode
+  className?: string
   width?: string | number
   height?: string | number
 }) => {
   const alt = onlyText(children)
   const src = useImage({ alt, width, height }) || placeholder
 
-  return <img alt={alt} src={src} width={width} height={height} />
+  return (
+    <img
+      alt={alt}
+      className={className || 'object-cover h-full w-full'}
+      src={src}
+      width={width}
+      height={height}
+    />
+  )
 }

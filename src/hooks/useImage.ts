@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { ImaginedImage } from '../providers/openai'
+
+import { imagineImage } from '../providers/openai'
 import { useSettings } from './useSettings'
 
 export const useImage = ({
@@ -22,16 +23,10 @@ export const useImage = ({
         // cannot generate the image yet
         return
       }
+
       console.log(`useImage: generating image for prompt ${alt}`)
-      const response = await fetch(
-        `/api/image?prompt=${encodeURIComponent(
-          alt
-        )}&model=${encodeURIComponent(openAIModel)}&apiKey=${encodeURIComponent(
-          openAIKey
-        )}`
-      )
-      const { url, prompt, width, height } =
-        (await response.json()) as ImaginedImage
+
+      const { url, prompt, width, height } = await imagineImage(alt, settings)
       setSrc(url)
     }
     fn()

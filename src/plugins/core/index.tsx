@@ -1,33 +1,12 @@
 import { Plugin } from '../types'
-import { Dummy } from '../common'
-import { Image } from '../../components/core'
+
+import * as api from './components'
 
 export const name = 'co'
 
-export const core: Plugin = {
-  name,
-  examples: {},
-  api: {
-    eval: {
-      component: Dummy,
-      description: 'JS one-liner expression to evaluate',
-    },
-    image: {
-      component: Image,
-      description:
-        'an image, with a caption to vividly describe an image or illustration',
-      params: {
-        height: {
-          description: 'in CSS unit',
-        },
-        width: {
-          description: 'in CSS unit',
-        },
-      },
-    },
-    /*
+/*
   when: {
-    component: Dummy,
+    component: NoopComponent,
     description: 'event that could be observed',
     params: {
       then: {
@@ -36,9 +15,13 @@ export const core: Plugin = {
     },
   },
   agent: {
-    component: Dummy,
+    component: NoopComponent,
     description: 'an autonomous agent',
   },
   */
-  },
+
+export const core: Plugin = {
+  name,
+  examples: {},
+  api,
 }

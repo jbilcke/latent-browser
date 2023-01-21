@@ -9,7 +9,7 @@
     "build": "next build && next export -o dist",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
-    "start": "next build && next export -o dist && next start",
+    "start": "next build && next start",
     "release": "next build && next export -o dist && tauri build",
     "proxy": "node proxy/index.js",
     "ts-node": "ts-node",

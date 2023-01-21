@@ -1,4 +1,10 @@
-export const Dummy = (): JSX.Element => <></>
+import { ReactNode } from 'react'
+
+export const NoopComponent = ({
+  children,
+}: {
+  children?: ReactNode
+}): JSX.Element => <></>
 
 export const xs = 'xs'
 export const sm = 'sm'

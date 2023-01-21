@@ -47,23 +47,11 @@ This application is based on OpenAI for text and image generation.
 
 Upon starting it, you will have to enter you OpenAI token in the configuration panel (the "cog" icon).
 
-### Running the app in development
+### Use the installer (best experience)
 
-You have 3 different options to run the app:
+If you are not a developer, then I recommend to download the latest stable version using one of our installers.
 
-#### In a browser (recommended)
-
-This solution is recommended during development or if you experience build issues.
-
-```bash
-yarn start
-```
-
-Then go to http://localhost:1420
-
-#### Generate a production build for yourselves (advanced)
-
-This is not recommended for day-to-day development as it is slow, and currently there is an issue with images.
+#### Generate your own installer
 
 ```bash
 yarn release
@@ -74,10 +62,26 @@ then:
 - copy the app to your Application dir
 - start the app
 
-### Known important bugs
+If the script doesn't work for you, it means you may have an issue with the configuration of Rust.
+I invite you to test the third solution below.
 
-- Speech input doesn'tseem to work when starting to app with `yarn tauri:dev`
-- Images don't seem to work when runing a standalone built using `yarn release`, it might be caused by a security setting.
+#### In a browser
+
+This solution will maximize compatiblity but will not feature the cool "custom browser" look.
+
+Type this command in a terminal:
+
+```bash
+yarn start
+```
+
+Then go to http://localhost:1420
+
+Note: this command is the "end user" command. It builds the app in full before starting it, in order to maximize performance.
+
+### Known issues
+
+- Speech input doesn't seem to work when starting to app with `yarn tauri:dev`
 
 ## Using the browser
 
@@ -128,7 +132,7 @@ yarn dev
 
 Then go to http://localhost:1420
 
-Note: development mode can be a bit a bit frustrating, as we have a lot of dependencies so it takes quite a while to load tabs.
+Note: development mode can be a bit a bit frustrating, as we have a lot of dependencies so it takes quite a while to load tabs. I invite you to run the app first with `yarn start` to see the differences.
 
 Sometimes it also lazy load them, compile in the background, then refresh the page.
 Don't be surprised if that happens while you were trying to type something!
