@@ -1,6 +1,6 @@
-import { type Settings } from 'types'
-import { useSettings } from 'hooks'
-import { SettingInput, Toggle } from 'components'
+import { type Settings } from '~/types'
+import { useSettings } from '~/hooks'
+import { SettingInput, Toggle } from '~/components'
 
 type BaseField = {
   label: string
@@ -88,8 +88,8 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
       },
       /*
       {
-        description: 'HuggingFace',
-        value: 'HuggingFace',
+        description: 'StableDiffusionAPI.com',
+        value: 'StableDiffusionAPI',
       },
       */
     ],
@@ -136,6 +136,21 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     type: 'text',
     defaultValue: 'text-davinci-003',
   },
+  /*
+  stableDiffusionAPI: {
+    label: 'StableDiffusionAPI Settings 💸',
+    description:
+      'You need a StableDiffusionAPI.com account and API token to use this vendor',
+    type: 'section',
+  },
+  stableDiffusionAPIKey: {
+    label: 'API Key',
+    description: '',
+    placeholder: 'Enter your StableDiffusionAPI.com access token',
+    type: 'text',
+    defaultValue: '',
+  },
+  */
   customPrompts: {
     label: 'Custom prompts ✍️',
     description: 'Those instructions will be added to all the queries',
@@ -207,6 +222,14 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     type: 'boolean',
     defaultValue: false,
   },
+  useMockImages: {
+    label: 'Use mock images (free)',
+    description:
+      'Simulate queries made to the selected image vendor, but return fake images instead',
+    type: 'boolean',
+    defaultValue: false,
+  },
+  /*
   useTurboPrompt: {
     label: "Use Turboprompt (EXPERIMENTAL - PLEASE DON'T USE 🙏)",
     description:
@@ -214,6 +237,7 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     type: 'boolean',
     defaultValue: false,
   },
+  */
 }
 
 function Favorites() {

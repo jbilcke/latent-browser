@@ -9,8 +9,8 @@ import {
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/react-splide/css'
 
-import { type Component } from '../../../types'
-import { Image } from '../../../../components/core'
+import { type Component } from '~/plugins/types'
+import { LatentImage } from '~/components'
 
 const Slider = ({
   children,
@@ -30,7 +30,9 @@ const Slider = ({
     {Children.map(Children.toArray(children), (child, index) => (
       <SplideSlide key={index}>
         {typeof child === 'string' ? (
-          <Image className="object-cover h-full w-full">{child}</Image>
+          <LatentImage className="object-cover h-full w-full">
+            {child}
+          </LatentImage>
         ) : (
           cloneElement(child as ReactElement, {
             className: 'object-cover h-full w-full',
@@ -45,8 +47,9 @@ export const slider: Component = {
   component: Slider,
   doc: 'a carousel slider and image gallery, contains a list of images',
   params: {
-    height: {
-      doc: 'in CSS unit',
+    h: {
+      prop: 'height',
+      doc: 'height',
     },
   },
 }

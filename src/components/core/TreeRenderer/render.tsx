@@ -1,6 +1,6 @@
 import { Fragment, ReactNode, memo } from 'react'
 
-import { components, globalIndex, scopedIndexes } from 'plugins'
+import { components, globalIndex, scopedIndexes } from '~/plugins'
 import { getProps } from './getProps'
 
 export const RenderNode = ({
@@ -115,6 +115,7 @@ export const RenderNode = ({
     rawProps,
     params,
     defaultChildren: isString ? undefined : Object.values(node)[0],
+    name: comp,
   })
   const isDynamic = res.isDynamic
   const { children, ...props } = res.props
@@ -128,31 +129,26 @@ export const RenderNode = ({
 
   const returned = (
     <Component {...props}>
-      {Array.isArray(children) ? (
-        <RenderTree parent={parent}>{children}</RenderTree>
-      ) : (
-        children
-      )}
+      {Array.isArray(children) ? renderTree({ parent, children }) : children}
     </Component>
   )
 
   return returned
 }
 
-export const RenderTree = ({
+// note: the renderTree must be a normal function and not a React component
+// that is because some components such as the Slider are iterating over children
+// but if we use a <RenderTree> then the slider will have only 1 child, and the Slider will not work anymore
+export const renderTree = ({
   children = [],
   parent = '',
 }: {
   children?: Record<string, any>[]
   parent?: string
-}) => {
-  return (
-    <>
-      {children.map((node, i) => (
-        <RenderNode parent={parent} key={i}>
-          {node}
-        </RenderNode>
-      ))}
-    </>
-  )
+}): ReactNode => {
+  return children.map((node, i) => (
+    <RenderNode parent={parent} key={i}>
+      {node}
+    </RenderNode>
+  ))
 }

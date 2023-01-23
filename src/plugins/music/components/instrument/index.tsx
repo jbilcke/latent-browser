@@ -9,7 +9,7 @@ export const instrument: Component = {
   allowedChildren: null,
   params: {
     type: {
-      doc: '', // instrument type',
+      // doc: '', // instrument type',
       values: ['synth'],
     },
   },

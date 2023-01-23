@@ -9,7 +9,7 @@ import { type Component } from '../../../types'
 
 export const sidebar: Component = {
   component: ({ children }: { children?: ReactNode }) => (
-    <Sidebar>
+    <Sidebar className="hidden md:flex">
       <Sidebar.Items>
         <Sidebar.ItemGroup>{children}</Sidebar.ItemGroup>
       </Sidebar.Items>
@@ -29,11 +29,9 @@ export const sidebar_item: Component = {
   ),
   doc: 'link or action button inside sidebar',
   params: {
-    icon: {
+    i: {
       doc: 'icon name',
-    },
-    children: {
-      doc: 'link label',
+      prop: 'icon',
     },
   },
 }

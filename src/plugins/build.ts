@@ -1,5 +1,6 @@
 import Fuse from 'fuse.js'
-import { type Plugin, type API, type Plugins, Component } from './types'
+
+import { type Plugin, type API, type Plugins, type Component } from './types'
 
 // TODO: try to compress/minify the modules names with obfuscated IDs
 // we need to test first because I suspect it will impact LLM accuracy:
@@ -34,9 +35,9 @@ export const getComponentDoc = (
   `# ${name.toLocaleLowerCase()}: ${doc}${Object.entries(params || {})
     .map(
       ([param, { doc, values }]) =>
-        `\n- ${param}${doc || values?.length ? ': ' : ''}${doc}${printValues(
-          values
-        )}`
+        `\n- ${param}${doc || values?.length ? ': ' : ''}${doc || ''}${
+          values ? printValues(values) : ''
+        }`
     )
     .join('')}`
 

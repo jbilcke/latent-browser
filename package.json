@@ -51,7 +51,7 @@
     "http-proxy-middleware": "^2.0.6",
     "ipfs": "^0.65.0",
     "isomorphic-fetch": "^3.0.0",
-    "jquery": "^3.6.1",
+    "jquery": "^3.6.3",
     "lamina": "^1.1.23",
     "mime-db": "^1.52.0",
     "mime-type": "^4.0.0",
@@ -84,7 +84,8 @@
     "three": "^0.148.0",
     "use-indexeddb": "^2.0.2",
     "uuid": "^9.0.0",
-    "yaml": "^2.2.1"
+    "yaml": "^2.2.1",
+    "zustand": "^4.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",

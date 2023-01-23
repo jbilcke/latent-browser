@@ -12,6 +12,9 @@ export const safeYamlLineReturns = (input: string) => {
   const step1 = input.trim().replace(/\n/g, 'ᐃ')
   console.log('cleanInput: step1', step1)
   const step2 = step1.replace(/(["]?[:]?)ᐃ(\s*)-\s"/g, '$1\n$2- "')
-  console.log('cleanInput: step2', step2)
-  return step2
+  //console.log('cleanInput: step2', step2)
+  const step3 = step2.replace(/ᐃ\s\s*/g, ' ')
+  console.log('cleanInput: step3', step3)
+
+  return step3
 }

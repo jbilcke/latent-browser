@@ -1,6 +1,6 @@
 import { NextApiResponse, NextApiRequest } from 'next'
-import { imagineImage, credentials, ImaginedImage } from 'providers/openai'
-import { Settings } from 'types'
+import { imagineImage, credentials, ImaginedImage } from '~/providers/openai'
+import { Settings } from '~/types'
 
 // The Images API is in beta.
 // During this time the API and models will evolve based on your feedback.
@@ -34,12 +34,14 @@ export default async function handler(
     huggingFaceModel: '',
     openAIKey: credentials.apiKey,
     openAIModel: credentials.model,
+    stableDiffusionAPIKey: credentials.apiKey, // dirty hack!
     customPlannerPrompt: '',
     customBuilderPrompt: '',
     customImproverPrompt: '',
     useAutoCherryPick: false,
     useVendorCherryPick: false,
     useMockData: false,
+    useMockImages: false,
   }
   const data = await imagineImage(prompt, settings)
   return res.status(200).json(data)

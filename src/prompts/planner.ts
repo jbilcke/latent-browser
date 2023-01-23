@@ -1,8 +1,8 @@
 // the following instruction is disabled, as right now we cannot allow "freedom on install"
 // You will decide install any javascript library you would like.
 
-import { Settings } from '../../types'
-import { getNewEmptySpec } from '../../utils/getNewEmptySpec'
+import { Settings } from '../types'
+import { getNewEmptySpec } from '../utils/getNewEmptySpec'
 import { Specification, SpecCategory, RawSpecification } from './types'
 
 export const getPlannerPrompt = (query: string, settings?: Settings) =>

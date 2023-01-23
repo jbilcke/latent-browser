@@ -1,4 +1,4 @@
-import { type ComponentTree, Specification } from 'engine/prompts/types'
+import { type ComponentTree, Specification } from 'prompts/types'
 
 export type AppType = 'search' | 'content' | 'favorites' | 'settings'
 
@@ -50,10 +50,12 @@ export interface Settings {
   huggingFaceModel: string
   openAIKey: string
   openAIModel: string
+  stableDiffusionAPIKey: string
   customPlannerPrompt: string
   customBuilderPrompt: string
   customImproverPrompt: string
   useAutoCherryPick: boolean
   useVendorCherryPick: boolean
   useMockData: boolean
+  useMockImages: boolean
 }

@@ -2,14 +2,14 @@
 module.exports = {
   mode: 'jit',
   content: [
-    './src/**/*.{js,jsx,ts,tsx,md,txt}',
+    'src/**/*.{js,jsx,ts,tsx,md,txt}',
 
     // UI Kits
     'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
-    'node_modules/daisyui/dist/**/*.js',
-    'node_modules/react-daisyui/dist/**/*.js'
+   //  'node_modules/daisyui/dist/**/*.js',
+    // 'node_modules/react-daisyui/dist/**/*.js'
   ],
-  darkMode: 'dark',
+  // darkMode: 'dark',
   theme: {
     extend: {
       boxShadow: {
@@ -51,15 +51,18 @@ module.exports = {
         },
       },
       fontFamily: {
-        google:  ['Google Sans', 'Helvetica', 'Arial', 'sans-serif'],
+        google: ['Google Sans', 'Helvetica', 'Arial', 'sans-serif'],
+        roboto: ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       },
       spacing: {
         '30px': '30px',
       }
     },
+    /*
     backgroundColor: (theme) => ({
       ...theme('colors'),
     }),
+    */
 
   },
   variants: {
@@ -72,6 +75,6 @@ module.exports = {
     // UI kits
     require('flowbite/plugin'),
     // require('daisyui'),
-    require('tailgrids/plugin'),
+    // require('tailgrids/plugin'),
   ],
 }

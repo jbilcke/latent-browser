@@ -1,4 +1,4 @@
-import { Settings } from '../../types'
+import { Settings } from '../types'
 import { Specification } from './types'
 
 export const getImproverPrompt = (

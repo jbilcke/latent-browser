@@ -1,36 +1,18 @@
-import { useEffect, useState } from 'react'
-import { parse } from 'yaml'
+import { useMemo } from 'react'
 
-import { ComponentTree } from 'engine/prompts'
-import { safeYamlLineReturns } from 'utils'
+import { ComponentTree } from '~/prompts'
+import { safeParse } from '~/engine/parser/safeParse'
+
+const getFingerpint = (input?: any) => {
+  try {
+    return JSON.stringify(input)
+  } catch (err) {
+    return ''
+  }
+}
 
 export const useComponentTree = (input?: string | ComponentTree) => {
-  const [tree, setTree] = useState<ComponentTree>([])
-
-  // TODO:
-  // also support Three.js scene graphs
-  // https://r105.threejsfundamentals.org/threejs/lessons/threejs-scenegraph.html
-
-  useEffect(() => {
-    try {
-      // empty inputs are okay, it means we are not initialized yet
-      if (JSON.stringify(input) === '""') {
-        return
-      }
-      const newTree: ComponentTree =
-        typeof input === 'string' ? parse(safeYamlLineReturns(input)) : input
-      console.log('useComponentTree: newTree = ', newTree)
-      if (!Array.isArray(newTree) || newTree.length === 0) {
-        console.log(
-          'useComponentTree: TODO: try to recover the data but cutting off the dead portion'
-        )
-        throw new Error('invalid tree')
-      }
-      setTree(newTree)
-    } catch (err) {
-      console.error('useComponentTree: failed to parse tree:', err)
-    }
-  }, [input])
-
+  const fingerprint = getFingerpint(input)
+  const tree = useMemo(() => safeParse(input), [input, fingerprint])
   return tree
 }

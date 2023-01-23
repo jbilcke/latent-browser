@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { ComponentTree } from '../engine/prompts'
-import { ImaginedImage } from '../providers/openai'
+import { ComponentTree } from '../prompts'
 import { useSettings } from './useSettings'
 
-export const useLatentComponent = (spec?: string) => {
+export const _useLatentComponent = (spec?: string) => {
   const [tree, setTree] = useState<ComponentTree>()
   const [settings] = useSettings()
   const openAIKey = settings?.openAIKey

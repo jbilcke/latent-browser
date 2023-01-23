@@ -1,5 +1,4 @@
 import { Configuration, OpenAIApi } from 'openai'
-import { parse } from 'yaml'
 
 // note: attention, GPT-3 encoder requires node:fs
 // import * as gpt3encoder from 'gpt-3-encoder'
@@ -7,18 +6,11 @@ import { parse } from 'yaml'
 export * from './types'
 import { ImaginedImage } from './types'
 import * as mocks from './mocks'
-import {
-  type ComponentTree,
-  presets,
-  type PromptSettings,
-} from '../../engine/prompts'
-import {
-  getLatentBrowserName,
-  isTreeEmpty,
-  safeYamlLineReturns,
-} from '../../utils'
-import { Settings } from '../../types'
-import { parseTurbo } from '../../engine/parser'
+import { type ComponentTree, presets, type PromptSettings } from '~/prompts'
+import { getLatentBrowserName, isTreeEmpty } from '~/utils'
+import { Settings } from '~/types'
+import { mockTreeString } from '~/components/core/TreeRenderer/mocks'
+import { safeParse } from '~/engine/parser/safeParse'
 
 // don't do this at home!
 // if we deploy one day to the cloud, we MUST rewrite this..
@@ -42,7 +34,7 @@ export const imagineString = async (
   preset: PromptSettings,
   settings?: Settings
 ): Promise<string> => {
-  if (settings?.useMockData) {
+  if (settings?.useMockData || !settings?.openAIModel || !settings?.openAIKey) {
     return ''
   }
   credentials.model = settings?.openAIModel || 'text-davinci-003'
@@ -94,7 +86,7 @@ export const imagineJSON = async <T>(
 ): Promise<T> => {
   console.log('imagineJSON> prompt:', prompt)
 
-  if (settings?.useMockData) {
+  if (settings?.useMockData || !settings?.openAIModel || !settings?.openAIKey) {
     return mocks.json<T>(prefix)
   }
 
@@ -133,10 +125,25 @@ export const imagineTree = async (
   console.log('imagineTree> prompt:', prompt)
 
   if (settings?.useMockData) {
-    return {
-      tree: mocks.tree,
-      treeStr: '',
+    console.log('returning a mock tree..')
+
+    try {
+      const treeStr = mockTreeString
+      const tree = safeParse(treeStr)
+
+      return {
+        tree,
+        treeStr,
+      }
+    } catch (exc) {
+      console.log('failed to return the mock.. strange! ' + exc)
+      return { tree: [], treeStr: '' }
     }
+  }
+
+  if (!settings?.openAIModel || !settings?.openAIKey) {
+    console.log('no model or api key configured')
+    return { tree: [], treeStr: '' }
   }
 
   let rawTreeStr = await imagineString(prompt, preset, settings)
@@ -152,7 +159,7 @@ export const imagineTree = async (
 
     console.log(`imagineTree> treeStr:\n${treeStr}`)
 
-    const tree = parse(safeYamlLineReturns(treeStr)) as ComponentTree
+    const tree = safeParse(treeStr)
 
     // remove all trailing commas (`input` variable holds the erroneous JSON)
     if (isTreeEmpty(tree)) {
@@ -165,48 +172,12 @@ export const imagineTree = async (
   }
 }
 
-export const imagineTurboTree = async (
-  prompt: string,
-  preset?: PromptSettings,
-  settings?: Settings
-): Promise<{
-  tree: ComponentTree
-  treeStr: string
-}> => {
-  console.log('imagineTurboTree> prompt:', prompt)
-
-  if (settings?.useMockData) {
-    return {
-      tree: mocks.tree,
-      treeStr: '',
-    }
-  }
-
-  let rawTreeStr = await imagineString(prompt, preset, settings)
-
-  console.log(`imagineTurboTree> rawTreeStr:\n${rawTreeStr}`)
-
-  try {
-    const treeStr = safeYamlLineReturns(rawTreeStr)
-    const tree = parseTurbo(treeStr)
-
-    // remove all trailing commas (`input` variable holds the erroneous JSON)
-    if (isTreeEmpty(tree)) {
-      throw new Error('tree is empty')
-    }
-    return { tree, treeStr }
-  } catch (err) {
-    console.log('imagineTurboTree> failed to parse tree', err)
-    return { tree: [], treeStr: '' }
-  }
-}
-
 export const imagineImage = async (
   prompt: string,
   settings?: Settings
 ): Promise<ImaginedImage> => {
   console.log('imagineImage', prompt)
-  if (settings?.useMockData) {
+  if (settings?.useMockImages || !settings?.openAIKey) {
     return mocks.image
   }
 

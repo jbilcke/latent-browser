@@ -1,15 +1,17 @@
-import { Param } from 'plugins/types'
-import { evaluate } from 'utils'
+import { Param } from '~/plugins/types'
+import { evaluate } from '~/utils'
 
 // get the prop to apply to a component, using a schema (the params object)
 export const getProps = ({
   rawProps,
   defaultChildren,
   params = {},
+  name = '',
 }: {
   rawProps?: string
   defaultChildren?: any
   params?: Record<string, Param>
+  name?: string
 }): { props: any; isDynamic: boolean } => {
   let isDynamic = false
   const props = (rawProps || '').split('߷').reduce(
@@ -60,7 +62,7 @@ export const getProps = ({
           // there are multiple things we could do such as using a semantically close param,
           // but for the moment let's just ignore!
           console.log(
-            `getProps: parameter "${key}" doesn't exist (valid parameters are ${Object.keys(
+            `getProps: ${name} has no param "${key}" (but we found ${Object.keys(
               params
             )
               .map((p) => `"${p}"`)

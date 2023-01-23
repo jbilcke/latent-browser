@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import { onlyText } from 'react-children-utilities'
 
-import { LatentImage } from 'components'
-import { Component } from 'plugins/types'
+import { LatentImage } from '~/components'
+import { Component } from '~/plugins/types'
 
 const Testimonial = ({
   quote,
@@ -56,9 +56,21 @@ export const testimonial: Component = {
   component: Testimonial,
   doc: 'a testimonial block',
   params: {
-    quote: {},
-    caption: {},
-    author: {},
-    bio: {},
+    q: {
+      prop: 'quote',
+      doc: 'quote',
+    },
+    c: {
+      prop: 'caption',
+      doc: 'caption',
+    },
+    a: {
+      prop: 'author',
+      doc: 'author name',
+    },
+    b: {
+      prop: 'bio',
+      doc: 'biography',
+    },
   },
 }

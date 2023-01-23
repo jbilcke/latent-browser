@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
-import { TreeRenderer } from 'components'
-import { mockTreeString } from 'components/core/TreeRenderer/mocks'
-import { getBuilderPrompt, type Specification } from 'engine/prompts'
-import { apiDoc, components } from 'plugins'
+import { TreeRenderer } from '~/components'
+import { mockTreeString } from '~/components/core/TreeRenderer/mocks'
+import { getBuilderPrompt, type Specification } from '~/prompts'
+import { apiDoc, components } from '~/plugins'
 
-import { sample } from 'engine/parser/mock'
-import { parseTurbo } from 'engine/parser'
+import { sample } from '~/engine/parser/mock'
+import { parseTurbo } from '~/engine/parser'
 
 // a search result page in the style of a famous search engine =)
 function Test() {
@@ -27,8 +27,8 @@ function Test() {
       style: [],
       summary: [],
     }
-    const builderPrompt = getBuilderPrompt(spec, apiDoc)
-    console.log('builderPrompt:', builderPrompt)
+    // const builderPrompt = getBuilderPrompt(spec, apiDoc)
+    // console.log('builderPrompt:', builderPrompt)
 
     setTree(mockTreeString)
   }, [])

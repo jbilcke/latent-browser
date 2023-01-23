@@ -7,13 +7,13 @@ export const song: Component = {
   component: Song,
   doc: 'song',
   params: {
-    autoplay: {
+    a: {
       doc: 'should we auto-start the music or not',
       prop: 'isPlaying',
       values: toggle,
     },
-    bpm: {
-      doc: 'beats per minute (eg. 90, 120..)',
+    b: {
+      doc: 'BPM (beats per minute)',
     },
   },
   allowedChildren: 'mu',

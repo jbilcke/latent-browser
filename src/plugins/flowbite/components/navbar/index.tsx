@@ -7,11 +7,13 @@ export const navbar: Component = {
   component: Navbar,
   doc: 'top navigation bar holding buttons',
   params: {
-    fluid: {
+    f: {
+      prop: 'fluid',
       doc: 'fluid layout',
       values: toggle,
     },
-    rounded: {
+    r: {
+      prop: 'rounded',
       doc: 'rounded corners',
       values: toggle,
     },

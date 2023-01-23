@@ -18,20 +18,25 @@ export const page: Component = {
   component: Page,
   doc: 'web page (for sites, landing pages, blogs..) with customizable colors',
   params: {
-    fullscreen: {
+    f: {
+      prop: 'fullscreen',
       doc: 'fullscreen is recommanded to render games',
       values: toggle,
     },
-    primary: {
+    pri: {
+      prop: 'primary',
       doc: 'primary color for normal text',
     },
-    secondary: {
+    sec: {
+      prop: 'secondary',
       doc: 'secondary color for non-important text',
     },
     fg: {
+      prop: 'foreground',
       doc: 'foreground color (for containers)',
     },
     bg: {
+      prop: 'background',
       doc: 'background color (for the whole page)',
     },
     accent: {

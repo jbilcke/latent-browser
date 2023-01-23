@@ -1,13 +1,23 @@
 import { Button } from 'flowbite-react'
-import { type Component } from '../../../types'
+
+import { type Component } from '~/plugins/types'
 
 export const button: Component = {
-  component: Button,
-  doc: 'an action button',
+  component: (props: any) => (
+    <Button
+      {...{
+        ...props,
+        color: props.color === 'default' ? undefined : props.color,
+      }}
+    />
+  ),
+  doc: 'action button',
   params: {
-    color: {
-      doc: "button color. In the majority of case we don't want to use a color (it will use the default primary color)",
+    c: {
+      prop: 'color',
+      doc: 'button color. Default color is very common.',
       values: [
+        'default',
         'gray',
         'dark',
         'light',
@@ -16,10 +26,6 @@ export const button: Component = {
         'warning',
         'purple',
       ],
-    },
-    label: {
-      doc: 'button label',
-      values: ['some label'],
     },
   },
 }

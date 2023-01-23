@@ -21,7 +21,10 @@ export const h1: Component = {
   allowedParents: 'pf',
   allowedChildren: 'pf',
   params: {
-    color: {},
+    c: {
+      prop: 'color',
+      doc: 'color',
+    },
   },
 }
 

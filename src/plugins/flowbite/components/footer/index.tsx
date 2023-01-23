@@ -12,10 +12,12 @@ export const footer_copyright: Component = {
   component: Footer.Copyright,
   doc: 'copyright',
   params: {
-    by: {
+    b: {
+      prop: 'by',
       doc: 'author (eg. company)',
     },
-    year: {
+    y: {
+      prop: 'year',
       doc: 'copyright year',
     },
   },
@@ -31,9 +33,9 @@ export const footer_link: Component = {
   component: Footer.Link,
   doc: 'link to another page',
   params: {
-    href: {
-      doc: 'internal link',
+    h: {
+      prop: 'href',
+      doc: 'href link',
     },
-    label: {},
   },
 }

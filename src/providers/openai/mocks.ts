@@ -1,24 +1,5 @@
 import { ImaginedImage } from './types'
 
-/**
- * Mock data used to save $$$ during development
- *
- */
-
-export const tree = [
-  {
-    'flowbite.navbar|fluid=true|rounded=true': [
-      { 'flowbite.button': 'Home' },
-      { 'flowbite.button': 'About' },
-    ],
-  },
-  { 'ui.h1': 'The Carpenter and His Dog' },
-  {
-    'ui.p':
-      'Once upon a time, there was a carpenter who wanted to build a dog out of wood. He worked tirelessly, day and night, until finally his creation came to life.',
-  },
-]
-
 let i = 0
 export const json = <T>(prefix: string) =>
   (prefix === '['

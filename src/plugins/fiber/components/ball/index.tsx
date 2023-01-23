@@ -25,11 +25,14 @@ export const ball: Component = {
   allowedParents: 'fb',
   allowedChildren: 'fb',
   params: {
-    color: {
+    c: {
+      prop: 'color',
       doc: 'HEX color',
     },
-    size: {
-      doc: 'float (between 0.5 and 2.0)',
+    s: {
+      prop: 'size',
+      doc: 'size',
+      values: ['between 0.5 and 2.0'],
     },
   },
 }

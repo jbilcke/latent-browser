@@ -21,6 +21,9 @@ export const p: Component = {
   allowedParents: 'pf',
   allowedChildren: 'pf',
   params: {
-    color: {},
+    c: {
+      doc: 'color',
+      prop: 'color',
+    },
   },
 }

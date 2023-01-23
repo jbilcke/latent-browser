@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { onlyText } from 'react-children-utilities'
 import { Text3D } from '@react-three/drei'
 
-import { Component } from 'plugins/types'
+import { Component } from '~/plugins/types'
 
 import font from './fonts/Corben/Corben_Bold.json'
 

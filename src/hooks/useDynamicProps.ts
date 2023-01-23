@@ -1,9 +1,9 @@
 // special hook that transform "raw" string props into "clean" props
 
-import { evaluate } from 'utils'
+import { evaluate } from '~/utils'
 
 // it also handle watches the reference, to re-run again if something changed
-export const useDynamicProps = <T>(props: Record<string, string>): T => {
+export const useDynamicProps = <T>(props: Record<string, string>): T =>
   Object.entries(props || {}).reduce((acc, [key, value]) => {
     // TODO: work on useDynamicProps is currently on hold
     // because it is more complicated thant I though,
@@ -22,4 +22,3 @@ export const useDynamicProps = <T>(props: Record<string, string>): T => {
       [key]: result,
     }
   }, {} as T)
-}

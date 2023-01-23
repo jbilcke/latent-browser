@@ -1,4 +1,4 @@
-import { LatentImage } from 'components/core'
+import { LatentImage } from '~/components/core'
 
 import { type Component } from '../../../types'
 

@@ -1,9 +1,11 @@
+import * as $ from 'jquery'
+
 // this is the data exposed to the app
 export const appContext: any = {
   $mouse: {
     x: 0, //mouse coordinates in X
     y: 0, // mouse coordinates in Y
-    clicked: false, // if mouse is clicked, false if not clicked
+    down: false, // if mouse is clicked, false if not clicked
   },
 }
 
@@ -14,15 +16,16 @@ function onMouseUpdate(e: MouseEvent) {
 }
 function onMouseDown() {
   console.log('onMouseDown')
-  appContext.$mouse.clicked = true
+  appContext.$mouse.down = true
 }
 function onMouseUp() {
   console.log('onMouseUp')
-  appContext.$mouse.clicked = false
+  appContext.$mouse.down = false
 }
 
 if (typeof window !== 'undefined') {
   window['$mouse'] = appContext.$mouse
+  window['$'] = $
 
   document.addEventListener('mousemove', onMouseUpdate, false)
   document.addEventListener('mouseenter', onMouseUpdate, false)

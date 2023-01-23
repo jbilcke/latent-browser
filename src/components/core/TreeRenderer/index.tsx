@@ -1,17 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import { useComponentTree } from './useComponentTree'
-import { RenderTree } from './render'
-import { ComponentTree } from 'engine/prompts'
-import { useDebounce, useMouseDown, useMousePosition } from 'hooks'
-
-const getFingerpint = (input?: any) => {
-  try {
-    return JSON.stringify(input)
-  } catch (err) {
-    return ''
-  }
-}
+import { renderTree } from './render'
+import { ComponentTree } from '~/prompts'
+import { useDebounce, useMouseDown, useMousePosition } from '~/hooks'
+import { useInterval } from '@mantine/hooks'
 
 export const TreeRenderer = ({
   children,
@@ -19,7 +12,6 @@ export const TreeRenderer = ({
   children?: string | ComponentTree
 }) => {
   const tree = useComponentTree(children)
-  const fingerprint = getFingerpint(tree)
 
   // warning: this is very costly, so I will have to memoize everything that has no
   // variable params
@@ -28,11 +20,21 @@ export const TreeRenderer = ({
   const { x, y } = useMousePosition()
   const down = useMouseDown()
   // const forceRefresh = useDebounce(`${x} ${y} ${down}`, 50)
-  const forceRefresh = false
+
+  const [seconds, setSeconds] = useState(0)
+  const interval = useInterval(() => setSeconds((s) => s + 1), 2000)
+
+  useEffect(() => {
+    interval.start()
+    return interval.stop
+  }, [])
+
+  // use "seconds" to force a re-rendering every X seconds
+  const forceRefresh = seconds
 
   const content = useMemo(
-    () => <RenderTree>{tree}</RenderTree>,
-    [fingerprint, forceRefresh]
+    () => renderTree({ children: tree }),
+    [tree, forceRefresh]
   )
 
   return (

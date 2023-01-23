@@ -1,4 +1,4 @@
-import { ExoticComponent, FC, ReactNode } from 'react'
+import { ExoticComponent, FC } from 'react'
 
 export interface Param {
   doc?: string

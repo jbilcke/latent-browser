@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react'
 
-import { imagineImage } from 'providers/openai'
+import {
+  ImaginedImage,
+  imagineImage as getFromOpenAI,
+} from '~/providers/openai'
+import { imagineImage as getFromSDAPI } from '~/providers/stablediffusionapi'
+
 import { useSettings } from './useSettings'
 import mock from '../../public/mocks/mock.jpg'
+
+const noop = (): Promise<ImaginedImage> => null
 
 export const useImage = ({
   alt,
@@ -15,29 +22,35 @@ export const useImage = ({
 }) => {
   const [src, setSrc] = useState('')
   const [settings] = useSettings()
-  const openAIKey = settings?.openAIKey
-  const openAIModel = settings?.openAIModel
-  const isMocked = settings?.useMockData
+
+  const imageVendor = settings?.imageVendor
+  const isMocked = settings?.useMockImages
+  const isReady = !!settings
 
   useEffect(() => {
     const fn = async () => {
-      if (isMocked) {
+      const provider =
+        imageVendor === 'StableDiffusionAPI'
+          ? getFromSDAPI
+          : imageVendor === 'OpenAI_dalle2'
+          ? getFromOpenAI
+          : noop
+
+      if (isMocked || !alt || !imageVendor || !provider) {
         setSrc(mock.src)
         return
       }
 
-      if (!openAIKey || !openAIModel || !alt) {
-        // cannot generate the image yet
-        return
-      }
+      console.log(
+        `useImage: asking ${imageVendor} to generate image: ${alt}`,
+        provider
+      )
 
-      console.log(`useImage: generating image for prompt ${alt}`)
-
-      const { url, prompt, width, height } = await imagineImage(alt, settings)
+      const { url, width, height } = await provider(alt, settings)
       setSrc(url)
     }
     fn()
-  }, [alt, openAIKey, openAIModel, isMocked])
+  }, [alt, imageVendor, isReady, isMocked])
 
   return src
 }

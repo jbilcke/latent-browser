@@ -1,5 +1,5 @@
 import { parse as parseArray } from 'yaml'
-import { type ComponentTree } from '../prompts'
+import { type ComponentTree } from '../../prompts'
 
 const symbols = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧']
 const pt = (depth: number) => `${symbols[depth]}${'  '.repeat(depth)}- ᐅ`

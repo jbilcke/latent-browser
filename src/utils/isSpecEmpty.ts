@@ -1,4 +1,4 @@
-import { Specification } from 'engine/prompts'
+import { Specification } from '~/prompts'
 
 export const isSpecEmpty = (spec?: Specification): boolean => {
   if (!spec) {

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import InnerHTML from 'dangerously-set-html-content'
 
-import { imagineJSON, imagineTree, imagineTurboTree } from 'providers/openai'
-import { resolveImages } from 'engine/resolvers/image'
+import { imagineJSON, imagineTree } from '~/providers/openai'
+
 import {
   getPlannerPrompt,
   getBuilderPrompt,
@@ -12,19 +11,18 @@ import {
   type ComponentTree,
   type Specification,
   presets,
-} from 'engine/prompts'
-import { ModelProgressBar, TreeRenderer } from 'components'
+} from '~/prompts'
+import { ModelProgressBar, TreeRenderer } from '~/components'
 import {
   useInterval,
   useOpenTabs,
   useStoredApps,
   useSettings,
   useParam,
-} from 'hooks'
-import { getKeyForApps, getNewEmptySpec, isTreeEmpty, isSpecEmpty } from 'utils'
-import { type AppTab } from 'types'
-import { apiDoc } from 'plugins'
-import { getTurboPrompt } from 'engine/prompts/turbo'
+} from '~/hooks'
+import { getKeyForApps, getNewEmptySpec, isTreeEmpty, isSpecEmpty } from '~/utils'
+import { type AppTab } from '~/types'
+import { apiDoc } from '~/plugins'
 
 const timePerStage = {
   PLAN: 15,
@@ -198,20 +196,12 @@ function Content() {
 
     try {
       let result
-      if (settings.useTurboPrompt) {
-        console.log('Turbo mode!')
-        result = await imagineTurboTree(
-          getTurboPrompt(spec, apiDoc, settings),
-          presets.turbo,
-          settings
-        )
-      } else {
-        result = await imagineTree(
-          getBuilderPrompt(spec, apiDoc, settings),
-          presets.build,
-          settings
-        )
-      }
+      result = await imagineTree(
+        getBuilderPrompt(spec, apiDoc, settings),
+        presets.build,
+        settings
+      )
+      
       newTreeRoot = result.tree
       newTreeRootStr = result.treeStr
       if (!newTreeRoot || !newTreeRootStr) {
@@ -297,18 +287,6 @@ function Content() {
 
     return () => window.removeEventListener('error', onError)
   }, [id, spec, settings.useAutoCherryPick, trials])
-
-  // replace all images alt with src
-  useEffect(() => {
-    if (!id || isTreeEmpty(tree)) {
-      return
-    }
-    const resolve = async () => {
-      await resolveImages(settings)
-      updateApp()
-    }
-    resolve()
-  }, [id, tree])
 
   useInterval(
     () => {

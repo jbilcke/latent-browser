@@ -33,8 +33,14 @@ export const feats: Component = {
   ),
   doc: 'feature showcase section with list of feature cards',
   params: {
-    title: {},
-    subtitle: {},
+    t: {
+      prop: 'title',
+      doc: 'title',
+    },
+    s: {
+      prop: 'subtitle',
+      doc: 'subtitle',
+    },
   },
 }
 
@@ -62,7 +68,13 @@ export const feat: Component = {
   ),
   doc: 'a feature description card with an icon, a title and a body',
   params: {
-    icon: { doc: 'icon name' },
-    title: {},
+    i: {
+      prop: 'icon',
+      doc: 'icon name',
+    },
+    t: {
+      prop: 'title',
+      doc: 'title',
+    },
   },
 }
