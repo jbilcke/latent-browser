@@ -1,5 +1,0 @@
-export * from './content'
-export * from './slider'
-export * from './page'
-export * from './headings'
-export * from './paragraph'

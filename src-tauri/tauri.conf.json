@@ -59,10 +59,11 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "Latent Web Explorer 🔮",
-        "decorations": false,
+        "title": "Latent Browser 🔮",
+        "decorations": true,
         "transparent": true,
-        "width": 800
+        "width": 800,
+        "url": "https://www.latent.store/browser"
       }
     ]
   }
