@@ -12,7 +12,7 @@ See the latest demo here! https://twitter.com/flngr/status/1609616068057698304
 
 ## Presentation
 
-this project is free but experimental, you will have to configure your own API credentials to access OpenAI (for GPT-3 / text-davinci-003, and dall-e 2).
+this project is free but experimental, you will have to configure your own API credentials to access OpenAI (for GPT-3 / text-davinci-003 / gpt-3.5-turbo / gpt-4, and dall-e 2).
 
 Currently Replicate (stable diffusion) is disabled, as I had some latency issues with it (maybe I will put it back in the future!)
 
