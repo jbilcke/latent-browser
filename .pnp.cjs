@@ -67,7 +67,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mime-db", "npm:1.52.0"],\
             ["mime-type", "npm:4.0.0"],\
             ["next", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:12.3.4"],\
-            ["openai", "npm:3.1.0"],\
+            ["openai", "npm:3.2.1"],\
             ["orbit-db", "npm:0.28.7"],\
             ["postcss", "npm:8.4.20"],\
             ["rc-tabs", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:12.5.5"],\
@@ -22346,10 +22346,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["openai", [\
-        ["npm:3.1.0", {\
-          "packageLocation": "./.yarn/cache/openai-npm-3.1.0-64264fb99a-2277d9e2b4.zip/node_modules/openai/",\
+        ["npm:3.2.1", {\
+          "packageLocation": "./.yarn/cache/openai-npm-3.2.1-8bb9cccf51-ef3942e9b5.zip/node_modules/openai/",\
           "packageDependencies": [\
-            ["openai", "npm:3.1.0"],\
+            ["openai", "npm:3.2.1"],\
             ["axios", "npm:0.26.1"],\
             ["form-data", "npm:4.0.0"]\
           ],\
@@ -28916,7 +28916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mime-db", "npm:1.52.0"],\
             ["mime-type", "npm:4.0.0"],\
             ["next", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:12.3.4"],\
-            ["openai", "npm:3.1.0"],\
+            ["openai", "npm:3.2.1"],\
             ["orbit-db", "npm:0.28.7"],\
             ["postcss", "npm:8.4.20"],\
             ["rc-tabs", "virtual:122228a85041d9011382076e3461d3732767a4d968795f3a5cb35471da2a790895a6d3bc882a29d504f73e089535a8a2db9819540334928ded52ebc8fb1c60ce#npm:12.5.5"],\

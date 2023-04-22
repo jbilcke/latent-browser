@@ -40,7 +40,24 @@ export const imagineString = async (
   }
   persisted.model = model || 'text-davinci-003'
 
-  const tokenHardLimit = 4097
+  let tokenHardLimit
+  switch (model) {
+    case 'gpt-4':
+      tokenHardLimit = 8192
+      break;
+    case 'code-davinci-002':
+      tokenHardLimit = 8000
+      break;
+    case 'gpt-3.5-turbo':
+    case 'text-davinci-003':
+    case 'text-davinci-002':
+      tokenHardLimit = 4096
+      break;
+    case 'text-davinci-001':
+    default:
+      tokenHardLimit = 2049
+      break;
+  }
 
   // https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
   // 1 token ~= 4 chars in English
@@ -55,22 +72,46 @@ export const imagineString = async (
   )
 
   const openai = await getOpenAI(apiKey)
-  const response = await openai.createCompletion({
-    model: persisted.model,
-    prompt,
-    user: 'default_user',
-    temperature: settings.temperature,
-    max_tokens: maxTokens,
-    n: settings.n,
-    // top_p: 1,
-    best_of: settings.bestOf,
-    frequency_penalty: settings.frequencyPenalty,
-    presence_penalty: settings.presencePenalty,
-    logit_bias: settings.gptLogitBias,
-    stop: settings.stop?.length ? settings.stop : undefined,
-  })
+  if (isChatModel(model)) {
+    const response = await openai.createChatCompletion({
+      model: 'gpt-4',
+      messages: [
+        {"role": "user", "content": prompt}
+      ],
+      user: 'default_user',
+      temperature: settings.temperature,
+      max_tokens: maxTokens,
+      n: settings.n,
+      // top_p: 1,
+      // best_of: settings.bestOf,
+      frequency_penalty: settings.frequencyPenalty,
+      presence_penalty: settings.presencePenalty,
+      logit_bias: settings.gptLogitBias,
+      stop: settings.stop?.length ? settings.stop : undefined,
+    })
+    
+    return response?.data?.choices?.[0]?.message?.content?.trim() || ''
+  } else {
+    const response = await openai.createCompletion({
+      model: persisted.model,
+      prompt,
+      user: 'default_user',
+      temperature: settings.temperature,
+      max_tokens: maxTokens,
+      n: settings.n,
+      // top_p: 1,
+      // best_of: settings.bestOf,
+      frequency_penalty: settings.frequencyPenalty,
+      presence_penalty: settings.presencePenalty,
+      logit_bias: settings.gptLogitBias,
+      stop: settings.stop?.length ? settings.stop : undefined,
+    })
+    return response?.data?.choices?.[0]?.text?.trim() || ''
+  }
+}
 
-  return response?.data?.choices?.[0]?.text?.trim() || ''
+function isChatModel(model) {
+  return ['gpt-4', 'gpt-3.5-turbo'].includes(model)
 }
 
 export const imagineHTML = async (
@@ -200,9 +241,15 @@ export const imagineJSON = async <T>(
 
     // try to fix GPT-3 adding commas at the end of each line
     const regex = /\,(?!\s*?[\{\[\"\'\w])/g
-    const input = raw.replace(regex, '')
+    let input = raw.replace(regex, '')
     console.log(`input: ${input}`)
 
+    if (input.trimStart().startsWith('{') && !input.trimEnd().endsWith('}')) {
+      input += '}'
+    }
+    if (input.trimStart().startsWith('[') && !input.trimEnd().endsWith(']')) {
+      input += ']'
+    }
     const json = JSON.parse(input) as T
 
     // remove all trailing commas (`input` variable holds the erroneous JSON)
