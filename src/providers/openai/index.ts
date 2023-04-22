@@ -100,7 +100,7 @@ export const imagineString = async (
       max_tokens: maxTokens,
       n: settings.n,
       // top_p: 1,
-      // best_of: settings.bestOf,
+      best_of: settings.bestOf,
       frequency_penalty: settings.frequencyPenalty,
       presence_penalty: settings.presencePenalty,
       logit_bias: settings.gptLogitBias,
