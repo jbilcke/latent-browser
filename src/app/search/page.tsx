@@ -62,7 +62,7 @@ function Search() {
     )
   }
 
-  const generateSearchResults = async (pass, prompt = '') => {
+  const generateSearchResults = async (pass: number, prompt = '') => {
     prompt = prompt.trim()
     if (!prompt.length || pass > maxNbPasses) {
       return

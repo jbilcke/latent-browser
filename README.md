@@ -49,18 +49,29 @@ curl -fsSL https://bun.sh/install | bash
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-### Running the app locally (in your browser)
+### Running the latent borwser
+
+#### Running the standalone app (recommended for users)
 
 ```bash
 bun i
-bun run dev
-open http://localhost:1420
+bun tauri dev
+```
+
+#### Running the app in Chrome (recommended for developers)
+
+```bash
+bun i
+bun next dev
+open http://localhost:3000
 ```
 
 ### Packaging the Desktop app
 
 To be continued (the app has been rebooted in March 2024, and most instructions are deprecated).
 
+Note: The Latent Browser is using Tauri V2 but the doc isn't complete yet:
+ https://beta.tauri.app/guides/build
 
 ## Using the browser
 

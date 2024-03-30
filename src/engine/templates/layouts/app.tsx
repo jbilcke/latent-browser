@@ -1,14 +1,8 @@
 import {
   JSXTemplate,
-  Paragraph,
-  P,
-  T,
   Div,
-  H5,
   Link,
   Span,
-  Icon,
-  Image,
   H1,
 } from '../ai-design-system'
 

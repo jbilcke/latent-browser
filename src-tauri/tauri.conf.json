@@ -1,16 +1,22 @@
 {
-  "productName": "latent-browser",
-  "version": "0.0.0",
-  "identifier": "com.tauri.dev",
+  "productName": "The Latent Browser",
+  "version": "0.1.0",
+  "identifier": "com.datagica.web4",
   "build": {
     "beforeDevCommand": "bun run dev",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://localhost:3000",
     "beforeBuildCommand": "bun run build",
-    "frontendDist": "../dist"
+    "frontendDist": "../.next/server/app"
   },
-  "app": {"windows": [
+  "app": {
+    "macOSPrivateApi": true,
+    "windows": [
       {
-        "title": "latent-browser",
+        "title": "The Latent Browser 🔮",
+        "decorations": false,
+        "transparent": true,
+        "fullscreen": false,
+        "resizable": true,
         "width": 800,
         "height": 600
       }
@@ -28,6 +34,10 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "category": "DeveloperTool",
+    "copyright": "Julian `flngr` Bilcke.",
+    "shortDescription": "Browse the latent web.",
+    "longDescription": "Browse the latent web. A project by @flngr, see https://linktr.ee/FLNGR for other projects."
   }
 }

@@ -39,7 +39,7 @@ const timePerStage: Record<TaskStage, number> = {
 }
 
 function Content() {
-  const [storedApps, setStoredApps] = useStoredApps()
+  const [storedApps] = useStoredApps()
   const [settings] = useSettings()
   const [openTabs, setOpenTabs] = useOpenTabs()
   const isLoading = !settings || !storedApps || !openTabs

@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid'
 
 // import { v4 as uuidv4 } from 'uuid'
 import { AppTab } from '../../types'
-import { useStoredApps } from '../../hooks/useStoredApps'
 import { useOpenTabs } from '../../hooks/useOpenTabs'
 import { getKeyForApps } from '../../utils/getKeyForApps'
 
@@ -40,7 +39,7 @@ export const getEmptyTab = (app?: Partial<AppTab>) =>
 
 const Tabs = () => {
 
-  const [storedApps, setStoredApps] = useStoredApps()
+  // const [storedApps, setStoredApps] = useStoredApps()
   const [openTabs, setOpenTabs] = useOpenTabs([])
 
   const onAdd = () => {

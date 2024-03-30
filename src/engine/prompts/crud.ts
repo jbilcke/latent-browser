@@ -1,5 +1,5 @@
 export const crudJSON = (
-  query: string,
+  _query: string,
   entity: string,
   param: string,
   mode: 'create' | 'read' | 'update' | 'delete' = 'read'

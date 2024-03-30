@@ -66,7 +66,7 @@ Brief: ${query}
 Spec: {`
 
 export const tasksValues = (tasks: Tasks): string[] =>
-  Object.entries(tasks).map(([type, value]) => value.toLowerCase())
+  Object.entries(tasks).map(([_type, value]) => value.toLowerCase())
 
 export const getTaskCategory = (task: string): TaskCategory =>
   task.match(/(?:summary)/i)

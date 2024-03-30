@@ -1,5 +1,4 @@
 import { CommonConfig, Tasks } from './types'
-import { libraries } from './libraries'
 
 export const genericJSDoc = (
   title: string,

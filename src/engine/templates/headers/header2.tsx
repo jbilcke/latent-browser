@@ -1,13 +1,9 @@
 import {
   JSXTemplate,
-  Paragraph,
   P,
   T,
   Link,
   Icon,
-  Image,
-  Title1,
-  Title2,
   t,
 } from '../ai-design-system'
 

@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify'
-import { libraries } from './libraries'
+
 import { Instructions } from './types'
 
 /**
@@ -7,7 +7,7 @@ import { Instructions } from './types'
  * GPT-3 can add more libraries if needed
  */
 export const genericScript =
-  (id: string) => (instructions: Instructions, html: string) =>
+  (_id: string) => (instructions: Instructions, html: string) =>
     `${instructions.summary}
 ${instructions.script.map((instruction) => `- ${instruction}`).join('\n')}
 Code formatting rules:

@@ -3,7 +3,7 @@ export const ModelProgressBar = ({
   estimatedTimeSec = 30,
   isLoading,
   model,
-  provider,
+  // provider,
   stage,
 }: {
   elapsedTimeMs?: number

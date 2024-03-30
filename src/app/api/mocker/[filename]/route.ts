@@ -3,7 +3,7 @@ import mime from 'mime-type/with-db'
 import queryString from 'query-string'
 
 import {
-  mockAny,
+  // mockAny,
   mockImage,
   mockJSON,
   mockSTL,

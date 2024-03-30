@@ -7,7 +7,6 @@ import DOMPurify from 'dompurify'
 
 import { DalleImage } from './types'
 import * as mocks from './mocks'
-import { libraries } from '../../engine/prompts/libraries'
 import { presets } from '../../engine/prompts/presets'
 import { type PromptSettings } from '../../engine/prompts/types'
 

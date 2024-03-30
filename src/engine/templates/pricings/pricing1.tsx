@@ -1,15 +1,9 @@
 import {
   JSXTemplate,
-  Paragraph,
   Div,
   Span,
   P,
   T,
-  Link,
-  Icon,
-  Image,
-  Title1,
-  Title2,
 } from '../ai-design-system'
 
 // kitwind.io/products/kometa/components/headers

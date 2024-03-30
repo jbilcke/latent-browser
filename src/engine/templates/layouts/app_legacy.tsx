@@ -1,14 +1,9 @@
 import {
   JSXTemplate,
-  Paragraph,
-  P,
-  T,
   Div,
   H5,
   Link,
   Span,
-  Icon,
-  Image,
 } from '../ai-design-system'
 
 // kitwind.io/products/kometa/components/contents

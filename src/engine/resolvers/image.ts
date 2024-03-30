@@ -3,7 +3,7 @@
 // import { imagineImage } from '../../providers/stabilityai'
 
 import spinner from '../../assets/spinner.gif'
-import { DalleError, DalleImage } from '../../providers/openai/types'
+import { DalleImage } from '../../providers/openai/types'
 
 export async function resolveImages(
   model: string,
@@ -42,7 +42,13 @@ export async function resolveImages(
           )}`
         )
 
-        const { url, prompt, width, height, error } =
+        const {
+          url,
+          // prompt,
+          // width,
+          // height,
+          error
+        } =
           (await response.json()) as DalleImage
 
         if (error) {

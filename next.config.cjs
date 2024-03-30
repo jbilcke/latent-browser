@@ -1,23 +1,21 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: 'standalone',
-  
+
+  reactStrictMode: true,
+  swcMinify: true,
+  images: {
+    unoptimized: true,
+  },
+  // output: 'standalone',
+  output: 'export', // <-- Tauri doc says we should use this?
+
   experimental: {
     serverActions: {
       bodySizeLimit: '8mb',
     },
   }
  
-  // this is the old config used by the latent browser:
-  // I'm not sure we still need it
-  /*
-  reactStrictMode: true,
-  swcMinify: true,
-  images: {
-    unoptimized: true,
-  },
-  
   /*
     EMERGENCY FIX - TEMPORARY DISABLE
     rewrites: async () => ({

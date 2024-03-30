@@ -1,7 +1,7 @@
 import {
   JSXTemplate,
   Paragraph,
-  P,
+  // P,
   T,
   Link,
   Icon,

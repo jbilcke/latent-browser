@@ -12,7 +12,7 @@ export function createLlamaPrompt(messages: Array<{ role: string, content: strin
   }
   messages = [{role: messages[1].role, content: B_SYS + messages[0].content + E_SYS + messages[1].content}].concat(messages.slice(2));
 
-  let messages_list = messages.map((value, index, array) => {
+  let messages_list = messages.map((_value, index, array) => {
       if (index % 2 == 0 && index + 1 < array.length){
           return `${BOS}${B_INST} ${array[index].content.trim()} ${E_INST} ${array[index+1].content.trim()} ${EOS}`
       }

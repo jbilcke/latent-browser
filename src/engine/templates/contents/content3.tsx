@@ -1,7 +1,7 @@
 import {
   JSXTemplate,
   Div,
-  H2,
+  // H2,
   P,
   T,
   Span,
