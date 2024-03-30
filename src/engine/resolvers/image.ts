@@ -3,7 +3,7 @@
 // import { imagineImage } from '../../providers/stabilityai'
 
 import spinner from '../../assets/spinner.gif'
-import { DalleImage } from '../../providers/openai/types'
+import { DalleError, DalleImage } from '../../providers/openai/types'
 
 export async function resolveImages(
   model: string,
@@ -41,8 +41,13 @@ export async function resolveImages(
             apiKey
           )}`
         )
-        const { url, prompt, width, height } =
+
+        const { url, prompt, width, height, error } =
           (await response.json()) as DalleImage
+
+        if (error) {
+          throw new Error(`missing prompt`)
+        }
 
         console.log(
           'resolveImages> replacing src with url and deleting alt',

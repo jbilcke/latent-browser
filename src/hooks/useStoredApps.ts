@@ -1,8 +1,6 @@
-import { useLocalStorage } from '@mantine/hooks'
+
 import { App } from '../types'
+import { useLocalStorage } from './useLocalStorage'
 
 export const useStoredApps = () =>
-  useLocalStorage<App[]>({
-    key: 'stored-apps-rev-1',
-    defaultValue: [],
-  })
+  useLocalStorage<App[]>('LatentBrowser_useStoredApps_revision_1', [])

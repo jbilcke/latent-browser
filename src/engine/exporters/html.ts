@@ -6,16 +6,20 @@ export const downloadHtmlFile = async (html: string) => {
     const fileName = `web4-${Date.now()}.html`
 
     console.log('opening save dialog..')
-    const filePath = await save({
+    const filePath = (await save({
       filters: [
         {
           name: fileName,
           extensions: ['html'],
         },
       ],
-    })
+    }))
+
     console.log('filePath:', filePath)
 
+    if (!filePath) {
+      throw new Error(`couldn't obtain a valid filePath`)
+    }
     const res = await writeTextFile(filePath, html)
 
     console.log('res:', res)

@@ -1,6 +1,6 @@
 export const ModelProgressBar = ({
-  elapsedTimeMs,
-  estimatedTimeSec,
+  elapsedTimeMs = 1,
+  estimatedTimeSec = 30,
   isLoading,
   model,
   provider,

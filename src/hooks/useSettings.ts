@@ -1,21 +1,19 @@
-import { useLocalStorage } from '@mantine/hooks'
+"use client"
+
 import { Settings } from '../types'
+import { useLocalStorage } from './useLocalStorage'
 
 export const useSettings = (
-  defaultValue: Settings = {
+) =>
+  useLocalStorage<Settings>('LatentBrowser_useSettings_revision_1', {
     coreVendor: 'OpenAI',
     huggingFaceKey: '',
-    huggingFaceModel: 'EleutherAI/gpt-j-6B',
+    huggingFaceModel: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     openAIKey: '',
-    openAIModel: 'text-davinci-003',
+    openAIModel: 'gpt-3.5-turbo-instruct',
     customTasksPrompt: '',
     customHtmlPrompt: '',
     customScriptPrompt: '',
     useMockData: false,
     useAutoCherryPick: false,
-  }
-) =>
-  useLocalStorage<Settings>({
-    key: 'settings-rev-2',
-    defaultValue,
   })

@@ -1,6 +1,20 @@
-export type AppType = 'search' | 'content' | 'favorites' | 'settings'
+export type AppType =
+  | 'search'
+  | 'content'
+  | 'favorites'
+  | 'settings'
 
-export interface App {
+export type TaskStage =
+  | 'INIT'
+  | 'TASKS'
+  | 'LAYOUT'
+  | 'CONTENT'
+  | 'SCRIPT'
+  | 'TEXT'
+  | 'LOADED'
+  | 'CRUD'
+  
+export type App = {
   // unique app ID (very important)
   id: string
 
@@ -29,7 +43,7 @@ export interface App {
   data: Record<string, any>
 }
 
-export interface Tab {
+export type Tab = {
   isActive: boolean
 
   isFavorite: boolean
@@ -42,11 +56,11 @@ export interface Tab {
 
 export type AppTab = App & Tab
 
-export interface Link {
+export type Link = {
   title: string
   alt: string
 }
-export interface Settings {
+export type Settings = Record<string, string | boolean> & {
   coreVendor: string
   huggingFaceKey: string
   huggingFaceModel: string

@@ -1,7 +1,7 @@
 import { stringify } from 'yaml'
 
 import { getLayout } from '../templates'
-import { Instructions, Tasks } from './types'
+import { Instructions } from './types'
 
 export const layoutPrompt = (instructions: Instructions) =>
   `Transform the following HTML template into a full feature web page

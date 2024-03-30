@@ -8,7 +8,7 @@ export enum LogLevel {
 export const getString = (strValue = '') => strValue.trim?.() || ''
 
 export const getBoolean = (strValue = '') =>
-  ['true', 'ok', 'yes', 'on'].includes(getString(strValue).toLowerCase())
+  ['true', 'ok', 'yes', 'on'].includes(getString(strValue).trim().toLowerCase())
 
 export const getNumber = (strValue = '') => {
   const value = Number(getString(strValue))

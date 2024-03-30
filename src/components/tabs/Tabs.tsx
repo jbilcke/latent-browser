@@ -39,6 +39,7 @@ export const getEmptyTab = (app?: Partial<AppTab>) =>
  */
 
 const Tabs = () => {
+
   const [storedApps, setStoredApps] = useStoredApps()
   const [openTabs, setOpenTabs] = useOpenTabs([])
 

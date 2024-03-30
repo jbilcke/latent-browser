@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
+import { OpenAI } from 'openai'
 import DOMPurify from 'dompurify'
 
 // note: attention, GPT-3 encoder requires node:fs
@@ -18,13 +18,19 @@ export const persisted = {
   model: '',
 }
 
-export const getOpenAI = async (apiKey?: string) => {
+export const getOpenAI = async (apiKey?: string): Promise<OpenAI> => {
   // don't do this at home!
   // if we deploy one day to the cloud, we MUST rewrite this..
   persisted.apiKey = apiKey || persisted.apiKey
 
-  const configuration = new Configuration({ apiKey: persisted.apiKey })
-  const openai = new OpenAIApi(configuration)
+  const openai = new OpenAI({
+    apiKey: persisted.apiKey,
+    baseURL: "https://api.openai.com/v1",
+
+    // it's ~fine, chill out OpenAI we are running a Desktop app
+    dangerouslyAllowBrowser: true,
+  })
+
   return openai
 }
 
@@ -38,7 +44,7 @@ export const imagineString = async (
   if (mockData) {
     return ''
   }
-  persisted.model = model || 'text-davinci-003'
+  persisted.model = model || 'gpt-3.5-turbo-instruct'
 
   const tokenHardLimit = 4097
 
@@ -55,7 +61,8 @@ export const imagineString = async (
   )
 
   const openai = await getOpenAI(apiKey)
-  const response = await openai.createCompletion({
+
+  const completion = await openai.completions.create({
     model: persisted.model,
     prompt,
     user: 'default_user',
@@ -70,7 +77,7 @@ export const imagineString = async (
     stop: settings.stop?.length ? settings.stop : undefined,
   })
 
-  return response?.data?.choices?.[0]?.text?.trim() || ''
+  return completion.choices[0]?.text?.trim() || ''
 }
 
 export const imagineHTML = async (
@@ -162,7 +169,7 @@ ${output}`.trim()
   script = script.split('```')[0].trim()
 
   // it is imperative that we ignore everything that might have been added after the main script
-  script = script.split('</script>').shift().trim()
+  script = (script.split('</script>').shift() || "").trim()
 
   // todo: should be done in a better way
   if (!script.endsWith('</script>')) {
@@ -232,14 +239,14 @@ export const imagineImage = async (
   const width = size
   const height = size
   const openai = await getOpenAI(apiKey)
-  const response = await openai.createImage({
+  const response = await openai.images.generate({
     prompt,
     n: 1,
     size: `${width}x${height}`,
   })
 
   return {
-    url: response.data.data[0].url,
+    url: response.data[0]?.url || "",
     prompt,
     width,
     height,
