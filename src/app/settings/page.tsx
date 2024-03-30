@@ -17,6 +17,11 @@ export type SpecializedField =
       defaultValue: string
     }
   | {
+      type: 'password'
+      placeholder: string
+      defaultValue: string
+    }
+  | {
       type: 'boolean'
       defaultValue: boolean
     }
@@ -96,7 +101,7 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     label: 'API Key',
     description: '',
     placeholder: 'Enter your OpenAI API access key',
-    type: 'text',
+    type: 'password',
     defaultValue: '',
   },
   openAIModel: {
@@ -188,9 +193,10 @@ function Favorites() {
                 <div className="text-xl mb-2">{label}</div>
               )}
               <div className="flex flex-row">
-                {field.type === 'text' ? (
+                {field.type === 'text' || field.type === 'password' ? (
                   <SettingInput
                     placeholder={field.placeholder}
+                    type={field.type}
                     onChange={(newValue) => {
                       console.log('changed!')
                       setSettings((settings) => ({
