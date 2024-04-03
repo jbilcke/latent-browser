@@ -13,7 +13,10 @@ ${instructions.script.map((instruction) => `- ${instruction}`).join('\n')}
 Code formatting rules:
 - we use 1 space for indentation
 - code is compressed, all JS variables have maximum 3 characters
+- we must store everything in appData, so please begin your code with \`var app = window.appData || {};\`
 - this is not a tutorial or a demo, but the final project
+
+Here is the current page structure:
 \`\`\`html
 ${
   // to save space, we only give essential info to the model
@@ -21,6 +24,16 @@ ${
     ALLOWED_TAGS: ['div', 'button', 'canvas'],
     ALLOWED_ATTR: ['classname', 'id', 'width', 'height'],
   }).replace(/(^[ \t]*\n)/gm, '') // remove all empty lines, too
-}<script>var app={};`
+}
+<script>
+  window.appData = {};
+</script>
+\`\`\`
+
+Your turn! (remember we want the FINAL version)
+
+# Output
+\`\`\`javascript
+`
 
 export const scriptPrompt = genericScript('appData')

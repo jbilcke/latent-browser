@@ -60,11 +60,19 @@ export const imagineHTML = async (
     return mocks.html
   }
 
-  const raw = await imagineString(prompt, presets.html, model, apiKey)
+  let raw = await imagineString(prompt, presets.html, model, apiKey)
+  
+  raw = raw
+  .replaceAll("```html\n", "")
+  .replaceAll("```html", "")
+
+  // we remove everything after the last ```
+  raw = raw.split('```')[0].trim()
+
+  // const toStrip = `<div ${raw}`
+  const toStrip = `${raw}`
 
   console.log('imagineHTML> raw:', raw)
-
-  const toStrip = `<div ${raw}`
 
   // we don't care about hallucinated image src
   const toPurify = toStrip.replace(/src="[^"]+/g, 'src="')
@@ -122,23 +130,32 @@ Object.values(libraries).map(({ prod }) => prod).join('\n')
 window.appData = {};
 ${output}`.trim()
 */
-  let script = `<script>
-window.appData = {};
-var app = window.appData;
-${output}`.trim()
-  // for some reason the LLM sometimes generates JS code with ‘ instead of '
-  script = script.replace('‘', "'")
 
-  // for some reason the LLM sometimes believe it is in a Markdown file
-  // so we remove this extra garbage
-  script = script.split('```')[0].trim()
+  let script = `${output}`.trim()
 
+  // we remove all the output markdown
+  script = script
+    .replaceAll('```html\n', '')
+    .replaceAll('```html', '')
+    .replaceAll('```javascript\n', '')
+    .replaceAll('```javascript\n', '')
+    .replaceAll('```javascript', '')
+
+    // for some reason the LLM sometimes generates JS code with ‘ instead of '
+    .replaceAll('‘', "'")
+  
+  // we remove everything after the last ```
+  script = (script.split('```').shift() || "").trim()
+
+  if (!script.startsWith('<script>')) {
+    script = `<script>${script}`
+  }
   // it is imperative that we ignore everything that might have been added after the main script
   script = (script.split('</script>').shift() || "").trim()
 
   // todo: should be done in a better way
   if (!script.endsWith('</script>')) {
-    script += '</script>'
+    script = `${script}</script>`
   }
 
   return script
@@ -176,14 +193,18 @@ export const imagineJSON = async <T>(
       .replaceAll("[```json", "")
       .replaceAll("{{```json", "")
       .replaceAll("{```json", "")
+      .replaceAll("```json\n", "")
+      .replaceAll("```json", "")
       .replaceAll("[[```", "")
       .replaceAll("[```", "")
       .replaceAll("{{```", "")
       .replaceAll("{```", "")
       .replaceAll("{json", "")
       .replaceAll("[json", "")
-      .replaceAll("```", "")
 
+     // we remove everything after the last ```
+     raw = raw.split('```')[0].trim()
+    
     // try to fix the LLM adding commas at the end of each line
     const regex = /\,(?!\s*?[\{\[\"\'\w])/g
     const input = raw.replace(regex, '')

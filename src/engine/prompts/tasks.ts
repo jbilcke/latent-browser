@@ -25,7 +25,7 @@ Brief: A startup website called Aisy about a new cool SaaS product for creators 
 Spec: {
   "summary": "Website of startup called Aisy, selling an AI tool for making movies",
   "layout": "A classic SaaS product launch page, with a header section, a main content section, and a footer",
-  "art direction": "The design is fresh and sleek, with a sans serif font abd original colors on the theme of AI and movies (purple, black, grey, red)",
+  "art direction": "The design is fresh and sleek, with a sans serif font and original colors on the theme of AI and movies (purple, black, grey, red)",
   "text content": "Page contains marketing content to explain why people should use Aisy to generate movies. Text is concise and to the point, with punch lines for titles. It should make us wish we purchased the product.",
   "interactivity": "no javascript needed",
   "js modules": "no library available",
