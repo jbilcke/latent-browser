@@ -17,6 +17,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.19.1",
     "@mantine/hooks": "5.9.6",
     "@tauri-apps/api": "^1.5.3",
     "@tauri-apps/plugin-shell": ">=2.0.0-beta.0",
@@ -30,6 +31,7 @@
     "dompurify": "^3.0.11",
     "fuse.js": "^7.0.0",
     "gpt-3-encoder": "^1.1.4",
+    "groq-sdk": "^0.3.2",
     "jquery": "^3.7.1",
     "mime-db": "^1.52.0",
     "mime-type": "^4.0.0",

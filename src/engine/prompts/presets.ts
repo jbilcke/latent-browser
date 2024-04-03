@@ -60,6 +60,8 @@ export const presets = {
     temperature: 0.7, // don't try to get to crazy here
     n: 1, // we try to stay optimistic.. we will query again if it fails
     bestOf: 1, // also try to be optimistic here..
+
+    // ATTENTION! those are valid for GPT-3 only, not other models!!
     gptLogitBias: {
       // 1003 = //
       // code comments are bad because:

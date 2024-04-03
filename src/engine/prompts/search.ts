@@ -32,7 +32,7 @@ export const searchTemplate = (query: string, nbResults: number) =>
         "description":  "marketing website with a table comparing various back office applications, with a few screenshot, price, features. The used colors are original, creative, and modern. At the end there is the choice of the editor.",
      },
      {
-        "title": "BO App by gpt-3.5-turbo-instruct",
+        "title": "BO App by GPT-4",
         "subtitle": "Manage your users with this app!",
         "description": "Application to manage a list of users, using an editable list table, and actions to add or edit users. Shows a dynamic counter for the number of users in the top right."
      },
@@ -49,7 +49,7 @@ export const searchTemplate = (query: string, nbResults: number) =>
      {
        "title": "Bo.ts",
        "subtitle": "Generate nice corporate interfaces with Bo.ts",
-       "description": "An open-source project repository for a back-office app generator library made in TypeScript. The design is simple, using a monospaced font and a dark color scheme, to please developers. There is a code sample and a quick-start guide. The advertised library uses a GPT-3 API to generate the HTML (Tailwind and JS) code of the back-office application using JSON config params."
+       "description": "An open-source project repository for a back-office app generator library made in TypeScript. The design is simple, using a monospaced font and a dark color scheme, to please developers. There is a code sample and a quick-start guide. The advertised library uses a GPT-4 API to generate the HTML (Tailwind and JS) code of the back-office application using JSON config params."
      }
    ]
    

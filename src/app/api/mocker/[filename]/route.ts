@@ -14,19 +14,20 @@ import {
   imagineImage,
   imagineJSON,
   imagineString,
-  persisted,
 } from '../../../../providers/openai'
 import { presets } from '../../../../engine/prompts/presets'
+import { persisted } from '@/providers/openai/getOpenAI'
 
 // creates a substitute whenever we ask for an image that doesn't exist
-// this will be useful if we use game libraries, as GPT-3 parrots tutorials that use images
+// this will be useful if we use game libraries, as the LLM parrots tutorials that use images
 export async function GET(req: NextRequest) {
   // TODO we need at least one initial call to populate the apiKey
   if (!persisted.model || !persisted.apiKey) {
     return NextResponse.json({ error: 'no model or apiKey provided' }, { status: 401 });
   }
 
-  const { query } = queryString.parseUrl(req.url || "")
+  const qs = queryString.parseUrl(req.url || "")
+  const query = (qs || {}).query
 
   const referrer = req.headers.get("Referer")
   const filename = `${query.filename}` || 'placeholder.png'

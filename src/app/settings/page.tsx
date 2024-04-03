@@ -54,12 +54,12 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     label: 'Backend vendor',
     description: '',
     type: 'radio',
-    defaultValue: 'OpenAI',
+    defaultValue: 'OPENAI',
     options: [
       {
         description:
           'OpenAI - about $0.08 per query (includes search + generation)',
-        value: 'OpenAI',
+        value: 'OPENAI',
       },
       /*
       {
@@ -107,9 +107,9 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
   openAIModel: {
     label: 'Language Model',
     description: '',
-    placeholder: 'Enter the model (default: gpt-3.5-turbo-instruct)',
+    placeholder: 'Enter the model (default: gpt-4-turbo-preview)',
     type: 'text',
-    defaultValue: 'gpt-3.5-turbo-instruct',
+    defaultValue: 'gpt-4-turbo-preview',
   },
   /*
   customPrompts: {

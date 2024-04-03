@@ -4,7 +4,7 @@ import { Instructions } from './types'
 
 /**
  * Notes about this prompt:
- * GPT-3 can add more libraries if needed
+ * the LLM can add more libraries if needed
  */
 export const genericScript =
   (_id: string) => (instructions: Instructions, html: string) =>

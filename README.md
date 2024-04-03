@@ -13,7 +13,7 @@ The Latent Browser is back after a year of hiatus!
 By popular demand (see [this](https://twitter.com/flngr/status/1772588369932878089) or [this](https://twitter.com/TomDavenport/status/1774080950596481384) thread) an effort has been made to upgrade it to the latest version of the dependencies (well, most of them), and fix the code to make it run again!
 
 Note: It has been a long time since I've worked on this project,
-so a lot of things changed since then. I've had to migrate from Next 12 to Next 14, ove from Webpack to Bun, davinci to gpt-3.5 etc.
+so a lot of things changed since then. I've had to migrate from Next 12 to Next 14, Webpack to Bun, davinci to GPT-4 etc.
 
 It is still possible that some things are broken when you try it.
 

@@ -4,7 +4,7 @@ export interface ModulePath {
   // basic import path used to produce basic code
   basic: string
 
-  // fake import path used used to teach GPT-3 to use module imports
+  // fake import path used used to teach the LLM to use module imports
   prompt: string
 
   // full import path for production, with minified code

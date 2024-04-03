@@ -1,8 +1,8 @@
 import { ModulePath } from './types'
 
 // why do we use a CDN path in the prompt, and not a shorter "NPM" import?
-// because we want GPT-3 to have freedom of though and import real JS libraries at its discretion
-// that's right: GPT-3 recognizes that skypack is a CDN which allows arbitrary module inject
+// because we want the LLM to have freedom of though and import real JS libraries at its discretion
+// that's right: the LLM recognizes that skypack is a CDN which allows arbitrary module inject
 export const CDN = 'https://cdn.skypack.dev/pin/'
 
 // TO generate a production URL please see https://docs.skypack.dev/skypack-cdn/api-reference/pinned-urls-optimized

@@ -1,3 +1,12 @@
+import { PromptSettings } from "@/engine/prompts/types"
+
+export type LLMVendor =
+  | 'ANTHROPIC'
+  | 'OPENAI'
+  | 'HUGGINGFACE'
+  | 'GROQ'
+  | 'REPLICATE'
+
 export type AppType =
   | 'search'
   | 'content'
@@ -61,7 +70,7 @@ export type Link = {
   alt: string
 }
 export type Settings = Record<string, string | boolean> & {
-  coreVendor: string
+  coreVendor: LLMVendor
   huggingFaceKey: string
   huggingFaceModel: string
   openAIKey: string
@@ -72,3 +81,19 @@ export type Settings = Record<string, string | boolean> & {
   useAutoCherryPick: boolean
   useMockData: boolean
 }
+
+export type CompleteFnParams = {
+  systemPrompt: string,
+  userPrompt: string,
+  nbMaxNewTokens: number
+  settings: PromptSettings
+  model?: string
+  apiKey?: string
+}
+
+export type CompleteFn = ({
+  systemPrompt,
+  userPrompt,
+  nbMaxNewTokens,
+  apiKey,
+  }: CompleteFnParams) => Promise<string>

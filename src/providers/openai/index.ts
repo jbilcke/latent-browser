@@ -1,4 +1,3 @@
-import { OpenAI } from 'openai'
 import DOMPurify from 'dompurify'
 
 // note: attention, GPT-3 encoder requires node:fs
@@ -9,29 +8,8 @@ import { DalleImage } from './types'
 import * as mocks from './mocks'
 import { presets } from '../../engine/prompts/presets'
 import { type PromptSettings } from '../../engine/prompts/types'
-
-// don't do this at home!
-// if we deploy one day to the cloud, we MUST rewrite this..
-export const persisted = {
-  apiKey: '',
-  model: '',
-}
-
-export const getOpenAI = async (apiKey?: string): Promise<OpenAI> => {
-  // don't do this at home!
-  // if we deploy one day to the cloud, we MUST rewrite this..
-  persisted.apiKey = apiKey || persisted.apiKey
-
-  const openai = new OpenAI({
-    apiKey: persisted.apiKey,
-    baseURL: "https://api.openai.com/v1",
-
-    // it's ~fine, chill out OpenAI we are running a Desktop app
-    dangerouslyAllowBrowser: true,
-  })
-
-  return openai
-}
+import { getOpenAI } from './getOpenAI'
+import { complete } from './complete'
 
 export const imagineString = async (
   prompt: string,
@@ -43,9 +21,7 @@ export const imagineString = async (
   if (mockData) {
     return ''
   }
-  persisted.model = model || 'gpt-3.5-turbo-instruct'
-
-  const tokenHardLimit = 4097
+  const tokenHardLimit = 4096
 
   // https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
   // 1 token ~= 4 chars in English
@@ -53,30 +29,20 @@ export const imagineString = async (
   // 100 tokens ~= 75 words
   // ideally we should have a precise function which try to count them, but until them let's use a rough approximation
   // the actual value for the prompt divider seems to be "2.8" but let's use 2.5, just to be safe
-  const maxTokens = Math.round(tokenHardLimit - prompt.length / 2.5)
+  const nbMaxNewTokens = Math.round(tokenHardLimit - prompt.length / 2.5)
   console.log('prompt length:', prompt.length)
   console.log(
-    `requesting ${maxTokens} of the ${tokenHardLimit} tokens availables`
+    `requesting ${nbMaxNewTokens} of the ${tokenHardLimit} tokens availables`
   )
 
-  const openai = await getOpenAI(apiKey)
-
-  const completion = await openai.completions.create({
-    model: persisted.model,
-    prompt,
-    user: 'default_user',
-    temperature: settings.temperature,
-    max_tokens: maxTokens,
-    n: settings.n,
-    // top_p: 1,
-    best_of: settings.bestOf,
-    frequency_penalty: settings.frequencyPenalty,
-    presence_penalty: settings.presencePenalty,
-    logit_bias: settings.gptLogitBias,
-    stop: settings.stop?.length ? settings.stop : undefined,
+  return complete({
+    systemPrompt: "",
+    userPrompt: prompt,
+    nbMaxNewTokens,
+    model,
+    apiKey,
+    settings,
   })
-
-  return completion.choices[0]?.text?.trim() || ''
 }
 
 export const imagineHTML = async (
@@ -160,10 +126,10 @@ ${output}`.trim()
 window.appData = {};
 var app = window.appData;
 ${output}`.trim()
-  // for some reason GPT-3 sometimes generates JS code with ‘ instead of '
+  // for some reason the LLM sometimes generates JS code with ‘ instead of '
   script = script.replace('‘', "'")
 
-  // for some reason GPT-3 sometimes believe it is in a Markdown file
+  // for some reason the LLM sometimes believe it is in a Markdown file
   // so we remove this extra garbage
   script = script.split('```')[0].trim()
 
@@ -202,9 +168,23 @@ export const imagineJSON = async <T>(
 
   try {
     // we give a hint in our prompt by prefixing it, but we need to put it back in the output
-    const raw = `${prefix}${output}`
+    let raw = `${prefix}${output}`
 
-    // try to fix GPT-3 adding commas at the end of each line
+    // remove common garbage added by the LLM
+    raw = raw
+      .replaceAll("[[```json", "")
+      .replaceAll("[```json", "")
+      .replaceAll("{{```json", "")
+      .replaceAll("{```json", "")
+      .replaceAll("[[```", "")
+      .replaceAll("[```", "")
+      .replaceAll("{{```", "")
+      .replaceAll("{```", "")
+      .replaceAll("{json", "")
+      .replaceAll("[json", "")
+      .replaceAll("```", "")
+
+    // try to fix the LLM adding commas at the end of each line
     const regex = /\,(?!\s*?[\{\[\"\'\w])/g
     const input = raw.replace(regex, '')
     console.log(`input: ${input}`)

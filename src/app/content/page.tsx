@@ -29,9 +29,9 @@ import { type TaskStage, type AppTab } from '../../types'
 
 const timePerStage: Record<TaskStage, number> = {
   INIT: 50,
-  TASKS: 15,
-  LAYOUT: 25,
-  CONTENT: 25,
+  TASKS: 40,
+  LAYOUT: 40,
+  CONTENT: 40,
   SCRIPT: 40,
   TEXT: 50,
   LOADED: 50,
@@ -83,7 +83,7 @@ function Content() {
     setHtml(app.html || '')
     setText(app.text || {})
 
-    // we expose a global window object that GPT-3 can use later
+    // we expose a global window object that the LLM can use later
     try {
       (window as any)['appData'] = JSON.parse(JSON.stringify(app.data)) || {}
     } catch (err) {
@@ -274,7 +274,7 @@ function Content() {
 
     /*
     TODO: we need two functions
-    - one to generate GPT-3 results (in JSON)
+    - one to generate the LLM results (in JSON)
     - one for real CRUD operation (to the local storage)
     window['callAPI'] = async (query = '') => {
       console.log(
