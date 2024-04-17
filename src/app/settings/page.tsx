@@ -107,9 +107,9 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
   openAIModel: {
     label: 'Language Model',
     description: '',
-    placeholder: 'Enter the model (default: gpt-4-turbo-preview)',
+    placeholder: 'Enter the model (default: gpt-4-turbo)',
     type: 'text',
-    defaultValue: 'gpt-4-turbo-preview',
+    defaultValue: 'gpt-4-turbo',
   },
   /*
   customPrompts: {

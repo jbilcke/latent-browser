@@ -228,7 +228,7 @@ function Search() {
         elapsedTimeMs={elapsedTimeMs}
         estimatedTimeSec={estimatedTimeSec}
         isLoading={isLoading}
-        model={settings.openAIModel || 'gpt-4-turbo-preview' }
+        model={settings.openAIModel || 'gpt-4-turbo' }
         provider="OpenAI"
         stage={`JSON ${pass}/${maxNbPasses}`}
       />

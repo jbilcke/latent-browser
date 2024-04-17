@@ -15,7 +15,7 @@ export async function complete({
   }: CompleteFnParams): Promise<string> {
 
   // don't do this if you deploy the latent browser on a server!!!
-  persisted.model = model || 'gpt-4-turbo-preview'
+  persisted.model = model || 'gpt-4-turbo'
 
   const openai = await getOpenAI(apiKey)
 

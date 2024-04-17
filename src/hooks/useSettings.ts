@@ -10,7 +10,7 @@ export const useSettings = (
     huggingFaceKey: '',
     huggingFaceModel: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
     openAIKey: '',
-    openAIModel: 'gpt-4-turbo-preview',
+    openAIModel: 'gpt-4-turbo',
     customTasksPrompt: '',
     customHtmlPrompt: '',
     customScriptPrompt: '',
