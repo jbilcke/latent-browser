@@ -10,6 +10,7 @@ import { presets } from '../../engine/prompts/presets'
 import { type PromptSettings } from '../../engine/prompts/types'
 import { getOpenAI } from './getOpenAI'
 import { complete } from './complete'
+import { Settings } from '@/types'
 
 export const imagineString = async (
   prompt: string,
@@ -165,11 +166,11 @@ export const imagineJSON = async <T>(
   prompt: string,
   defaultValue: T,
   prefix: string,
-  model?: string,
-  apiKey?: string,
-  mockData?: boolean
+  settings: Settings
 ): Promise<T> => {
   console.log('imagineJSON> prompt:', prompt)
+
+  const { model, apiKey, mockData } = settings
 
   if (mockData) {
     return mocks.json<T>(prefix)
@@ -178,9 +179,9 @@ export const imagineJSON = async <T>(
   let output = await imagineString(
     prompt,
     presets.json,
-    model,
-    apiKey,
-    mockData
+    typeof model === "string" ? model : undefined,
+    typeof apiKey === "string" ? apiKey : undefined,
+    typeof mockData === "boolean" ? mockData : undefined,
   )
 
   try {

@@ -85,9 +85,7 @@ function Search() {
         searchTemplate(prompt, nbResults),
         [],
         '[',
-        settings?.openAIModel,
-        settings?.openAIKey,
-        settings?.useMockData
+        settings
       )
     } catch (exc) {
       console.error(exc)

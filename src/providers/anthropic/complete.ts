@@ -1,5 +1,3 @@
-
-import Anthropic from '@anthropic-ai/sdk';
 import { MessageParam } from '@anthropic-ai/sdk/resources/index.mjs';
 
 import { CompleteFnParams } from "@/types"

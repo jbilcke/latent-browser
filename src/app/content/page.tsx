@@ -149,9 +149,7 @@ function Content() {
         tasksPrompt(prompt),
         {},
         '{',
-        model,
-        apiKey,
-        mockData
+        settings
       )
     } catch (exc) {
       console.error(`tab.content(${id}): generateTasks: failed`, exc)

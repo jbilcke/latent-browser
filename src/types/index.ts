@@ -75,6 +75,8 @@ export type Settings = Record<string, string | boolean> & {
   huggingFaceModel: string
   openAIKey: string
   openAIModel: string
+  anthropicKey: string
+  anthropicModel: string
   customTasksPrompt: string
   customHtmlPrompt: string
   customScriptPrompt: string

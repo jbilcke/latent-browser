@@ -89,11 +89,11 @@ export async function GET(req: NextRequest) {
       name,
       prompt,
     })
-    const data = await imagineJSON<Record<string, any>>(prompt, {}, '{')
+    const data = await imagineJSON<Record<string, any>>(prompt, {}, '{', {} as any)
     return NextResponse.json(data, {
       status: 200,
       statusText: "OK",
-      headers
+      headers,
     })
   } else if (['txt'].includes(extension)) {
     const prompt = mockText(name)

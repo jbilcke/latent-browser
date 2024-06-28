@@ -1,6 +1,6 @@
 "use client"
 
-import { type Settings } from '../../types'
+import { LLMVendor, type Settings } from '../../types'
 import { useSettings } from '../../hooks/useSettings'
 import { SettingInput } from '../../components/inputs/SettingInput'
 import { Toggle } from '../../components/toggle'
@@ -8,6 +8,7 @@ import { Toggle } from '../../components/toggle'
 type BaseField = {
   label: string
   description?: string
+  vendorSpecific?: LLMVendor
 }
 
 export type SpecializedField =
@@ -58,8 +59,13 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     options: [
       {
         description:
-          'OpenAI - about $0.08 per query (includes search + generation)',
+          'OpenAI (will bill your own account, please be careful)',
         value: 'OPENAI',
+      },
+      {
+        description:
+          'Anthropic (will bill your own account, please be careful)',
+        value: 'ANTHROPIC',
       },
       /*
       {
@@ -96,6 +102,7 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     description:
       'You need a valid OpenAI account and API token to use this vendor',
     type: 'section',
+    vendorSpecific: "OPENAI",
   },
   openAIKey: {
     label: 'API Key',
@@ -103,13 +110,38 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
     placeholder: 'Enter your OpenAI API access key',
     type: 'password',
     defaultValue: '',
+    vendorSpecific: 'OPENAI',
   },
   openAIModel: {
     label: 'Language Model',
     description: '',
-    placeholder: 'Enter the model (default: gpt-4-turbo)',
+    placeholder: 'Enter the model (default: gpt-4o)',
     type: 'text',
-    defaultValue: 'gpt-4-turbo',
+    defaultValue: 'gpt-4o',
+    vendorSpecific: 'OPENAI',
+  },
+  anthropic: {
+    label: 'Anthropic Settings',
+    description:
+      'You need a valid Anthropic account and API token to use this vendor',
+    type: 'section',
+    vendorSpecific: "ANTHROPIC",
+  },
+  anthropicKey: {
+    label: 'API Key',
+    description: '',
+    placeholder: 'Enter your Anthropic API access key',
+    type: 'password',
+    defaultValue: '',
+    vendorSpecific: 'ANTHROPIC',
+  },
+  anthropicModel: {
+    label: 'Language Model',
+    description: '',
+    placeholder: 'Enter the model (default: claude-3-5-sonnet-20240620)',
+    type: 'text',
+    defaultValue: 'claude-3-5-sonnet-20240620',
+    vendorSpecific: 'ANTHROPIC',
   },
   /*
   customPrompts: {
@@ -168,6 +200,7 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
 function Favorites() {
   const [settings, setSettings] = useSettings()
   const isLoading = !settings
+  const vendor: LLMVendor = settings.coreVendor
 
   return isLoading ? (
     <div className="flex items-center justify-center h-screen w-screen text-gray-800">
@@ -182,7 +215,7 @@ function Favorites() {
         Settings
       </h3>
       <div className="flex flex-col w-full">
-        {Object.entries(fields).map(
+        {Object.entries(fields).filter(s => s[1].vendorSpecific ? ( s[1].vendorSpecific === vendor) : true).map(
           ([name, { label, description, ...field }]) => (
             <div key={name} className="flex flex-col py-3 w-full">
               {field.type === 'section' ? (
