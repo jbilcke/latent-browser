@@ -30,5 +30,14 @@ export async function complete({
     top_p: 1,
   })
 
-  return res.content[0]?.text || ""
+  const first: any  = res.content[0]
+
+  if (!first) return '';
+
+  // type can be: "text" | "tool_use" | "thinking" | "redacted_thinking"
+  // first.type
+
+  const result = `${first.text || ''}`;
+
+  return result;
 }

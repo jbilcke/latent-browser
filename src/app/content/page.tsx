@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import InnerHTML from 'dangerously-set-html-content'
 
-import { imagineHTML, imagineJSON, imagineScript } from '../../providers/openai'
 import { resolveImages } from '../../engine/resolvers/image'
 import { layoutPrompt } from '../../engine/prompts/layout'
 // import { contentPrompt } from '../../engine/prompts/content'
@@ -40,7 +39,7 @@ const timePerStage: Record<TaskStage, number> = {
 
 function Content() {
   const [storedApps] = useStoredApps()
-  const [settings] = useSettings()
+  const { settings, getParams } = useSettings()
   const [openTabs, setOpenTabs] = useOpenTabs()
   const isLoading = !settings || !storedApps || !openTabs
 
@@ -108,9 +107,7 @@ function Content() {
   const [elapsedTimeMs, setElapsedTimeMs] = useState<number>(0)
   const [isLoadingAssets, setIsLoadingAssets] = useState<boolean>(false)
 
-  const model = settings?.openAIModel
-  const apiKey = settings?.openAIKey
-  const mockData = settings?.useMockData
+  const { model, apiKey, mockData, imagineHTML, imagineJSON, imagineScript } = getParams()
 
   const updateApp = (extra?: Partial<AppTab>) => {
     setOpenTabs((tabs) =>
@@ -144,13 +141,17 @@ function Content() {
 
     let tasks: Tasks = {}
 
+    const { model, apiKey, mockData, imagineHTML, imagineJSON, imagineScript } = getParams()
+
     try {
-      tasks = await imagineJSON<Tasks>(
-        tasksPrompt(prompt),
-        {},
-        '{',
-        settings
-      )
+      tasks = await imagineJSON<Tasks>({
+        prompt: tasksPrompt(prompt),
+        defaultValue: {},
+        prefix: '{',
+        model,
+        apiKey,
+        mockData,
+      })
     } catch (exc) {
       console.error(`tab.content(${id}): generateTasks: failed`, exc)
       setIsLoadingAssets(false)
@@ -187,13 +188,15 @@ function Content() {
 
     let firstPass = ''
 
+    const { model, apiKey, mockData, imagineHTML, imagineJSON, imagineScript } = getParams()
+
     try {
-      firstPass = await imagineHTML(
-        layoutPrompt(instructions),
+      firstPass = await imagineHTML({
+        prompt: layoutPrompt(instructions),
         model,
         apiKey,
         mockData
-      )
+    })
       if (!firstPass) {
         throw new Error('did not get enough results, aborting')
       }
@@ -297,13 +300,15 @@ function Content() {
 
     let script = ''
 
+    const { model, apiKey, mockData, imagineHTML, imagineJSON, imagineScript } = getParams()
+
     try {
-      script = await imagineScript(
-        scriptPrompt(instructions, html),
+      script = await imagineScript({
+        prompt: scriptPrompt(instructions, html),
         model,
         apiKey,
         mockData
-      )
+      })
       if (!script) {
         throw new Error('did not get enough results, aborting')
       }
@@ -316,12 +321,12 @@ function Content() {
       // we try again!
       if (settings.useAutoCherryPick) {
         try {
-          script = await imagineScript(
-            scriptPrompt(instructions, html),
+          script = await imagineScript({
+            prompt: scriptPrompt(instructions, html),
             model,
             apiKey,
             mockData
-          )
+          })
           if (!script) {
             throw new Error('did not get enough results, aborting')
           }

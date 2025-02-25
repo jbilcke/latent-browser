@@ -10,21 +10,33 @@ import {
   mockSVG,
   mockText,
 } from '../../../../engine/prompts/mocker'
-import {
-  imagineImage,
-  imagineJSON,
-  imagineString,
-} from '../../../../providers/openai'
+
+import { imagineHTML as openaiImagineHTML, imagineJSON as openaiImagineJSON, imagineScript as openaiImagineScript } from '@/providers/openai'
+import { imagineHTML as anthropicImagineHTML, imagineJSON as anthropicImagineJSON, imagineScript as anthropicImagineScript } from '@/providers/anthropic'
 import { presets } from '../../../../engine/prompts/presets'
 import { persisted } from '@/providers/openai/getOpenAI'
+import { LLMVendor } from '@/types'
 
 // creates a substitute whenever we ask for an image that doesn't exist
 // this will be useful if we use game libraries, as the LLM parrots tutorials that use images
 export async function GET(req: NextRequest) {
   // TODO we need at least one initial call to populate the apiKey
   if (!persisted.model || !persisted.apiKey) {
-    return NextResponse.json({ error: 'no model or apiKey provided' }, { status: 401 });
+    // TODO @julian: we should allow using the API mocker without server-side API token
+    // credentials should be passed in the URL params or headers
+    return NextResponse.json({ error: 'no model or apiKey provided. Please ask @jbilcke on GitHub to allow using the API mocker without server-side API tokens' }, { status: 401 });
   }
+
+  const coreVendor = 'OPENAI' as LLMVendor
+
+  // TODO we should pull those from the request params or headers
+  const model = persisted.model
+  const apiKey = persisted.apiKey
+  const mockData = false
+
+  const imagineHTML = coreVendor === 'ANTHROPIC' ? anthropicImagineHTML : openaiImagineHTML
+  const imagineScript = coreVendor === 'ANTHROPIC' ? anthropicImagineScript : openaiImagineScript
+  const imagineJSON = coreVendor === 'ANTHROPIC' ? anthropicImagineJSON : openaiImagineJSON
 
   const qs = queryString.parseUrl(req.url || "")
   const query = (qs || {}).query
@@ -39,7 +51,6 @@ export async function GET(req: NextRequest) {
   const name = parts.join('.')
 
   const settings = presets.mocker
-
 
   const headers = new Headers();
   let content = new Blob()
@@ -89,7 +100,15 @@ export async function GET(req: NextRequest) {
       name,
       prompt,
     })
-    const data = await imagineJSON<Record<string, any>>(prompt, {}, '{', {} as any)
+    
+    const data = await imagineJSON<Record<string, any>>({
+      prompt,
+      defaultValue: {},
+      prefix: '{', 
+      model,
+      apiKey,
+      mockData: {} as any
+    })
     return NextResponse.json(data, {
       status: 200,
       statusText: "OK",
@@ -103,7 +122,12 @@ export async function GET(req: NextRequest) {
       name,
       prompt,
     })
-    const data = await imagineString(prompt, settings)
+    const data = await imagineString({
+      prompt,
+      settings,
+      model,
+      apiKey,
+    })
     headers.set('Content-Type', 'text/plain')
     return new NextResponse(data, {
       status: 200,
@@ -119,7 +143,12 @@ export async function GET(req: NextRequest) {
       name,
       prompt,
     })
-    const data = await imagineString(prompt, settings)
+    const data = await imagineString({
+      prompt,
+      settings,
+      model,
+      apiKey,
+    })
     headers.set('Content-Type', mimetype)
     return new NextResponse(data, {
       status: 200,
@@ -135,7 +164,12 @@ export async function GET(req: NextRequest) {
       name,
       prompt,
     })
-    const data = await imagineString(prompt, settings)
+    const data = await imagineString({
+      prompt,
+      settings,
+      model,
+      apiKey,
+    })
     headers.set('Content-Type', mimetype)
     return new NextResponse(data, {
       status: 200,
@@ -155,7 +189,7 @@ export async function GET(req: NextRequest) {
       name,
       prompt,
     })
-    const data = await imagineString(prompt, settings)
+    const data = await imagineString({ prompt, settings, model, apiKey })
     return res.setHeader('content-type', mimetype).status(200).send(data)
     */
     headers.set('Content-Type', mimetype)

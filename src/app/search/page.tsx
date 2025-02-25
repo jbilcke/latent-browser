@@ -23,7 +23,7 @@ interface Result {
 function Search() {
   const id = useParam<string>('id', '')
   const [openTabs, setOpenTabs] = useOpenTabs()
-  const [settings] = useSettings()
+  const { settings, getParams } = useSettings()
   const [prompt, setPrompt] = useState<string>('')
   const [results, setResults] = useState<Result[]>([])
   const [startTimestamp, setStartTimestamp] = useState<number>(0)
@@ -78,15 +78,20 @@ function Search() {
       setResults([])
     }
 
+
+    const { model, apiKey, mockData, imagineHTML, imagineJSON, imagineScript } = getParams()
+
     let newResults: Result[] = []
 
     try {
-      newResults = await imagineJSON<Result[]>(
-        searchTemplate(prompt, nbResults),
-        [],
-        '[',
-        settings
-      )
+      newResults = await imagineJSON<Result[]>({
+        prompt: searchTemplate(prompt, nbResults),
+        defaultValue: [],
+        prefix: '[',
+        model,
+        apiKey,
+        mockData
+    })
     } catch (exc) {
       console.error(exc)
       setIsLoading(false)

@@ -15,7 +15,7 @@ export async function complete({
 
   const groq = await getGroq(apiKey)
 
-  const messages: Groq.Chat.Completions.CompletionCreateParams.Message[] = [
+  const messages: Groq.Chat.Completions.ChatCompletionMessageParam[] = [
     { role: "system", content: systemPrompt },
     { role: "user", content: userPrompt },
   ]

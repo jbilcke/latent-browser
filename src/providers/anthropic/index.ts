@@ -4,12 +4,12 @@ import DOMPurify from 'dompurify'
 // import * as gpt3encoder from 'gpt-3-encoder'
 // const { encode, decode } = gpt3encoder
 
-import { DalleImage } from './types'
+
 import * as mocks from './mocks'
 import { presets } from '../../engine/prompts/presets'
 import { type PromptSettings } from '../../engine/prompts/types'
-import { getOpenAI } from './getOpenAI'
 import { complete } from './complete'
+import { DalleImage } from '../openai/types'
 import { cleanJSON } from '@/utils/cleanJSON'
 
 export const imagineString = async ({
@@ -242,7 +242,6 @@ export const imagineJSON = async <T>({
       .replaceAll("[json", "")
       .replaceAll("{{", "{")
       .replaceAll("[[", "[")
-
      // we remove everything after the last ```
      raw = raw.split('```')[0].trim()
     
@@ -269,27 +268,6 @@ export const imagineImage = async (
   apiKey?: string,
   mockData?: boolean
 ): Promise<DalleImage> => {
-  console.log('imagineImage', prompt)
-  if (mockData) {
-    return mocks.image
-  }
-
-  // DallE 2 only supports squares
-  // Must be one of 256x256, 512x512, or 1024x1024.
-  const size = 1024 // 1024
-  const width = size
-  const height = size
-  const openai = await getOpenAI(apiKey)
-  const response = await openai.images.generate({
-    prompt,
-    n: 1,
-    size: `${width}x${height}`,
-  })
-
-  return {
-    url: response.data[0]?.url || "",
-    prompt,
-    width,
-    height,
-  }
+  console.log('Claude cannot generate images, so this prompt will be ignored:', prompt)
+  return mocks.image
 }

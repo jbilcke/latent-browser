@@ -138,9 +138,9 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
   anthropicModel: {
     label: 'Language Model',
     description: '',
-    placeholder: 'Enter the model (default: claude-3-5-sonnet-20240620)',
+    placeholder: 'Enter the model (default: claude-3-7-sonnet-latest',
     type: 'text',
-    defaultValue: 'claude-3-5-sonnet-20240620',
+    defaultValue: 'claude-3-7-sonnet-latest',
     vendorSpecific: 'ANTHROPIC',
   },
   /*
@@ -198,8 +198,9 @@ const fields: Partial<SettingsFields> & MiscPanelFields = {
 }
 
 function Favorites() {
-  const [settings, setSettings] = useSettings()
+  const { settings, setSettings, getParams } = useSettings()
   const isLoading = !settings
+
   const vendor: LLMVendor = settings.coreVendor
 
   return isLoading ? (
@@ -244,11 +245,11 @@ function Favorites() {
                         [name]: newValue,
                       }))
                     }}
-                    value={`${settings[name]}`}
+                    value={`${(settings as any)[name]}`}
                   />
                 ) : field.type === 'boolean' ? (
                   <Toggle
-                    value={Boolean(settings[name])}
+                    value={Boolean((settings as any)[name])}
                     onChange={(isChecked) => {
                       setSettings((settings) => ({
                         ...settings,
@@ -263,7 +264,7 @@ function Favorites() {
                     {field.options.map(({ description, value }) => (
                       <Toggle
                         key={value}
-                        value={value === settings[name]}
+                        value={value === (settings as any)[name]}
                         onChange={(isChecked) => {
                           setSettings((settings) => ({
                             ...settings,

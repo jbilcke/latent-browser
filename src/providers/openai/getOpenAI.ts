@@ -8,6 +8,12 @@ export const persisted = {
 }
 
 export const getOpenAI = async (apiKey?: string): Promise<OpenAI> => {
+  
+  console.log("getOpenAI:", {
+    apiKey,
+    "persisted": persisted,
+  })
+
   // don't do this at home!
   // if we deploy one day to the cloud, we MUST rewrite this..
   persisted.apiKey = apiKey || persisted.apiKey

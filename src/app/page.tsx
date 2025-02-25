@@ -17,7 +17,7 @@ const Tabs = lazy(() => import('../components/tabs/Tabs'))
 
 export default function IndexPage() {
   const [query, setQuery] = useState('')
-  const [settings] = useSettings()
+  const { settings, getParams } = useSettings()
   const [storedApps, setStoredApps] = useStoredApps()
   const [openTabs, setOpenTabs] = useOpenTabs()
   const isLoading = !storedApps || !openTabs

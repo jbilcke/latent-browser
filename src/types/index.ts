@@ -69,7 +69,7 @@ export type Link = {
   title: string
   alt: string
 }
-export type Settings = Record<string, string | boolean> & {
+export interface Settings {
   coreVendor: LLMVendor
   huggingFaceKey: string
   huggingFaceModel: string
