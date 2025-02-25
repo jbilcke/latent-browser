@@ -30,7 +30,7 @@ ${
 </script>
 \`\`\`
 
-Your turn! (remember we want the FINAL version)
+Your turn! remember we want the FINAL version. Don't comment on it (don't say "Sure, I will.." etc) and don't write HTML. Please only write VANILLA javascript code.
 
 # Output
 \`\`\`javascript
